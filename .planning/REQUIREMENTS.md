@@ -145,17 +145,101 @@ Explícitamente excluido. Documentado para prevenir scope creep.
 
 ## Traceability
 
-Qué fases cubren qué requisitos. Se actualiza durante creación del roadmap.
+Qué fases cubren qué requisitos.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| — | — | (Pendiente: se llena con roadmap) |
+### Phase 1: Fundación & Migración DB
+| Requirement | Status |
+|-------------|--------|
+| INFRA-01 | Pending |
+| INFRA-02 | Pending |
+| INFRA-03 | Pending |
+| INFRA-07 | Pending |
+| INFRA-08 | Pending |
+
+### Phase 2: Sistema de Cotización
+| Requirement | Status |
+|-------------|--------|
+| CAT-01 | Pending |
+| CAT-02 | Pending |
+| CAT-03 | Pending |
+| CAT-04 | Pending |
+| CAT-05 | Pending |
+| SEL-01 | Pending |
+| SEL-02 | Pending |
+| SEL-03 | Pending |
+| SEL-04 | Pending |
+| SEL-05 | Pending |
+| COT-01 | Pending |
+| COT-02 | Pending |
+| COT-03 | Pending |
+| COT-04 | Pending |
+| COT-05 | Pending |
+| COT-06 | Pending |
+| COT-07 | Pending |
+
+### Phase 3: Arquitectura Split
+| Requirement | Status |
+|-------------|--------|
+| INFRA-04 | Pending |
+| INFRA-05 | Pending |
+| INFRA-06 | Pending |
+
+### Phase 4: Autenticación OTP
+| Requirement | Status |
+|-------------|--------|
+| AUTH-01 | Pending |
+| AUTH-02 | Pending |
+| AUTH-03 | Pending |
+| AUTH-04 | Pending |
+| AUTH-05 | Pending |
+| AUTH-06 | Pending |
+| AUTH-07 | Pending |
+| AUTH-08 | Pending |
+| AUTH-09 | Pending |
+
+### Phase 5: Panel Admin
+| Requirement | Status |
+|-------------|--------|
+| PROD-01 | Pending |
+| PROD-02 | Pending |
+| PROD-03 | Pending |
+| PROD-04 | Pending |
+| PROD-05 | Pending |
+| PROD-06 | Pending |
+| PROD-07 | Pending |
+| CATG-01 | Pending |
+| CATG-02 | Pending |
+| CATG-03 | Pending |
+| CATG-04 | Pending |
+| CONT-01 | Pending |
+| CONT-02 | Pending |
+| CONT-03 | Pending |
+
+### Phase 6: Historial de Consultas
+| Requirement | Status |
+|-------------|--------|
+| COT-08 | Pending |
+| HIST-01 | Pending |
+| HIST-02 | Pending |
+| HIST-03 | Pending |
+| HIST-04 | Pending |
+
+### Phase 7: SEO & Performance
+| Requirement | Status |
+|-------------|--------|
+| SEO-01 | Pending |
+| SEO-02 | Pending |
+| SEO-03 | Pending |
+| SEO-04 | Pending |
+| SEO-05 | Pending |
+| SEO-06 | Pending |
+| SEO-07 | Pending |
 
 **Coverage:**
-- v1 requirements: 54 total
-- Mapped to phases: 0
-- Unmapped: 54 ⚠️
+- v1 requirements: 60 total
+- Mapped to phases: 60 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-01-30*
-*Last updated: 2026-01-30 after initial definition*
+*Traceability updated: 2026-01-30 after roadmap creation*
