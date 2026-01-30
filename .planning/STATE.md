@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 1 of 7 (Fundación & Migración DB)
-Plan: 1 of 3 in current phase
-Status: In progress
-Last activity: 2026-01-30 — Completed 01-01-PLAN.md (Setup Turborepo)
+Plan: 3 of 3 in current phase
+Status: Phase complete
+Last activity: 2026-01-30 — Completed 01-03-PLAN.md (CI/CD Pipeline)
 
-Progress: [█░░░░░░░░░░░░░░░░░░░] 5%
+Progress: [███░░░░░░░░░░░░░░░░░] 15%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 4 min
-- Total execution time: 4 min
+- Total plans completed: 3
+- Average duration: 5 min
+- Total execution time: 15 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 1 | 4 min | 4 min |
+| 01 | 3 | 15 min | 5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4 min)
-- Trend: -
+- Last 5 plans: 01-01 (4 min), 01-02 (8 min), 01-03 (3 min)
+- Trend: ↓ improving
 
 *Updated after each plan completion*
 
@@ -48,6 +48,9 @@ Recent decisions affecting current work:
 - [Init]: OTP por dispositivo + sesión 30 días (balance seguridad/usabilidad)
 - [01-01]: npm workspaces con * en lugar de workspace:* (compatibilidad npm)
 - [01-01]: Puertos asignados: web=3001, admin=3002, api=3000
+- [01-03]: Permissive lint thresholds for Phase 1 (warnings allowed, will tighten later)
+- [01-03]: ESLint 9 flat config for all workspaces
+- [01-03]: Lighthouse thresholds: 80% perf (warn), 90% accessibility (error)
 
 ### Pending Todos
 
@@ -62,10 +65,15 @@ None.
 - Lighthouse 100/100/100/100: May need to accept 95+ if Ant Design tree-shaking insufficient
 - Quotation history retention: Schema design needs decision during Phase 2
 
+**Lint cleanup needed:**
+- 78 lint errors in web app (pre-existing)
+- 10 warnings in api app (pre-existing)
+- Should be addressed in future code quality phase
+
 ## Session Continuity
 
-Last session: 2026-01-30T21:06:05Z
-Stopped at: Completed 01-01-PLAN.md (Setup Turborepo)
+Last session: 2026-01-30T21:11:40Z
+Stopped at: Completed 01-03-PLAN.md (CI/CD Pipeline)
 Resume file: None
 
 ---
