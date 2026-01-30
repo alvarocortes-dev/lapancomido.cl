@@ -13,8 +13,8 @@
     "clean": "rm -rf node_modules/.cache"
   },
   "dependencies": {
-    "@lapancomido/database": "workspace:*",
-    "@lapancomido/shared": "workspace:*",
+    "@lapancomido/database": "*",
+    "@lapancomido/shared": "*",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",
     "cors": "^2.8.5",

@@ -11,7 +11,7 @@
     "clean": "rm -rf dist node_modules/.vite"
   },
   "dependencies": {
-    "@lapancomido/shared": "workspace:*",
+    "@lapancomido/shared": "*",
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.6.0",
     "antd": "^5.23.3",
