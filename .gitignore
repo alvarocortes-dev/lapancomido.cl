@@ -9,6 +9,9 @@ lerna-debug.log*
 # Turborepo
 .turbo
 
+# Prisma generated client
+packages/database/src/generated
+
 # Lighthouse CI
 .lighthouseci/
 
