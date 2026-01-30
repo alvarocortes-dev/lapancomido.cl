@@ -48,6 +48,9 @@ Recent decisions affecting current work:
 - [Init]: OTP por dispositivo + sesión 30 días (balance seguridad/usabilidad)
 - [01-01]: npm workspaces con * en lugar de workspace:* (compatibilidad npm)
 - [01-01]: Puertos asignados: web=3001, admin=3002, api=3000
+- [01-02]: Manual schema creation instead of introspection (no DB credentials)
+- [01-02]: Dual CJS/ESM exports for database package (API is CommonJS)
+- [01-02]: Deprecated db.js instead of deleting (safer migration)
 - [01-03]: Permissive lint thresholds for Phase 1 (warnings allowed, will tighten later)
 - [01-03]: ESLint 9 flat config for all workspaces
 - [01-03]: Lighthouse thresholds: 80% perf (warn), 90% accessibility (error)
@@ -72,8 +75,8 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-01-30T21:11:40Z
-Stopped at: Completed 01-03-PLAN.md (CI/CD Pipeline)
+Last session: 2026-01-30T21:12:00Z
+Stopped at: Completed 01-02-PLAN.md (Prisma Migration) and 01-03-PLAN.md (CI/CD Pipeline)
 Resume file: None
 
 ---
