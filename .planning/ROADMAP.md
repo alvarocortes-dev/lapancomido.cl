@@ -39,9 +39,9 @@ Reconstrucción del sitio web de panadería artesanal desde e-commerce tradicion
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Turborepo setup con estructura monorepo
-- [ ] 01-02: Migración Prisma (schema + queries + validación paridad)
-- [ ] 01-03: CI/CD pipeline (GitHub Actions + Lighthouse CI + Vercel)
+- [ ] 01-01-PLAN.md — Turborepo setup con estructura monorepo (Wave 1)
+- [ ] 01-02-PLAN.md — Migración Prisma schema + queries (Wave 2, depends on 01-01)
+- [ ] 01-03-PLAN.md — CI/CD pipeline GitHub Actions + Lighthouse CI (Wave 2, depends on 01-01)
 
 ### Phase 2: Sistema de Cotización
 **Goal**: Clientes pueden seleccionar productos y enviar cotización por WhatsApp
@@ -158,7 +158,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Fundación & Migración DB | 0/3 | Not started | - |
+| 1. Fundación & Migración DB | 0/3 | Planned | - |
 | 2. Sistema de Cotización | 0/4 | Not started | - |
 | 3. Arquitectura Split | 0/2 | Not started | - |
 | 4. Autenticación OTP | 0/3 | Not started | - |
