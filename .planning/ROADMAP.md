@@ -55,13 +55,13 @@ Plans:
   5. Modal de cotización muestra resumen editable con campos nombre/celular
   6. Botón genera link wa.me que abre WhatsApp con mensaje estructurado
 
-**Plans**: 4 plans
+**Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 02-01: Catálogo público (listado, filtros, info negocio)
-- [ ] 02-02: Sistema de selección (barra, localStorage, cantidades)
-- [ ] 02-03: Modal de cotización (resumen, edición, validación)
-- [ ] 02-04: Generación link WhatsApp (encoding, wa.me, testing)
+- [ ] 02-01-PLAN.md — Database schema + Store config API (Wave 1)
+- [ ] 02-02-PLAN.md — Selection state + WhatsApp helper (Wave 1)
+- [ ] 02-03-PLAN.md — Catalog UI with selection controls (Wave 2)
+- [ ] 02-04-PLAN.md — Quotation modal + integration (Wave 3)
 
 ### Phase 3: Arquitectura Split
 **Goal**: Apps separadas desplegadas en subdominios propios
