@@ -1,12 +1,12 @@
 // src/pages/CatalogPage.jsx
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Categories } from "../components/Categories";
 import { useProducts } from "../hooks/useProducts";
-import { FaHeart, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import { Dropdown, Button, Spin } from "antd";
-import { useFavorites } from "../hooks/useFavorites";
-import { useAuth } from "../hooks/useAuth";
+import { ProductCard } from "../components/catalog/ProductCard";
+import { SelectionBar } from "../components/selection/SelectionBar";
 
 export const CatalogPage = () => {
   const location = useLocation();
@@ -20,9 +20,27 @@ export const CatalogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
-  // Se obtienen los favoritos y la función para agregar/quitar de favoritos
-  const { session } = useAuth();
-  const { favorites, toggleFavorite } = useFavorites();
+  // Store config and quotation modal state
+  const [storeConfig, setStoreConfig] = useState({ show_prices: true });
+  const [quotationModalOpen, setQuotationModalOpen] = useState(false);
+
+  // Fetch store config on mount
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/store/config`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setStoreConfig(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch store config:", error);
+      }
+    };
+    fetchConfig();
+  }, []);
 
   // Lógica de ordenamiento (se realiza en el frontend sobre los datos ya filtrados)
   useEffect(() => {
@@ -97,7 +115,7 @@ export const CatalogPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-4">
+    <div className="container mx-auto px-4 py-4 pb-24">
       <h2 className="text-3xl font-semibold">Catálogo de Productos</h2>
       <Categories />
       <div className="flex justify-between items-center my-4">
@@ -139,46 +157,13 @@ export const CatalogPage = () => {
             </Spin>
           </div>
         ) : (
-          displayedProducts.map((product) => {
-            const isFavorite = favorites.some((fav) => fav.id === product.id);
-            return (
-              <Link
-                key={product.id}
-                to={`/product/${product.id}`}
-                className="p-4 block hover:bg-gray-100 transition duration-200 rounded-2xl"
-              >
-                <div className="relative bg-white w-full h-68 flex items-center justify-center border-10 border-white rounded-2xl">
-                  {/* Ícono de favoritos, solo si hay sesión */}
-                  {session?.token && (
-                    <div
-                      className="absolute top-4 right-4 z-10 cursor-pointer active:scale-90 transition-transform"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleFavorite(product.id);
-                      }}
-                      style={{
-                        transform: "scale(1.3)",
-                        filter: "drop-shadow(0 0 2px rgba(0,0,0,0.4))",
-                      }}
-                    >
-                      <FaHeart
-                        className={isFavorite ? "text-red-500" : "text-white"}
-                      />
-                    </div>
-                  )}
-                  <div
-                    className="w-full h-full rounded-2xl bg-center bg-no-repeat bg-cover"
-                    style={{ backgroundImage: `url(${product.url_img})` }}
-                  />
-                </div>
-                <div className="flex justify-between items-center mt-2 px-4">
-                  <p className="font-semibold text-lg">{product.product}</p>
-                  <p className="text-black ml-4">${product.price}</p>
-                </div>
-              </Link>
-            );
-          })
+          displayedProducts.map((product) => (
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              showPrices={storeConfig.show_prices}
+            />
+          ))
         )}
       </div>
       <div className="flex justify-center mt-8 space-x-2">
@@ -196,6 +181,12 @@ export const CatalogPage = () => {
           </button>
         ))}
       </div>
+
+      {/* Selection Bar */}
+      <SelectionBar 
+        onQuoteClick={() => setQuotationModalOpen(true)}
+        showPrices={storeConfig.show_prices}
+      />
     </div>
   );
 };
