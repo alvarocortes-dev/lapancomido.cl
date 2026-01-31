@@ -8,9 +8,9 @@ import {
   Input,
   Select,
   Tooltip,
-  message,
   Spin,
 } from "antd";
+import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
 import { showUniqueToast } from "../../helpers/showUniqueToast.helper";
 
@@ -52,7 +52,7 @@ export const MisDirecciones = () => {
       setAddresses(data);
     } catch (error) {
       console.error(error);
-      message.error("Error al cargar las direcciones");
+      toast.error("Error al cargar las direcciones");
     } finally {
       setLoading(false);
     }
@@ -170,12 +170,12 @@ export const MisDirecciones = () => {
         });
       }
       if (!res.ok) throw new Error("Error al guardar la dirección");
-      message.success("Dirección guardada correctamente");
+      toast.success("Dirección guardada correctamente");
       setIsModalVisible(false);
       fetchAddresses();
     } catch (error) {
       console.error(error);
-      message.error(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -216,7 +216,7 @@ export const MisDirecciones = () => {
             (addr) => !selectedIds.includes(addr.id)
           );
           if (remaining.length === 0) {
-            message.error("Debe dejar al menos una dirección.");
+            toast.error("Debe dejar al menos una dirección.");
             return;
           }
           const newMainId = remaining[0].id;
@@ -254,12 +254,12 @@ export const MisDirecciones = () => {
         );
         if (!res.ok) throw new Error("Error al eliminar dirección");
       }
-      message.success("Direcciones eliminadas");
+      toast.success("Direcciones eliminadas");
       setSelectedIds([]);
       fetchAddresses();
     } catch (error) {
       console.error(error);
-      message.error("Error al eliminar direcciones");
+      toast.error("Error al eliminar direcciones");
     }
   };
 

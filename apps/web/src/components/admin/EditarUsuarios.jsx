@@ -7,9 +7,9 @@ import {
   Modal,
   Form,
   Input,
-  message,
   Spin,
 } from "antd";
+import { toast } from "react-toastify";
 import { showUniqueToast } from "../../helpers/showUniqueToast.helper";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -167,7 +167,7 @@ export const EditarUsuarios = () => {
       setEditingUser(null);
       fetchUsers();
     } catch (error) {
-      message.error("Error en el formulario");
+      toast.error("Error en el formulario");
     }
   };
 

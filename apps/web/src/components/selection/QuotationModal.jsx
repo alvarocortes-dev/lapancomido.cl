@@ -1,6 +1,7 @@
 // src/components/selection/QuotationModal.jsx
 import { useState } from "react";
-import { Modal, Input, Button, Form, message } from "antd";
+import { Modal, Input, Button, Form } from "antd";
+import { toast } from "react-toastify";
 import { DeleteOutlined } from "@ant-design/icons";
 import PhoneInput from "react-phone-number-input";
 import { isPossiblePhoneNumber } from "react-phone-number-input";
@@ -83,7 +84,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
   const handleSubmit = async () => {
     if (!validate()) return;
     if (selection.length === 0) {
-      message.warning("No hay productos seleccionados");
+      toast.warning("No hay productos seleccionados");
       return;
     }
 
@@ -111,10 +112,10 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
       setForm({ name: "", phone: "", email: "", comment: "" });
       onClose();
       
-      message.success("Redirigiendo a WhatsApp...");
+      toast.success("Redirigiendo a WhatsApp...");
     } catch (error) {
       console.error("Failed to generate WhatsApp link:", error);
-      message.error("Error al generar enlace de WhatsApp");
+      toast.error("Error al generar enlace de WhatsApp");
     } finally {
       setSubmitting(false);
     }
