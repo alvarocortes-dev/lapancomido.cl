@@ -64,7 +64,7 @@ export const HeaderSearch = () => {
 
   return (
     <div
-      className={`relative bg-white p-2 border border-black w-80 h-12 flex justify-center ${
+      className={`relative bg-white p-2 border border-black w-full md:w-80 min-h-[44px] flex justify-center items-center ${
         showSuggestions ? "rounded-t-lg" : "rounded-lg"
       }`}
       ref={containerRef}
@@ -95,7 +95,7 @@ export const HeaderSearch = () => {
           }
         }}
         onKeyDown={handleKeyDown}
-        className="w-full text-center text-black border-none focus:outline-none focus:ring-0 bg-transparent p-2"
+        className="w-full text-center text-black border-none focus:outline-none focus:ring-0 bg-transparent p-2 text-base"
       />
 
       {showSuggestions &&
@@ -106,14 +106,14 @@ export const HeaderSearch = () => {
               <li
                 key={product.id}
                 onMouseDown={() => handleSuggestionClick(product.id)}
-                className="cursor-pointer p-2 hover:bg-[#F5E1A4] border-b border-gray-300 last:border-0 truncate whitespace-nowrap overflow-hidden"
+                className="cursor-pointer px-3 py-3 min-h-[44px] flex items-center hover:bg-[#F5E1A4] border-b border-gray-300 last:border-0 truncate whitespace-nowrap overflow-hidden text-base"
               >
                 {product.product}
               </li>
             ))}
             <li
               onMouseDown={handleViewCatalog}
-              className="cursor-pointer p-2 text-center font-semibold text-[#262011] bg-gray-200 hover:bg-[#F5E1A4] truncate whitespace-nowrap overflow-hidden"
+              className="cursor-pointer px-3 py-3 min-h-[44px] flex items-center justify-center text-center font-semibold text-[#262011] bg-gray-200 hover:bg-[#F5E1A4] truncate whitespace-nowrap overflow-hidden text-base"
             >
               Ver coincidencias en Catálogo
             </li>

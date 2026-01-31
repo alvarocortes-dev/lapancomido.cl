@@ -14,7 +14,9 @@ export const MainLayout = () => {
       {/* Mostrar Marques solo si no hay sesión iniciada */}
       {!session?.token && <Marques />}
       <Header />
-      <main className="flex-grow container mx-auto p-4">
+      {/* Spacer para compensar header fijo en mobile */}
+      <div className="h-16 md:hidden" />
+      <main className="flex-grow container mx-auto px-3 sm:px-4 py-4">
         <Outlet /> {/* Aquí se renderizan las páginas */}
       </main>
       <Footer />

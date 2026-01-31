@@ -46,12 +46,14 @@ export const ContactPage = () => {
   };
 
   return (
-    <div className="max-h-screen  flex flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Contáctanos</h1>
+    <div className="min-h-[60vh] flex flex-col items-center justify-center bg-gray-100 p-4">
+      <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">
+          Contáctanos
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-gray-700">
+            <label htmlFor="name" className="block text-gray-700 text-sm sm:text-base">
               Nombre
             </label>
             <input
@@ -61,11 +63,11 @@ export const ContactPage = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Tu nombre"
-              className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-[#f5e1a4]"
+              className="mt-1 p-3 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-[#f5e1a4] text-base min-h-[44px]"
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-gray-700">
+            <label htmlFor="email" className="block text-gray-700 text-sm sm:text-base">
               Email
             </label>
             <input
@@ -75,11 +77,11 @@ export const ContactPage = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="tu@correo.com"
-              className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-[#f5e1a4]"
+              className="mt-1 p-3 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-[#f5e1a4] text-base min-h-[44px]"
             />
           </div>
           <div>
-            <label htmlFor="message" className="block text-gray-700">
+            <label htmlFor="message" className="block text-gray-700 text-sm sm:text-base">
               Mensaje
             </label>
             <textarea
@@ -89,13 +91,13 @@ export const ContactPage = () => {
               onChange={handleChange}
               placeholder="Escribe tu mensaje aquí..."
               rows="4"
-              className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-[#f5e1a4]"
+              className="mt-1 p-3 w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-[#f5e1a4] text-base"
             ></textarea>
           </div>
           <div>
             <button
               type="submit"
-              className="w-full bg-[#f5e1a4] text-[#262011] p-2 rounded-md hover:bg-[#262011] hover:text-white transition duration-300"
+              className="w-full bg-[#f5e1a4] text-[#262011] p-3 rounded-md hover:bg-[#262011] hover:text-white transition duration-300 font-semibold min-h-[44px] text-base"
             >
               Enviar Mensaje
             </button>

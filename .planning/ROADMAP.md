@@ -12,16 +12,18 @@ Reconstrucción del sitio web de panadería artesanal desde e-commerce tradicion
 
 **Parallelization Notes:**
 - Phases 1-3 are sequential (foundation dependencies)
-- Phase 4 and Phase 5 can run partially in parallel (auth backend || admin UI components)
-- Phase 6 and Phase 7 can run in parallel (historial es independiente de SEO)
+- Phase 4 and Phase 5 can run partially in parallel (split arch || mobile refinements)
+- Phase 6 and Phase 7 can run in parallel (auth backend || admin UI components)
+- Phase 8 and Phase 9 can run in parallel (historial es independiente de SEO)
 
 - [x] **Phase 1: Fundación & Migración DB** - Turborepo + Prisma ORM + CI/CD pipeline ✓
 - [x] **Phase 2: Sistema de Cotización** - Catálogo público + selección + cotización WhatsApp ✓
-- [ ] **Phase 3: Arquitectura Split** - Separación en subdominios (web/admin/api)
-- [ ] **Phase 4: Autenticación OTP** - Login admin con OTP por dispositivo nuevo
-- [ ] **Phase 5: Panel Admin** - CRUD productos, categorías y contenido
-- [ ] **Phase 6: Historial de Consultas** - Guardar y visualizar consultas WhatsApp
-- [ ] **Phase 7: SEO & Performance** - Lighthouse 100/100/100/100 + SEO local
+- [x] **Phase 3: Mobile-First Responsive** - Diseño responsive profesional mobile-first ✓
+- [ ] **Phase 4: Arquitectura Split** - Separación en subdominios (web/admin/api)
+- [ ] **Phase 5: Autenticación OTP** - Login admin con OTP por dispositivo nuevo
+- [ ] **Phase 6: Panel Admin** - CRUD productos, categorías y contenido
+- [ ] **Phase 7: Historial de Consultas** - Guardar y visualizar consultas WhatsApp
+- [ ] **Phase 8: SEO & Performance** - Lighthouse 100/100/100/100 + SEO local
 
 ## Phase Details
 
@@ -63,9 +65,36 @@ Plans:
 - [x] 02-03-PLAN.md — Catalog UI with selection controls (Wave 2) ✓
 - [x] 02-04-PLAN.md — Quotation modal + integration (Wave 3) ✓
 
-### Phase 3: Arquitectura Split
-**Goal**: Apps separadas desplegadas en subdominios propios
+### Phase 3: Mobile-First Responsive (INSERTED)
+**Goal**: Diseño responsive profesional siguiendo principios mobile-first en todos los componentes públicos
 **Depends on**: Phase 2
+**Requirements**: RESP-01, RESP-02, RESP-03, RESP-04, RESP-05
+**Success Criteria** (what must be TRUE):
+  1. Todas las páginas públicas funcionan perfectamente en viewports 320px-1920px
+  2. Header tiene menú hamburguesa funcional en móvil (<768px)
+  3. Footer se adapta a columnas apiladas en móvil
+  4. BentoGrid de HomePage usa grid responsive (1-2-4 columnas según viewport)
+  5. Formularios y modales son 100% usables en móvil (touch targets 44px, inputs 16px)
+  6. No hay scroll horizontal en ningún viewport
+  7. Lighthouse Accessibility >= 95 en todos los viewports
+
+**New Requirements (RESP-*):**
+- RESP-01: Layout base mobile-first con breakpoints Tailwind estándar
+- RESP-02: Navegación responsive con hamburger menu
+- RESP-03: Componentes públicos adaptativos (HomePage, ProductPage, CatalogPage)
+- RESP-04: Formularios y modales optimizados para touch
+- RESP-05: Tipografía y espaciado fluido
+
+**Plans**: 3 plans
+
+Plans:
+- [x] 03-01-PLAN.md — Core Layout & Navigation (Header hamburger, Footer, MainLayout) ✓
+- [x] 03-02-PLAN.md — Public Pages Critical (HomePage, ProductPage, CatalogPage) ✓
+- [x] 03-03-PLAN.md — Forms & Modals (QuotationModal, ContactPage, SearchBar) ✓
+
+### Phase 4: Arquitectura Split
+**Goal**: Apps separadas desplegadas en subdominios propios
+**Depends on**: Phase 3
 **Requirements**: INFRA-04, INFRA-05, INFRA-06
 **Success Criteria** (what must be TRUE):
   1. lapancomido.cl sirve el sitio público de cotización
@@ -76,12 +105,12 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: Configuración Vercel multi-proyecto
-- [ ] 03-02: CORS y routing entre subdominios
+- [ ] 04-01-PLAN.md — Configuración Vercel multi-proyecto
+- [ ] 04-02-PLAN.md — CORS y routing entre subdominios
 
-### Phase 4: Autenticación OTP
+### Phase 5: Autenticación OTP
 **Goal**: Admin puede iniciar sesión con OTP en dispositivos nuevos
-**Depends on**: Phase 3
+**Depends on**: Phase 4
 **Requirements**: AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05, AUTH-06, AUTH-07, AUTH-08, AUTH-09
 **Success Criteria** (what must be TRUE):
   1. Existen 2 usuarios predefinidos (dev y admin) en la base de datos
@@ -94,13 +123,13 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01: Usuarios predefinidos y login básico
-- [ ] 04-02: OTP por email con Resend + device fingerprinting
-- [ ] 04-03: Sesiones de 30 días y roles
+- [ ] 05-01-PLAN.md — Usuarios predefinidos y login básico
+- [ ] 05-02-PLAN.md — OTP por email con Resend + device fingerprinting
+- [ ] 05-03-PLAN.md — Sesiones de 30 días y roles
 
-### Phase 5: Panel Admin
+### Phase 6: Panel Admin
 **Goal**: Admin puede gestionar productos, categorías y contenido del sitio
-**Depends on**: Phase 4
+**Depends on**: Phase 5
 **Requirements**: PROD-01, PROD-02, PROD-03, PROD-04, PROD-05, PROD-06, PROD-07, CATG-01, CATG-02, CATG-03, CATG-04, CONT-01, CONT-02, CONT-03
 **Success Criteria** (what must be TRUE):
   1. Admin puede crear, editar, eliminar y habilitar/deshabilitar productos
@@ -113,13 +142,13 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: CRUD productos con upload Cloudinary
-- [ ] 05-02: Gestión de categorías
-- [ ] 05-03: Edición contenido Home + configuración precios
+- [ ] 06-01-PLAN.md — CRUD productos con upload Cloudinary
+- [ ] 06-02-PLAN.md — Gestión de categorías
+- [ ] 06-03-PLAN.md — Edición contenido Home + configuración precios
 
-### Phase 6: Historial de Consultas
+### Phase 7: Historial de Consultas
 **Goal**: Sistema guarda consultas y admin puede verlas
-**Depends on**: Phase 2, Phase 4
+**Depends on**: Phase 2, Phase 5
 **Requirements**: COT-08, HIST-01, HIST-02, HIST-03, HIST-04
 **Success Criteria** (what must be TRUE):
   1. Cada cotización enviada se guarda en BD con fecha, nombre, celular, productos
@@ -130,12 +159,12 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: API y modelo para guardar consultas
-- [ ] 06-02: Vista admin de historial
+- [ ] 07-01-PLAN.md — API y modelo para guardar consultas
+- [ ] 07-02-PLAN.md — Vista admin de historial
 
-### Phase 7: SEO & Performance
+### Phase 8: SEO & Performance
 **Goal**: Lighthouse 100/100/100/100 y SEO optimizado para búsquedas locales
-**Depends on**: Phase 2, Phase 5
+**Depends on**: Phase 3, Phase 6
 **Requirements**: SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, SEO-06, SEO-07
 **Success Criteria** (what must be TRUE):
   1. Lighthouse Performance ≥ 95 (idealmente 100)
@@ -148,27 +177,28 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: Optimización Lighthouse (bundle, imágenes, a11y)
-- [ ] 07-02: SEO local (schema.org, meta tags, keywords)
+- [ ] 08-01-PLAN.md — Optimización Lighthouse (bundle, imágenes, a11y)
+- [ ] 08-02-PLAN.md — SEO local (schema.org, meta tags, keywords)
 
 ## Progress
 
 **Execution Order:**
-1 → 2 → 3 → 4 → 5 → 6 (can parallel with 5) → 7 (can parallel with 6)
+1 → 2 → 3 → 4 → 5 → 6 → 7 (can parallel with 6) → 8 (can parallel with 7)
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Fundación & Migración DB | 3/3 | Complete ✓ | 2026-01-30 |
 | 2. Sistema de Cotización | 4/4 | Complete ✓ | 2026-01-31 |
-| 3. Arquitectura Split | 0/2 | Not started | - |
-| 4. Autenticación OTP | 0/3 | Not started | - |
-| 5. Panel Admin | 0/3 | Not started | - |
-| 6. Historial de Consultas | 0/2 | Not started | - |
-| 7. SEO & Performance | 0/2 | Not started | - |
+| 3. Mobile-First Responsive | 3/3 | Complete ✓ | 2026-01-31 |
+| 4. Arquitectura Split | 0/2 | Not started | - |
+| 5. Autenticación OTP | 0/3 | Not started | - |
+| 6. Panel Admin | 0/3 | Not started | - |
+| 7. Historial de Consultas | 0/2 | Not started | - |
+| 8. SEO & Performance | 0/2 | Not started | - |
 
-**Total Plans:** 19
-**Completed:** 7/19 (37%)
-**Total Requirements:** 60
+**Total Plans:** 22
+**Completed:** 10/22 (45%)
+**Total Requirements:** 65
 
 ---
 *Roadmap created: 2026-01-30*

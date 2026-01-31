@@ -19,15 +19,82 @@ import { getCategories } from "../helpers/getProductData.helper"; // Simulación
 import { Categories } from "../components/Categories";
 
 /* Importar Framer Motion */
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const HomePage = () => {
-  /* Lógica randomización Productos BentoGrid*/
-  const [images, setImages] = useState([]);
+  /* Lógica BentoGrid dinámico con transiciones */
+  const allImages = imagesData.images;
+  const [displayedImages, setDisplayedImages] = useState([]);
+  const [previousSwapPositions, setPreviousSwapPositions] = useState([]);
+  const [imageKeys, setImageKeys] = useState([]); // Para forzar re-render con animación
+
+  // Inicializar con 8 imágenes aleatorias
   useEffect(() => {
-    const shuffled = imagesData.images.sort(() => 0.5 - Math.random());
-    setImages(shuffled.slice(0, 9));
+    const shuffled = [...allImages].sort(() => 0.5 - Math.random());
+    const initial = shuffled.slice(0, 8);
+    setDisplayedImages(initial);
+    setImageKeys(initial.map((_, i) => i)); // Keys iniciales
   }, []);
+
+  // Ciclo de intercambio cada 3 segundos
+  useEffect(() => {
+    if (displayedImages.length === 0) return;
+
+    const interval = setInterval(() => {
+      setDisplayedImages((currentDisplayed) => {
+        // Obtener imágenes que NO están actualmente en la grilla
+        const availableImages = allImages.filter(
+          (img) => !currentDisplayed.includes(img)
+        );
+
+        // Seleccionar 3 posiciones aleatorias distintas a las anteriores
+        const allPositions = [0, 1, 2, 3, 4, 5, 6, 7];
+        const validPositions = allPositions.filter(
+          (pos) => !previousSwapPositions.includes(pos)
+        );
+
+        // Si no hay suficientes posiciones válidas, usar cualquiera
+        const positionsToUse =
+          validPositions.length >= 3 ? validPositions : allPositions;
+
+        // Seleccionar 3 posiciones al azar
+        const shuffledPositions = [...positionsToUse].sort(
+          () => 0.5 - Math.random()
+        );
+        const newSwapPositions = shuffledPositions.slice(0, 3);
+
+        // Actualizar previousSwapPositions para el próximo ciclo
+        setPreviousSwapPositions(newSwapPositions);
+
+        // Seleccionar 3 nuevas imágenes aleatorias
+        const shuffledAvailable = [...availableImages].sort(
+          () => 0.5 - Math.random()
+        );
+        const newImages = shuffledAvailable.slice(0, 3);
+
+        // Crear nuevo array con las imágenes intercambiadas
+        const updatedDisplayed = [...currentDisplayed];
+        newSwapPositions.forEach((pos, index) => {
+          if (newImages[index]) {
+            updatedDisplayed[pos] = newImages[index];
+          }
+        });
+
+        // Actualizar keys para las posiciones cambiadas (forzar re-render con animación)
+        setImageKeys((currentKeys) => {
+          const newKeys = [...currentKeys];
+          newSwapPositions.forEach((pos) => {
+            newKeys[pos] = Date.now() + pos; // Key único para triggear animación
+          });
+          return newKeys;
+        });
+
+        return updatedDisplayed;
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [displayedImages.length, allImages, previousSwapPositions]);
 
   /* Lógica Categorías */
   const [categories, setCategories] = useState([]);
@@ -42,26 +109,22 @@ export const HomePage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <main className="flex-1 container mx-auto px-4">
-        {/* Galería / Slider */}
-        <section className="my-8">
+      <main className="flex-1 container mx-auto px-3 sm:px-4">
+        {/* Galería / Slider - Full width con aspect ratio para que la imagen calce */}
+        <section className="mt-4 mb-8 sm:mt-0 sm:mb-8 -mx-3 sm:mx-0">
           <Swiper
             modules={[Autoplay, Navigation, Pagination]}
-            spaceBetween={10}
+            spaceBetween={0}
             slidesPerView={1}
             navigation
             pagination={{ clickable: true }}
             autoplay={{ delay: 6000, disableOnInteraction: false }}
-            speed={1800} /* Velocidad de la transición en milisegundos */
-            loop={true} /* Hace que el carrusel sea infinito */
-            loopAdditionalSlides={
-              3
-            } /* Carga más slides en el loop para evitar saltos */
-            centeredSlides={
-              false
-            } /* Evita que una slide esté centrada al inicio */
-            watchOverflow={true} /* Evita problemas cuando hay pocas slides */
-            className="w-full h-[24rem] rounded-lg overflow-hidden"
+            speed={1800}
+            loop={true}
+            loopAdditionalSlides={3}
+            centeredSlides={false}
+            watchOverflow={true}
+            className="w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[21/9] lg:aspect-[21/9] sm:rounded-lg overflow-hidden"
             style={{ "--swiper-theme-color": "#262011" }}
           >
             {slidesData.slides.map((slide, index) => (
@@ -72,7 +135,7 @@ export const HomePage = () => {
                       .href
                   }
                   alt={slide.alt}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover sm:object-contain"
                 />
               </SwiperSlide>
             ))}
@@ -80,85 +143,82 @@ export const HomePage = () => {
         </section>
 
         {/* Categorías */}
-        <h2 className="text-xl font-bold mb-4">Categorías</h2>
-        <Categories />
+        <section className="mb-8 sm:mb-8">
+          <h2 className="text-lg sm:text-xl font-bold mb-2 sm:mb-4">Categorías</h2>
+          <Categories />
+        </section>
 
-        {/* Productos Bento Grid */}
-        <h2 className="text-xl font-bold mb-4">Productos</h2>
-        <section className="my-8 flex justify-center">
-          <div
-            className="grid gap-4 max-w-[120rem] max-h-[35rem]"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gridTemplateRows: "repeat(3, 1fr)",
-              gridTemplateAreas: `
-            "a a b c"
-            "d e e f"
-            "g h i i"
-          `,
-              width: "120rem",
-              height: "55rem",
-            }}
-          >
-            {images.map((img, index) => (
-              <motion.div
+        {/* Productos Grid - Responsive */}
+        <section className="mb-8 sm:my-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+            {displayedImages.map((img, index) => (
+              <div
                 key={index}
-                className="rounded-lg overflow-hidden shadow-lg"
-                style={{
-                  gridArea: ["a", "b", "c", "d", "e", "f", "g", "h", "i"][
-                    index
-                  ],
-                }}
-                whileHover={{ scale: 1.05 }} // Aumenta un 5% el tamaño al hacer hover
-                transition={{ duration: 1.2, ease: "easeInOut" }} // Animación lenta de 1.2s
+                className="rounded-lg overflow-hidden shadow-lg aspect-square relative"
               >
-                <img
-                  src={new URL(`../assets/images/${img}`, import.meta.url).href}
-                  alt={`Producto ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </motion.div>
+                <AnimatePresence mode="sync">
+                  <motion.img
+                    key={imageKeys[index] || index}
+                    src={new URL(`../assets/images/${img}`, import.meta.url).href}
+                    alt={`Producto ${index + 1}`}
+                    className="w-full h-full object-cover absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 3, ease: "easeInOut" }}
+                  />
+                </AnimatePresence>
+              </div>
             ))}
           </div>
         </section>
 
-        {/* Elígenos */}
-        <section className="my-8 grid grid-cols-3 gap-8 items-center mt-20">
-          <div className="col-span-2">
-            <h2 className="text-xl font-bold mb-4">Elígenos</h2>
-            <p>
-              En el corazón del puerto de Caldera, nace &quot;La Pan
-              Comido&quot;, una micro-panadería online que revoluciona la forma
-              en que se disfruta del pan. Nuestro objetivo es ofrecer un pan
-              sano y beneficioso para la salud, elaborado con masa madre y un
-              proceso de fermentación que dura 17 horas, lo que le da un sabor y
-              una textura únicos.
-              <br />
-              <br />
-              Respetamos las recetas más tradicionales de pan, utilizando
-              técnicas y ingredientes que han sido perfeccionados a lo largo de
-              los años. Nuestros panes son el resultado de un proceso de
-              elaboración que dura 2 días, desde el amasado hasta la salida del
-              horno, lo que nos permite ofrecer un producto de alta calidad y
-              sabor auténtico.
-              <br />
-              <br />
-              Fundada en el año 2020, &quot;La Pan Comido&quot; se ha convertido
-              en una referencia para aquellos que buscan un pan auténtico y
-              delicioso. Nos enfocamos en ofrecer un producto que se asemeja a
-              la tradición de las panaderías italianas, donde el pan es un arte
-              y una pasión.
-            </p>
-          </div>
-          <div className="w-full h-90">
-            <video
-              src={promoVideo}
-              className="w-full h-full object-cover rounded-lg"
-              autoPlay
-              loop
-              muted
-            ></video>
+        {/* Elígenos - Texto arriba del video en mobile, al lado en desktop */}
+        <section className="mb-8 sm:my-12 lg:my-20">
+          <div className="flex flex-col gap-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
+            {/* Texto - primero en móvil, primero en desktop */}
+            <div className="lg:col-span-2">
+              <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Elígenos</h2>
+              <div className="text-sm sm:text-base text-gray-700 space-y-4">
+                <p>
+                  En el corazón del puerto de Caldera, nace &quot;La Pan
+                  Comido&quot;, una micro-panadería online que revoluciona la forma
+                  en que se disfruta del pan. Nuestro objetivo es ofrecer un pan
+                  sano y beneficioso para la salud, elaborado con masa madre y un
+                  proceso de fermentación que dura 17 horas, lo que le da un sabor y
+                  una textura únicos.
+                </p>
+                <p>
+                  Respetamos las recetas más tradicionales de pan, utilizando
+                  técnicas y ingredientes que han sido perfeccionados a lo largo de
+                  los años. Nuestros panes son el resultado de un proceso de
+                  elaboración que dura 2 días, desde el amasado hasta la salida del
+                  horno, lo que nos permite ofrecer un producto de alta calidad y
+                  sabor auténtico.
+                </p>
+                <p>
+                  Fundada en el año 2020, &quot;La Pan Comido&quot; se ha convertido
+                  en una referencia para aquellos que buscan un pan auténtico y
+                  delicioso. Nos enfocamos en ofrecer un producto que se asemeja a
+                  la tradición de las panaderías italianas, donde el pan es un arte
+                  y una pasión.
+                </p>
+              </div>
+            </div>
+
+            {/* Video - segundo en móvil, segundo en desktop */}
+            <div className="w-full">
+              <div className="aspect-video lg:aspect-square rounded-lg overflow-hidden">
+                <video
+                  src={promoVideo}
+                  className="w-full h-full object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
+              </div>
+            </div>
           </div>
         </section>
       </main>

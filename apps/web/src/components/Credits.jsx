@@ -1,42 +1,44 @@
 // src/components/Credits.jsx
 
-import { useEffect } from "react";
+import { SlGlobe } from "react-icons/sl";
+import { FaLinkedinIn } from "react-icons/fa6";
+import { MdOutlineMailOutline } from "react-icons/md";
 
 export const Credits = () => {
-  // Inyecta el link de Google Fonts para "Fira Code"
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-  }, []);
-
   return (
-    <div className="bg-[#111a28] text-white text-center text-xs p-1 font-mono">
-      <p style={{ fontFamily: '"Fira Code", monospace' }}>
-        Desarrollado por{" "}
+    <div className="bg-[#262011] text-[#F5E1A4] text-center text-xs sm:text-sm p-3">
+      <p>
+        Sitio desarrollado por Alvaro Pelusa™ Cortés
+      </p>
+      <div className="flex items-center justify-center gap-4 mt-2">
         <a
-          href="https://www.alvarocortes.cl"
+          href="https://www.alvarocortes.cl/"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            fontWeight: "bold",
-            textDecoration: "underline",
-            textDecorationColor: "transparent",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.textDecorationColor = "white")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.textDecorationColor = "transparent")
-          }
+          className="hover:text-white transition-colors p-1"
+          aria-label="Sitio web"
         >
-          Alvaro <span style={{ textDecoration: "underline" }}>#Pelusa</span>{" "}
-          Cortés
-        </a>{" "}
-        © {new Date().getFullYear()}
-      </p>
+          <SlGlobe className="w-5 h-5" />
+        </a>
+        <a
+          href="https://www.linkedin.com/in/alvarocortesopazo/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-white transition-colors p-1"
+          aria-label="LinkedIn"
+        >
+          <FaLinkedinIn className="w-5 h-5" />
+        </a>
+        <a
+          href="mailto:alvaro.cortes.dev@outlook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-white transition-colors p-1"
+          aria-label="Email"
+        >
+          <MdOutlineMailOutline className="w-5 h-5" />
+        </a>
+      </div>
     </div>
   );
 };

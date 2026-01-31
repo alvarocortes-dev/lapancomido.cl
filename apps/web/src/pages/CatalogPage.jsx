@@ -119,7 +119,7 @@ export const CatalogPage = () => {
     <div className="container mx-auto px-3 sm:px-4 py-4">
       <h2 className="text-2xl sm:text-3xl font-semibold">Catálogo de Productos</h2>
       <Categories />
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 my-4">
+      <div className="flex flex-row justify-between items-center gap-3 my-4">
         <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <div
             style={{
@@ -166,15 +166,15 @@ export const CatalogPage = () => {
           ))
         )}
       </div>
-      <div className="flex justify-center mt-8 space-x-2">
+      <div className="flex justify-center mt-8 gap-1 sm:gap-2 flex-wrap">
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentPage(index + 1)}
-            className={`px-4 py-2 border border-black ${
+            className={`min-w-[44px] min-h-[44px] px-3 sm:px-4 py-2 border border-black text-sm sm:text-base transition-colors ${
               currentPage === index + 1
                 ? "bg-[#262011] text-[#f5e1a4]"
-                : "bg-[#f5e1a4] text-[#262011]"
+                : "bg-[#f5e1a4] text-[#262011] hover:bg-[#e6d294]"
             }`}
           >
             {index + 1}

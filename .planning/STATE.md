@@ -5,22 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Los clientes pueden seleccionar productos del catálogo y enviar una consulta estructurada por WhatsApp al dueño en menos de 30 segundos.
-**Current focus:** Phase 3 - Arquitectura Split (next up)
+**Current focus:** Phase 4 - Arquitectura Split (next up)
 
 ## Current Position
 
-Phase: 2 of 7 (Sistema de Cotización) - COMPLETE ✓
-Next: Phase 3 - Arquitectura Split
-Status: Ready for Phase 3
+Phase: 3 of 8 (Mobile-First Responsive) - COMPLETE ✓
+Next: Phase 4 - Arquitectura Split
+Status: Ready for Phase 4
 
-Progress: [███████░░░░░░░░░░░░░] 37%
+Progress: [█████████░░░░░░░░░░░] 45%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 4 min
-- Total execution time: ~65 min
+- Total plans completed: 10
+- Average duration: ~8 min
+- Total execution time: ~80 min
 
 **By Phase:**
 
@@ -28,8 +28,7 @@ Progress: [███████░░░░░░░░░░░░░] 37%
 |-------|-------|-------|----------|
 | 01 | 3 | 15 min | 5 min |
 | 02 | 4 | 50 min | 12.5 min |
-
-**Phase 2 Note:** Longer due to blocker resolution (Prisma migration, Supabase setup, UI refinements)
+| 03 | 3 | 15 min | 5 min |
 
 *Updated after each plan completion*
 
@@ -66,6 +65,22 @@ Recent decisions affecting current work:
 - [02-04]: Sticky SelectionBar between pagination and footer
 - [02-04]: Header simplified: Logo | Search | Inicio | Catálogo | Contacto
 
+**Phase 3:**
+- [03-01]: Header hamburger menu with drawer from right
+- [03-01]: Footer stacks vertically on mobile, horizontal on desktop
+- [03-01]: SearchBar width: w-full md:w-80 (was fixed w-80)
+- [03-01]: MainLayout padding: px-3 sm:px-4 py-4
+- [03-02]: HomePage BentoGrid replaced with responsive grid (2-3-4 cols)
+- [03-02]: HomePage Elígenos section: video first on mobile, text first on desktop
+- [03-02]: HomePage slider height responsive: h-48 sm:h-64 md:h-80 lg:h-96
+- [03-02]: ProductPage image removed 38rem fixed size, now aspect-square
+- [03-02]: ProductPage thumbnails scrollable horizontally on mobile
+- [03-02]: CatalogPage pagination with min-h-[44px] touch targets
+- [03-03]: All inputs now 16px font-size (prevents iOS zoom)
+- [03-03]: All inputs/buttons now min-h-[44px] for touch targets
+- [03-03]: LoginPage/RegisterPage removed calc() fixed heights
+- [03-03]: ContactPage form fully responsive
+
 ### What's Working
 
 - ✅ Catálogo de productos con imágenes y precios
@@ -75,22 +90,21 @@ Recent decisions affecting current work:
 - ✅ Modal de cotización con formulario
 - ✅ Generación de link WhatsApp con mensaje estructurado
 - ✅ Guardado de leads (email/teléfono) en BD
-- ✅ Diseño responsive para móvil
-- ✅ Header simplificado sin login/carrito
+- ✅ Header con menú hamburguesa en móvil
+- ✅ Footer responsive (stack en móvil)
+- ✅ HomePage responsive (slider, grid, elígenos)
+- ✅ ProductPage responsive
+- ✅ Forms con touch targets 44px y font-size 16px
 - ✅ Conexión directa a Supabase
-
-### Pending Todos
-
-None.
 
 ### Blockers/Concerns
 
 None.
 
 **Research flags from research/SUMMARY.md:**
-- Phase 4 (OTP): Device fingerprinting libraries may need evaluation
+- Phase 5 (OTP): Device fingerprinting libraries may need evaluation
 - Lighthouse 100/100/100/100: May need to accept 95+ if Ant Design tree-shaking insufficient
-- Quotation history retention: Schema design needs decision during Phase 6
+- Quotation history retention: Schema design needs decision during Phase 7
 
 **Lint cleanup needed:**
 - 78 lint errors in web app (pre-existing)
@@ -99,28 +113,25 @@ None.
 
 ## What's Next
 
-### Phase 3: Arquitectura Split
-- Configurar Vercel para multi-proyecto
-- Desplegar web en lapancomido.cl
-- Desplegar admin shell en admin.lapancomido.cl
-- Configurar API en api.lapancomido.cl
-- Configurar CORS entre subdominios
+### Phase 4: Arquitectura Split
+- Plan 04-01: Configuración Vercel multi-proyecto
+- Plan 04-02: CORS y routing entre subdominios
 
 ### Upcoming Phases Summary
 | Phase | Focus | Estimated Plans |
 |-------|-------|-----------------|
-| 3 | Subdominios | 2 |
-| 4 | Auth OTP | 3 |
-| 5 | Admin Panel | 3 |
-| 6 | Historial | 2 |
-| 7 | SEO/Perf | 2 |
+| 4 | Subdominios | 2 |
+| 5 | Auth OTP | 3 |
+| 6 | Admin Panel | 3 |
+| 7 | Historial | 2 |
+| 8 | SEO/Perf | 2 |
 
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed Phase 2 - Sistema de Cotización
+Stopped at: Completed Phase 3 - Mobile-First Responsive
 Resume file: None
-Next action: Begin Phase 3 planning
+Next action: Begin Phase 4 planning (Arquitectura Split)
 
 ---
 *State initialized: 2026-01-30*
