@@ -81,6 +81,17 @@ Recent decisions affecting current work:
 - [03-03]: LoginPage/RegisterPage removed calc() fixed heights
 - [03-03]: ContactPage form fully responsive
 
+**Phase 3 - UI Polish (additional):**
+- Header: sticky/fixed on mobile, static on desktop
+- Header: "Panadería de Masa Madre" single line text in mobile
+- Footer: no top margin on mobile (md:mt-8 only desktop)
+- HomePage: removed "Productos" title
+- HomePage: BentoGrid dynamic with 10s interval, 3s crossfade transitions
+- HomePage: grid full width (removed max-w-7xl)
+- HomePage: consistent mb-8 spacing between sections on mobile
+- HomePage: slider object-contain on desktop, no top margin (sm:mt-0)
+- CatalogPage: products count + sort button inline on mobile
+
 ### What's Working
 
 - ✅ Catálogo de productos con imágenes y precios
@@ -90,10 +101,11 @@ Recent decisions affecting current work:
 - ✅ Modal de cotización con formulario
 - ✅ Generación de link WhatsApp con mensaje estructurado
 - ✅ Guardado de leads (email/teléfono) en BD
-- ✅ Header con menú hamburguesa en móvil
+- ✅ Header con menú hamburguesa en móvil (sticky/fixed)
 - ✅ Footer responsive (stack en móvil)
-- ✅ HomePage responsive (slider, grid, elígenos)
+- ✅ HomePage responsive (slider, grid dinámico con crossfade, elígenos)
 - ✅ ProductPage responsive
+- ✅ CatalogPage responsive (inline count + sort)
 - ✅ Forms con touch targets 44px y font-size 16px
 - ✅ Conexión directa a Supabase
 
