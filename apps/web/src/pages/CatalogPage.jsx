@@ -7,6 +7,7 @@ import { FaTimes } from "react-icons/fa";
 import { Dropdown, Button, Spin } from "antd";
 import { ProductCard } from "../components/catalog/ProductCard";
 import { SelectionBar } from "../components/selection/SelectionBar";
+import { QuotationModal } from "../components/selection/QuotationModal";
 
 export const CatalogPage = () => {
   const location = useLocation();
@@ -186,6 +187,13 @@ export const CatalogPage = () => {
       <SelectionBar 
         onQuoteClick={() => setQuotationModalOpen(true)}
         showPrices={storeConfig.show_prices}
+      />
+
+      {/* Quotation Modal */}
+      <QuotationModal
+        open={quotationModalOpen}
+        onClose={() => setQuotationModalOpen(false)}
+        storeConfig={storeConfig}
       />
     </div>
   );

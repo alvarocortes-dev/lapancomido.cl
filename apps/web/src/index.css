@@ -6,3 +6,44 @@
 body {
   font-family: "Barlow", sans-serif;
 }
+
+/* react-phone-number-input customization */
+.phone-input-custom {
+  display: flex;
+  align-items: center;
+}
+
+.phone-input-custom .PhoneInputCountry {
+  margin-right: 8px;
+}
+
+.phone-input-custom .PhoneInputInput {
+  flex: 1;
+  padding: 4px 11px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  transition: all 0.2s;
+}
+
+.phone-input-custom .PhoneInputInput:hover {
+  border-color: #4096ff;
+}
+
+.phone-input-custom .PhoneInputInput:focus {
+  border-color: #4096ff;
+  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  outline: none;
+}
+
+.phone-input-custom .PhoneInputCountrySelect {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+}
+
+.phone-input-custom .PhoneInputCountryIcon {
+  width: 24px;
+  height: 18px;
+}
