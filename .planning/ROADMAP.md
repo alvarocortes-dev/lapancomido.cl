@@ -92,21 +92,32 @@ Plans:
 - [x] 03-02-PLAN.md — Public Pages Critical (HomePage, ProductPage, CatalogPage) ✓
 - [x] 03-03-PLAN.md — Forms & Modals (QuotationModal, ContactPage, SearchBar) ✓
 
-### Phase 4: Arquitectura Split
-**Goal**: Apps separadas desplegadas en subdominios propios
+### Phase 4: Arquitectura Split + Limpieza
+**Goal**: Apps separadas en subdominios + eliminación de código legacy no utilizado
 **Depends on**: Phase 3
-**Requirements**: INFRA-04, INFRA-05, INFRA-06
+**Requirements**: INFRA-04, INFRA-05, INFRA-06, CLEAN-01, CLEAN-02, CLEAN-03
 **Success Criteria** (what must be TRUE):
   1. lapancomido.cl sirve el sitio público de cotización
   2. admin.lapancomido.cl sirve shell del panel admin (sin auth aún)
   3. api.lapancomido.cl responde a requests de ambos frontends
   4. CORS configurado correctamente entre subdominios
+  5. Eliminado todo código de autenticación de clientes (login, register, sessions)
+  6. Eliminado todo código de carrito/checkout/órdenes
+  7. Eliminadas rutas API no utilizadas por el frontend actual
+  8. Eliminados modelos/tablas de usuarios clientes si no se usan
+  9. Bundle JS del sitio público < 800KB (actualmente 1,234KB)
 
-**Plans**: 2 plans
+**New Requirements (CLEAN-*):**
+- CLEAN-01: Eliminar lógica de autenticación de clientes (useAuth, AuthProvider, guards)
+- CLEAN-02: Eliminar lógica de carrito/checkout/órdenes (useCart, CartProvider, OrderProvider)
+- CLEAN-03: Limpiar API de endpoints no utilizados y modelos legacy
+
+**Plans**: 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Configuración Vercel multi-proyecto
-- [ ] 04-02-PLAN.md — CORS y routing entre subdominios
+- [ ] 04-01-PLAN.md — Limpieza frontend: eliminar auth/cart/checkout legacy
+- [ ] 04-02-PLAN.md — Limpieza API: eliminar rutas y controladores no usados
+- [ ] 04-03-PLAN.md — Configuración Vercel subdominios + CORS
 
 ### Phase 5: Autenticación OTP
 **Goal**: Admin puede iniciar sesión con OTP en dispositivos nuevos
@@ -190,14 +201,14 @@ Plans:
 | 1. Fundación & Migración DB | 3/3 | Complete ✓ | 2026-01-30 |
 | 2. Sistema de Cotización | 4/4 | Complete ✓ | 2026-01-31 |
 | 3. Mobile-First Responsive | 3/3 | Complete ✓ | 2026-01-31 |
-| 4. Arquitectura Split | 0/2 | Not started | - |
+| 4. Arquitectura Split + Limpieza | 0/3 | Not started | - |
 | 5. Autenticación OTP | 0/3 | Not started | - |
 | 6. Panel Admin | 0/3 | Not started | - |
 | 7. Historial de Consultas | 0/2 | Not started | - |
 | 8. SEO & Performance | 0/2 | Not started | - |
 
-**Total Plans:** 22
-**Completed:** 10/22 (45%)
+**Total Plans:** 23
+**Completed:** 10/23 (43%)
 **Total Requirements:** 65
 
 ---

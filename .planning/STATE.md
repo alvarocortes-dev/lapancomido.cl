@@ -125,14 +125,35 @@ None.
 
 ## What's Next
 
-### Phase 4: Arquitectura Split
-- Plan 04-01: Configuración Vercel multi-proyecto
-- Plan 04-02: CORS y routing entre subdominios
+### Phase 4: Arquitectura Split + Limpieza
+- Plan 04-01: Limpieza frontend (auth/cart/checkout legacy)
+- Plan 04-02: Limpieza API (rutas y controladores no usados)
+- Plan 04-03: Configuración Vercel subdominios + CORS
+
+**Código legacy a eliminar:**
+
+Frontend (apps/web):
+- `pages/DashboardPage.jsx` - No usado
+- `pages/ForgotPasswordPage.jsx` - No usado
+- `components/admin/*` - 6 archivos (mover a apps/admin después)
+- `components/customer/*` - 5 archivos (eliminar, no hay clientes)
+- `components/LoginForm.jsx`, `RegisterForm.jsx` - No usados
+- `hooks/useEncrypt.jsx`, `useProductImages.jsx`, `useStorage.jsx` - Revisar uso
+
+API (apps/api):
+- `controllers/address.controller.js` - Direcciones de clientes
+- `controllers/auth.controller.js` - Auth de clientes
+- `controllers/favorites.controller.js` - Favoritos de clientes
+- `controllers/gateways.controller.js` - Pasarelas de pago
+- `controllers/location.controller.js` - Ubicación
+- `controllers/order.controller.js` - Órdenes/pedidos
+- `controllers/user.controller.js` - Usuarios clientes
+- Rutas correspondientes a eliminar
 
 ### Upcoming Phases Summary
 | Phase | Focus | Estimated Plans |
 |-------|-------|-----------------|
-| 4 | Subdominios | 2 |
+| 4 | Limpieza + Subdominios | 3 |
 | 5 | Auth OTP | 3 |
 | 6 | Admin Panel | 3 |
 | 7 | Historial | 2 |
@@ -141,9 +162,9 @@ None.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed Phase 3 - Mobile-First Responsive
+Stopped at: Ajustes UI (toastify, márgenes, header padding)
 Resume file: None
-Next action: Begin Phase 4 planning (Arquitectura Split)
+Next action: Begin Phase 4 - Plan 04-01 (Limpieza frontend)
 
 ---
 *State initialized: 2026-01-30*
