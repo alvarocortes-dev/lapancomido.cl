@@ -1,10 +1,9 @@
 // src/hooks/useProducts.jsx
-import { useContext, useEffect, useState } from "react";
-import { ProductContext } from "../context/ProductProvider";
+import { useEffect, useState } from "react";
 import { getProducts } from "../helpers/getProductData.helper";
 
 export const useProducts = (query = "") => {
-  const { products, setProducts } = useContext(ProductContext);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ export const useProducts = (query = "") => {
         console.error("Error fetching products:", err);
         setLoading(false);
       });
-  }, [query, setProducts]);
+  }, [query]);
 
   return { products, loading };
 };
