@@ -5,6 +5,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import { RouterManager } from "./router/RouterManager";
 import { CartProvider } from "./context/CartProvider";
 import { ProductProvider } from "./context/ProductProvider";
+import { SelectionProvider } from "./context/SelectionProvider";
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
       <ToastContainer />
       <AuthProvider>
         <CartProvider>
-          <ProductProvider>
-            <RouterManager />
-          </ProductProvider>
+          <SelectionProvider>
+            <ProductProvider>
+              <RouterManager />
+            </ProductProvider>
+          </SelectionProvider>
         </CartProvider>
       </AuthProvider>
     </>
