@@ -27,6 +27,8 @@ model products {
   description String?
   nutrition   String?
   available   Boolean   @default(false)
+  unit_type   String    @default("unit")  // "unit" or "pack"
+  pack_size   Int?                          // Only for packs, e.g., 6 means "6 un c/p"
   created_at  DateTime  @default(now())
   updated_at  DateTime  @default(now()) @updatedAt
 
@@ -157,6 +159,31 @@ model regions {
 
   // Relations
   provinces provinces[]
+
+  @@schema("pancomido")
+}
+
+// ============================================
+// Store Configuration & Quotation Models
+// ============================================
+
+model store_config {
+  id              Int      @id @default(autoincrement())
+  whatsapp_number String   // E.164 format without +, e.g., "56912345678"
+  greeting        String   @default("Hola! Hay pan? <3")
+  show_prices     Boolean  @default(true)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @default(now()) @updatedAt
+
+  @@schema("pancomido")
+}
+
+model quotation_leads {
+  id         Int      @id @default(autoincrement())
+  email      String?
+  phone      String   // E.164 format
+  name       String
+  created_at DateTime @default(now())
 
   @@schema("pancomido")
 }
