@@ -20,8 +20,8 @@ Reconstrucción del sitio web de panadería artesanal desde e-commerce tradicion
 - [x] **Phase 2: Sistema de Cotización** - Catálogo público + selección + cotización WhatsApp ✓
 - [x] **Phase 3: Mobile-First Responsive** - Diseño responsive profesional mobile-first ✓
 - [x] **Phase 4: Arquitectura Split** - Separación en subdominios (web/admin/api) ✓
-- [ ] **Phase 5: Autenticación OTP** - Login admin con OTP por dispositivo nuevo
-- [ ] **Phase 6: Panel Admin** - CRUD productos, categorías y contenido
+- [x] **Phase 5: Autenticación OTP** - Login admin con OTP por dispositivo nuevo ✓
+- [x] **Phase 6: Panel Admin** - CRUD productos, categorías y contenido ✓
 - [ ] **Phase 7: Historial de Consultas** - Guardar y visualizar consultas WhatsApp
 - [ ] **Phase 8: Auditoría de Código** - Dead code detection, bundle analysis, pruebas de uso
 - [ ] **Phase 9: SEO & Performance** - Lighthouse 100/100/100/100 + SEO local
@@ -135,9 +135,9 @@ Plans:
 **Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 05-01-PLAN.md — Schema auth + seed con temp passwords + setup flow con OTP email validation (Wave 1)
-- [ ] 05-02-PLAN.md — OTP login flow + device trust via httpOnly cookie + resend cooldowns (Wave 2)
-- [ ] 05-03-PLAN.md — Turnstile captcha + LoginPage UI + SettingsPage con logout-all (Wave 3)
+- [x] 05-01-PLAN.md — Schema auth + seed con temp passwords + setup flow con OTP email validation (Wave 1) ✓
+- [x] 05-02-PLAN.md — OTP login flow + device trust via httpOnly cookie + resend cooldowns (Wave 2) ✓
+- [x] 05-03-PLAN.md — Turnstile captcha + LoginPage UI + SettingsPage con logout-all (Wave 3) ✓
 
 ### Phase 6: Panel Admin
 **Goal**: Admin puede gestionar productos, categorías y contenido del sitio
@@ -154,9 +154,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — CRUD productos con upload Cloudinary
-- [ ] 06-02-PLAN.md — Gestión de categorías
-- [ ] 06-03-PLAN.md — Edición contenido Home + configuración precios
+- [x] 06-01-PLAN.md — CRUD productos con upload Cloudinary ✓
+- [x] 06-02-PLAN.md — Gestión de categorías ✓
+- [x] 06-03-PLAN.md — Edición contenido Home + configuración precios ✓
 
 ### Phase 7: Historial de Consultas
 **Goal**: Sistema guarda consultas y admin puede verlas
@@ -226,14 +226,14 @@ Plans:
 | 2. Sistema de Cotización | 4/4 | Complete ✓ | 2026-01-31 |
 | 3. Mobile-First Responsive | 3/3 | Complete ✓ | 2026-01-31 |
 | 4. Arquitectura Split + Limpieza | 3/3 | Complete ✓ | 2026-02-01 |
-| 5. Autenticación OTP | 0/3 | Not started | - |
-| 6. Panel Admin | 0/3 | Not started | - |
+| 5. Autenticación OTP | 3/3 | Complete ✓ | 2026-02-01 |
+| 6. Panel Admin | 3/3 | Complete ✓ | 2026-02-01 |
 | 7. Historial de Consultas | 0/2 | Not started | - |
 | 8. Auditoría de Código | 0/2 | Not started | - |
 | 9. SEO & Performance | 0/2 | Not started | - |
 
 **Total Plans:** 25
-**Completed:** 13/25 (52%)
+**Completed:** 19/25 (76%)
 **Total Requirements:** 69
 
 ---
