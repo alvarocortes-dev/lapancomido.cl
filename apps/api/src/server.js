@@ -15,27 +15,36 @@ const app = express();
 app.set('trust proxy', 1);
 
 // CORS configuration for subdomain architecture
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [
-      'https://lapancomido.cl',
-      'https://www.lapancomido.cl',
-      'https://admin.lapancomido.cl'
-    ]
-  : [
-      'http://localhost:3001',  // web dev
-      'http://localhost:3002',  // admin dev
-      'http://localhost:5173',  // vite default
-      'http://127.0.0.1:3001',
-      'http://127.0.0.1:3002',
-      'http://127.0.0.1:5173'
-    ];
+const allowedOrigins = [
+  // Production domains
+  'https://lapancomido.cl',
+  'https://www.lapancomido.cl',
+  'https://admin.lapancomido.cl',
+  // Development
+  'http://localhost:3001',
+  'http://localhost:3002',
+  'http://localhost:5173',
+  'http://127.0.0.1:3001',
+  'http://127.0.0.1:3002',
+  'http://127.0.0.1:5173'
+];
+
+// Patterns for Vercel preview deployments
+const vercelPreviewPatterns = [
+  /^https:\/\/lapancomido.*\.vercel\.app$/,
+  /^https:\/\/lapancomido-.*\.vercel\.app$/
+];
+
+function isAllowedOrigin(origin) {
+  if (!origin) return true; // Allow requests with no origin (curl, Postman, mobile apps)
+  if (allowedOrigins.includes(origin)) return true;
+  // Check Vercel preview patterns
+  return vercelPreviewPatterns.some(pattern => pattern.test(origin));
+}
 
 app.use(cors({
   origin: function(origin, callback) {
-    // Allow requests with no origin (like curl, Postman, mobile apps)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
+    if (isAllowedOrigin(origin)) {
       callback(null, true);
     } else {
       console.warn(`CORS blocked request from: ${origin}`);
