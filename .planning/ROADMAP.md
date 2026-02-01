@@ -168,11 +168,11 @@ Plans:
   3. Admin puede ver listado de consultas recientes
   4. Admin puede ver detalle de cada consulta con productos
 
-**Plans**: 2 plans
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 07-01-PLAN.md — API y modelo para guardar consultas
-- [ ] 07-02-PLAN.md — Vista admin de historial
+- [ ] 07-01-PLAN.md — Schema + API endpoint + QuotationModal save (Wave 1)
+- [ ] 07-02-PLAN.md — Admin consultations page + detail modal (Wave 2)
 
 ### Phase 8: Auditoría de Código
 **Goal**: Verificar qué código está realmente en uso, eliminar dead code, analizar bundle
