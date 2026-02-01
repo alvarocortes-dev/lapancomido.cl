@@ -39,12 +39,9 @@
  *         description: Datos inválidos.
  */
 
-// src/routes/productImages.routes.js
-
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db');
-const schema = process.env.DB_SCHEMA;
+const { prisma } = require('@lapancomido/database');
 const { validateToken } = require('../middlewares/validateToken');
 const isAdmin = require('../middlewares/isAdmin');
 
@@ -62,18 +59,23 @@ router.post('/save-images', validateToken, isAdmin, async (req, res, next) => {
             return res.status(400).json({ error: "No hay imágenes válidas para guardar" });
         }
 
-        const insertedImages = [];
-        for (const img of validImages) {
-            const imageUrl = img.url || img.secure_url;
-            const query = `
-        INSERT INTO ${schema}.product_img (id_product, url_img, cloudinary_public_id)
-        VALUES ($1, $2, $3)
-        RETURNING *
-      `;
-            const { rows } = await db.query(query, [productId, imageUrl, img.public_id]);
-            insertedImages.push(rows[0]);
-        }
-        res.status(200).json({ message: "Imágenes guardadas correctamente", images: insertedImages });
+        // Insert images using Prisma
+        const insertedImages = await prisma.product_img.createMany({
+            data: validImages.map(img => ({
+                id_product: productId,
+                url_img: img.url || img.secure_url,
+                cloudinary_public_id: img.public_id
+            }))
+        });
+
+        // Fetch the inserted images to return them
+        const savedImages = await prisma.product_img.findMany({
+            where: { id_product: productId },
+            orderBy: { created_at: 'desc' },
+            take: validImages.length
+        });
+
+        res.status(200).json({ message: "Imágenes guardadas correctamente", images: savedImages });
     } catch (error) {
         next(error);
     }
