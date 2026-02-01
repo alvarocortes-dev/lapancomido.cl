@@ -11,6 +11,9 @@ const swaggerSpec = require('./docs/routes/swaggerConfig.js');
 
 const app = express();
 
+// Trust proxy for Vercel (required for express-rate-limit behind reverse proxy)
+app.set('trust proxy', 1);
+
 // CORS configuration for subdomain architecture
 const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [

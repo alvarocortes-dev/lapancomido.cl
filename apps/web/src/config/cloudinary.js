@@ -1,5 +1,5 @@
 /**
- * Cloudinary configuration for serving optimized images
+ * Cloudinary configuration for serving optimized images and videos
  * 
  * All images are hosted on Cloudinary with automatic format detection (WebP/AVIF)
  * and optimized for their specific UI context.
@@ -7,12 +7,14 @@
 
 const CLOUD_NAME = 'lapancomido';
 const BASE_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload`;
+const VIDEO_BASE_URL = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload`;
 
 // Folders structure in Cloudinary
 export const FOLDERS = {
   gallery: 'lapancomido/gallery',
   slides: 'lapancomido/slides',
   brand: 'lapancomido/brand',
+  videos: 'lapancomido/videos',
 };
 
 /**
@@ -36,6 +38,11 @@ export const BRAND = {
   logoHeader: `${BASE_URL}/f_auto,q_auto,h_200/${FOLDERS.brand}/logoWeb_cortado`,
   logoFooter: `${BASE_URL}/f_auto,q_auto,h_200/${FOLDERS.brand}/logoRedondo_cortado`,
   pancito404: `${BASE_URL}/f_auto,q_auto,w_400/${FOLDERS.brand}/pancito_404`,
+};
+
+// Pre-built URLs for video assets
+export const VIDEOS = {
+  promo: `${VIDEO_BASE_URL}/q_auto/${FOLDERS.videos}/promo.mp4`,
 };
 
 // Slides data with Cloudinary URLs

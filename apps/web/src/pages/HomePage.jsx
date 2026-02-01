@@ -10,8 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 /* Importar Cloudinary config */
-import { SLIDES, GALLERY_IMAGES, getGalleryImageUrl } from "../config/cloudinary";
-import promoData from "../data/promo.json";
+import { SLIDES, GALLERY_IMAGES, VIDEOS, getGalleryImageUrl } from "../config/cloudinary";
 
 /* Importar Categorías FakeAPI */
 import { getCategories } from "../helpers/getProductData.helper"; // Simulación de datos
@@ -101,10 +100,7 @@ export const HomePage = () => {
     getCategories().then(setCategories);
   }, []);
 
-  const promoVideo = new URL(
-    `../assets/videos/${promoData.promo}`,
-    import.meta.url
-  ).href;
+  const promoVideo = VIDEOS.promo;
 
   return (
     <div className="min-h-screen flex flex-col">
