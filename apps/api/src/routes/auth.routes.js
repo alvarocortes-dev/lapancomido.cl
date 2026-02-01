@@ -1,18 +1,32 @@
 // src/routes/auth.routes.js
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const authController = require('../controllers/auth.controller');
+const { validateToken } = require('../middlewares/validateToken');
 
-// POST /auth/login - Login with username/password
-router.post('/login', authController.login);
+// Rate limiting for auth endpoints (generous limit, actual OTP attempts tracked in DB)
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // Allow some buffer for page refreshes
+  message: { 
+    error: 'Demasiados intentos. Intenta de nuevo en 15 minutos.' 
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
 
-// POST /auth/initiate-setup - Start first-time setup (sends OTP to email)
-router.post('/initiate-setup', authController.initiateSetup);
+// First-time setup flow
+router.post('/login', authLimiter, authController.login);
+router.post('/initiate-setup', authLimiter, authController.initiateSetup);
+router.post('/verify-setup-otp', authLimiter, authController.verifySetupOTP);
+router.post('/complete-setup', authLimiter, authController.completeSetup);
 
-// POST /auth/verify-setup-otp - Verify OTP for email validation
-router.post('/verify-setup-otp', authController.verifySetupOTP);
+// Normal login OTP flow
+router.post('/verify-login-otp', authLimiter, authController.verifyLoginOTP);
+router.post('/resend-otp', authLimiter, authController.resendOTP);
 
-// POST /auth/complete-setup - Set new password and complete setup
-router.post('/complete-setup', authController.completeSetup);
+// Session management (requires auth)
+router.post('/logout-all', validateToken, authController.logoutAll);
 
 module.exports = router;
