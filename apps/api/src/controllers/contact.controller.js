@@ -16,7 +16,7 @@ const getResend = () => {
 };
 
 // Default contact email - will be configurable by admin later
-const DEFAULT_CONTACT_EMAIL = 'lapancomido@outlook.com';
+const DEFAULT_CONTACT_EMAIL = 'lapancomido@outlook.com, lapancomido@gmail.com';
 
 /**
  * Send contact form message via Resend
@@ -27,16 +27,16 @@ const sendContactMessage = async (req, res) => {
 
     // Validation
     if (!fullName || !email || !phone || !message) {
-      return res.status(400).json({ 
-        error: 'Todos los campos son requeridos' 
+      return res.status(400).json({
+        error: 'Todos los campos son requeridos'
       });
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return res.status(400).json({ 
-        error: 'Email inválido' 
+      return res.status(400).json({
+        error: 'Email inválido'
       });
     }
 
@@ -44,8 +44,8 @@ const sendContactMessage = async (req, res) => {
     const resend = getResend();
     if (!resend) {
       console.warn('RESEND_API_KEY not configured - contact form disabled');
-      return res.status(503).json({ 
-        error: 'El servicio de contacto no está disponible temporalmente' 
+      return res.status(503).json({
+        error: 'El servicio de contacto no está disponible temporalmente'
       });
     }
 
@@ -86,22 +86,22 @@ const sendContactMessage = async (req, res) => {
 
     if (error) {
       console.error('Resend error:', error);
-      return res.status(500).json({ 
-        error: 'Error al enviar el mensaje' 
+      return res.status(500).json({
+        error: 'Error al enviar el mensaje'
       });
     }
 
     console.log('Contact email sent:', data);
 
-    res.status(200).json({ 
-      success: true, 
-      message: 'Mensaje enviado correctamente' 
+    res.status(200).json({
+      success: true,
+      message: 'Mensaje enviado correctamente'
     });
 
   } catch (error) {
     console.error('Contact controller error:', error);
-    res.status(500).json({ 
-      error: 'Error interno del servidor' 
+    res.status(500).json({
+      error: 'Error interno del servidor'
     });
   }
 };
