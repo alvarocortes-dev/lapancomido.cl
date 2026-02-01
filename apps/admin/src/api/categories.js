@@ -12,11 +12,12 @@ function getAuthHeaders(token) {
 }
 
 /**
- * Get all categories (public endpoint)
+ * Get all categories with product count (admin endpoint)
  */
-export async function getCategories() {
-  const response = await fetch(`${API_URL}/api/categories`, {
+export async function getCategories(token) {
+  const response = await fetch(`${API_URL}/api/admin/categories`, {
     method: 'GET',
+    headers: getAuthHeaders(token),
     credentials: 'include',
   });
   if (!response.ok) {
