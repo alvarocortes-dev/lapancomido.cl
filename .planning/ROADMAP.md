@@ -19,11 +19,12 @@ Reconstrucción del sitio web de panadería artesanal desde e-commerce tradicion
 - [x] **Phase 1: Fundación & Migración DB** - Turborepo + Prisma ORM + CI/CD pipeline ✓
 - [x] **Phase 2: Sistema de Cotización** - Catálogo público + selección + cotización WhatsApp ✓
 - [x] **Phase 3: Mobile-First Responsive** - Diseño responsive profesional mobile-first ✓
-- [ ] **Phase 4: Arquitectura Split** - Separación en subdominios (web/admin/api)
+- [x] **Phase 4: Arquitectura Split** - Separación en subdominios (web/admin/api) ✓
 - [ ] **Phase 5: Autenticación OTP** - Login admin con OTP por dispositivo nuevo
 - [ ] **Phase 6: Panel Admin** - CRUD productos, categorías y contenido
 - [ ] **Phase 7: Historial de Consultas** - Guardar y visualizar consultas WhatsApp
-- [ ] **Phase 8: SEO & Performance** - Lighthouse 100/100/100/100 + SEO local
+- [ ] **Phase 8: Auditoría de Código** - Dead code detection, bundle analysis, pruebas de uso
+- [ ] **Phase 9: SEO & Performance** - Lighthouse 100/100/100/100 + SEO local
 
 ## Phase Details
 
@@ -115,9 +116,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Limpieza frontend: eliminar auth/cart/checkout legacy
-- [ ] 04-02-PLAN.md — Limpieza API: eliminar rutas y controladores no usados
-- [ ] 04-03-PLAN.md — Configuración Vercel subdominios + CORS
+- [x] 04-01-PLAN.md — Limpieza frontend: eliminar auth/cart/checkout legacy ✓
+- [x] 04-02-PLAN.md — Limpieza API: eliminar rutas y controladores no usados ✓
+- [x] 04-03-PLAN.md — Configuración Vercel subdominios + CORS ✓
 
 ### Phase 5: Autenticación OTP
 **Goal**: Admin puede iniciar sesión con OTP en dispositivos nuevos
@@ -173,9 +174,32 @@ Plans:
 - [ ] 07-01-PLAN.md — API y modelo para guardar consultas
 - [ ] 07-02-PLAN.md — Vista admin de historial
 
-### Phase 8: SEO & Performance
+### Phase 8: Auditoría de Código
+**Goal**: Verificar qué código está realmente en uso, eliminar dead code, analizar bundle
+**Depends on**: Phase 7
+**Requirements**: AUDIT-01, AUDIT-02, AUDIT-03, AUDIT-04
+**Success Criteria** (what must be TRUE):
+  1. Mapa completo de imports desde main.jsx hacia todos los componentes usados
+  2. Lista de endpoints API realmente llamados desde el frontend
+  3. Identificación y eliminación de helpers/hooks/componentes no referenciados
+  4. Bundle analysis con identificación de dependencias pesadas
+  5. Bundle JS del sitio público < 500KB (objetivo agresivo post-auditoría)
+
+**New Requirements (AUDIT-*):**
+- AUDIT-01: Trace de imports estáticos desde entry points (web, admin, api)
+- AUDIT-02: Trace de llamadas API desde frontend (grep de fetch/axios patterns)
+- AUDIT-03: Detección de exports no utilizados en helpers/hooks/utils
+- AUDIT-04: Bundle analysis con webpack-bundle-analyzer o vite equivalente
+
+**Plans**: 2 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Dead code detection (imports, API calls, exports no usados)
+- [ ] 08-02-PLAN.md — Bundle analysis y optimización (tree-shaking, code-splitting)
+
+### Phase 9: SEO & Performance
 **Goal**: Lighthouse 100/100/100/100 y SEO optimizado para búsquedas locales
-**Depends on**: Phase 3, Phase 6
+**Depends on**: Phase 8
 **Requirements**: SEO-01, SEO-02, SEO-03, SEO-04, SEO-05, SEO-06, SEO-07
 **Success Criteria** (what must be TRUE):
   1. Lighthouse Performance ≥ 95 (idealmente 100)
@@ -188,29 +212,30 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Optimización Lighthouse (bundle, imágenes, a11y)
-- [ ] 08-02-PLAN.md — SEO local (schema.org, meta tags, keywords)
+- [ ] 09-01-PLAN.md — Optimización Lighthouse (bundle, imágenes, a11y)
+- [ ] 09-02-PLAN.md — SEO local (schema.org, meta tags, keywords)
 
 ## Progress
 
 **Execution Order:**
-1 → 2 → 3 → 4 → 5 → 6 → 7 (can parallel with 6) → 8 (can parallel with 7)
+1 → 2 → 3 → 4 → 5 → 6 → 7 (can parallel with 6) → 8 → 9
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Fundación & Migración DB | 3/3 | Complete ✓ | 2026-01-30 |
 | 2. Sistema de Cotización | 4/4 | Complete ✓ | 2026-01-31 |
 | 3. Mobile-First Responsive | 3/3 | Complete ✓ | 2026-01-31 |
-| 4. Arquitectura Split + Limpieza | 0/3 | Not started | - |
+| 4. Arquitectura Split + Limpieza | 3/3 | Complete ✓ | 2026-02-01 |
 | 5. Autenticación OTP | 0/3 | Not started | - |
 | 6. Panel Admin | 0/3 | Not started | - |
 | 7. Historial de Consultas | 0/2 | Not started | - |
-| 8. SEO & Performance | 0/2 | Not started | - |
+| 8. Auditoría de Código | 0/2 | Not started | - |
+| 9. SEO & Performance | 0/2 | Not started | - |
 
-**Total Plans:** 23
-**Completed:** 10/23 (43%)
-**Total Requirements:** 65
+**Total Plans:** 25
+**Completed:** 13/25 (52%)
+**Total Requirements:** 69
 
 ---
 *Roadmap created: 2026-01-30*
-*Last updated: 2026-01-31*
+*Last updated: 2026-02-01*

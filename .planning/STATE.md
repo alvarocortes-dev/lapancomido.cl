@@ -5,22 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Los clientes pueden seleccionar productos del catálogo y enviar una consulta estructurada por WhatsApp al dueño en menos de 30 segundos.
-**Current focus:** Phase 4 - Arquitectura Split (next up)
+**Current focus:** Phase 4 - Arquitectura Split (COMPLETE - pending Vercel deploy)
 
 ## Current Position
 
-Phase: 3 of 8 (Mobile-First Responsive) - COMPLETE ✓
-Next: Phase 4 - Arquitectura Split
-Status: Ready for Phase 4
+Phase: 4 of 9 (Arquitectura Split + Limpieza) - COMPLETE ✓
+Next: Phase 5 - Admin Auth (OTP)
+Status: Phase 4 code complete, pending manual Vercel subdomain configuration
 
-Progress: [█████████░░░░░░░░░░░] 45%
+Progress: [███████████░░░░░░░░░] 55%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans completed: 13
 - Average duration: ~8 min
-- Total execution time: ~80 min
+- Total execution time: ~104 min
 
 **By Phase:**
 
@@ -29,6 +29,7 @@ Progress: [█████████░░░░░░░░░░░] 45%
 | 01 | 3 | 15 min | 5 min |
 | 02 | 4 | 50 min | 12.5 min |
 | 03 | 3 | 15 min | 5 min |
+| 04 | 3 | 24 min | 8 min |
 
 *Updated after each plan completion*
 
@@ -92,6 +93,17 @@ Recent decisions affecting current work:
 - HomePage: slider object-contain on desktop, no top margin (sm:mt-0)
 - CatalogPage: products count + sort button inline on mobile
 
+**Phase 4:**
+- [04-01]: Deleted 19 unused frontend files (pages, components, hooks, helpers)
+- [04-01]: Removed Marques component from MainLayout
+- [04-01]: Bundle size unchanged at 1,234KB (deleted files weren't bundled)
+- [04-02]: Deleted 21 API files (routes, controllers, models, services)
+- [04-02]: Simplified admin.routes.js to only product management
+- [04-02]: Removed 7 legacy models from Prisma schema
+- [04-03]: Configured CORS for subdomain architecture
+- [04-03]: Created vercel.json for each app (web, admin, api)
+- [04-03]: Updated admin shell with branded placeholder
+
 ### What's Working
 
 - ✅ Catálogo de productos con imágenes y precios
@@ -108,10 +120,15 @@ Recent decisions affecting current work:
 - ✅ CatalogPage responsive (inline count + sort)
 - ✅ Forms con touch targets 44px y font-size 16px
 - ✅ Conexión directa a Supabase
+- ✅ Codebase limpio sin código legacy de auth/cart/orders
+- ✅ Schema Prisma limpio (7 modelos activos)
+- ✅ CORS configurado para subdominios
 
 ### Blockers/Concerns
 
-None.
+**Pending manual setup (Phase 4):**
+- Vercel projects for api.lapancomido.cl and admin.lapancomido.cl need manual creation
+- Environment variables need to be set in Vercel dashboard
 
 **Research flags from research/SUMMARY.md:**
 - Phase 5 (OTP): Device fingerprinting libraries may need evaluation
@@ -125,47 +142,30 @@ None.
 
 ## What's Next
 
-### Phase 4: Arquitectura Split + Limpieza
-- Plan 04-01: Limpieza frontend (auth/cart/checkout legacy)
-- Plan 04-02: Limpieza API (rutas y controladores no usados)
-- Plan 04-03: Configuración Vercel subdominios + CORS
-
-**Código legacy a eliminar:**
-
-Frontend (apps/web):
-- `pages/DashboardPage.jsx` - No usado
-- `pages/ForgotPasswordPage.jsx` - No usado
-- `components/admin/*` - 6 archivos (mover a apps/admin después)
-- `components/customer/*` - 5 archivos (eliminar, no hay clientes)
-- `components/LoginForm.jsx`, `RegisterForm.jsx` - No usados
-- `hooks/useEncrypt.jsx`, `useProductImages.jsx`, `useStorage.jsx` - Revisar uso
-
-API (apps/api):
-- `controllers/address.controller.js` - Direcciones de clientes
-- `controllers/auth.controller.js` - Auth de clientes
-- `controllers/favorites.controller.js` - Favoritos de clientes
-- `controllers/gateways.controller.js` - Pasarelas de pago
-- `controllers/location.controller.js` - Ubicación
-- `controllers/order.controller.js` - Órdenes/pedidos
-- `controllers/user.controller.js` - Usuarios clientes
-- Rutas correspondientes a eliminar
+### Phase 5: Admin Auth (OTP)
+- Plan 05-01: Schema admin_users + OTP
+- Plan 05-02: API endpoints auth
+- Plan 05-03: Login screen admin
 
 ### Upcoming Phases Summary
 | Phase | Focus | Estimated Plans |
 |-------|-------|-----------------|
-| 4 | Limpieza + Subdominios | 3 |
 | 5 | Auth OTP | 3 |
 | 6 | Admin Panel | 3 |
 | 7 | Historial | 2 |
-| 8 | SEO/Perf | 2 |
+| 8 | Auditoría de Código | 2 |
+| 9 | SEO/Perf | 2 |
 
 ## Session Continuity
 
-Last session: 2026-01-31
-Stopped at: Ajustes UI (toastify, márgenes, header padding)
+Last session: 2026-02-01
+Stopped at: Phase 4 complete - all code changes done, Vercel config ready
 Resume file: None
-Next action: Begin Phase 4 - Plan 04-01 (Limpieza frontend)
+Next action: Manual Vercel subdomain setup OR begin Phase 5
+
+### Pending Vercel Setup for Phase 4
+See `.planning/phases/04-arquitectura-split-limpieza/04-03-SUMMARY.md` for detailed instructions.
 
 ---
 *State initialized: 2026-01-30*
-*Last updated: 2026-01-31*
+*Last updated: 2026-02-01*
