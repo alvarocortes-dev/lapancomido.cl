@@ -81,6 +81,13 @@ Sitio web para panadería artesanal de masa madre en Caldera, Chile. Dos subproy
 - Backend: reconstruir con Prisma, estructura profesional
 - El dueño atiende por WhatsApp actualmente — el sitio debe facilitar ese flujo
 
+**Email Configuration:**
+- Dominio `lapancomido.cl` verificado en Resend
+- DNS configurado en Cloudflare para envío de emails
+- Email de contacto público: `contacto@lapancomido.cl`
+- Emails enviados a `contacto@lapancomido.cl` se redireccionan a `lapancomido@gmail.com`
+- Formulario de contacto envía desde `contacto@lapancomido.cl` via Resend
+
 **Target users:**
 - Clientes: residentes de Caldera buscando pan artesanal
 - Admin: dueño de la panadería, usuario no técnico
@@ -107,4 +114,4 @@ Sitio web para panadería artesanal de masa madre en Caldera, Chile. Dos subproy
 | 2 usuarios fijos (dev/admin) | Simplicidad, no se necesita registro público | — Pending |
 
 ---
-*Last updated: 2026-01-30 after initialization*
+*Last updated: 2026-02-01 after email configuration*
