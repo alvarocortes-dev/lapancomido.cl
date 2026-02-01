@@ -1,6 +1,6 @@
 // src/controllers/adminProducts.controller.js
-const { prisma } = require('@lapancomido/database');
-const cloudinary = require('../../cloudinaryConfig');
+import { prisma } from '@lapancomido/database';
+import cloudinary from '../../cloudinaryConfig.js';
 
 /**
  * Listar productos para admin.
@@ -419,7 +419,7 @@ const toggleAvailability = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   getAdminProducts,
   createProduct,
   updateProductDetails,

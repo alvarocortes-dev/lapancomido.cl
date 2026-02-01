@@ -1,5 +1,5 @@
 // apps/api/src/models/Product.js
-const { prisma } = require('@lapancomido/database');
+import { prisma } from '@lapancomido/database';
 
 const getAllProducts = async () => {
   const products = await prisma.products.findMany({
@@ -87,7 +87,7 @@ const deleteProduct = async (id) => {
   return product;
 };
 
-module.exports = {
+export {
   getAllProducts,
   getProductById,
   createProduct,

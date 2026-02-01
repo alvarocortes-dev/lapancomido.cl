@@ -1,9 +1,9 @@
 // src/controllers/auth.controller.js
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const prisma = require('@lapancomido/database');
-const { validatePassword, validateEmail } = require('../utils/validation');
-const authService = require('../services/auth.service');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { prisma } from '@lapancomido/database';
+import { validatePassword, validateEmail } from '../utils/validation.js';
+import * as authService from '../services/auth.service.js';
 
 const SALT_ROUNDS = 10;
 const JWT_EXPIRY = '30d';
@@ -553,7 +553,7 @@ const logoutAll = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   login,
   initiateSetup,
   verifySetupOTP,

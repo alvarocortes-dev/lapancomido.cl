@@ -8,10 +8,14 @@
  *   node scripts/migrateVideosToCloudinary.js
  */
 
-require('dotenv').config();
-const cloudinary = require('../cloudinaryConfig');
-const fs = require('fs');
-const path = require('path');
+import 'dotenv/config';
+import cloudinary from '../cloudinaryConfig.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const VIDEOS_DIR = path.join(__dirname, '../../web/src/assets/videos');
 const OUTPUT_FILE = path.join(__dirname, 'cloudinary-video-urls.json');

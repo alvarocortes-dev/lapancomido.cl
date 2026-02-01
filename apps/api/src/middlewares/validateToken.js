@@ -1,8 +1,8 @@
 // src/middlewares/validateToken.js
 
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
-module.exports.validateToken = (req, res, next) => {
+export const validateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
         return res.status(401).json({ error: 'Token no proporcionado.' });

@@ -1,6 +1,6 @@
 // index.js
-require('dotenv').config();
-const app = require('./src/server');
+import 'dotenv/config';
+import app from './src/server.js';
 
 // For local development
 if (process.env.NODE_ENV !== 'production') {
@@ -11,4 +11,4 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // Export for Vercel Serverless
-module.exports = app;
+export default app;

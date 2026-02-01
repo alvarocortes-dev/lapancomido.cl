@@ -64,12 +64,12 @@
  *         description: Missing required fields
  */
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { getStoreConfig, saveQuotationLead } = require('../controllers/store.controller');
+import { getStoreConfig, saveQuotationLead } from '../controllers/store.controller.js';
 
 // Public endpoints (no auth required)
 router.get('/config', getStoreConfig);
 router.post('/lead', saveQuotationLead);
 
-module.exports = router;
+export default router;

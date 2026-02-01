@@ -1,12 +1,11 @@
 // src/server.js
-const uploadRoute = require('./routes/uploadRoute.js');
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const routes = require('./routes/routes.js');
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./docs/routes/swaggerConfig.js');
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+import routes from './routes/routes.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './docs/routes/swaggerConfig.js';
 
 
 const app = express();
@@ -81,4 +80,4 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Algo salió mal en el servidor.' });
 });
 
-module.exports = app;
+export default app;

@@ -18,4 +18,4 @@ const computeDV = (T) => {
     return S ? S - 1 : 'k';
 };
 
-module.exports = { validaRut };
+export { validaRut };

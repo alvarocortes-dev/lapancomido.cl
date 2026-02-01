@@ -1,9 +1,9 @@
 // src/services/auth.service.js
-const crypto = require('crypto');
-const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
-const { Resend } = require('resend');
-const prisma = require('@lapancomido/database');
+import crypto from 'crypto';
+import bcrypt from 'bcrypt';
+import { v4 as uuidv4 } from 'uuid';
+import { Resend } from 'resend';
+import { prisma } from '@lapancomido/database';
 
 // Lazy Resend initialization (same pattern as contact.controller.js)
 let resendInstance = null;
@@ -312,7 +312,7 @@ const DEVICE_COOKIE_OPTIONS = {
 
 const DEVICE_COOKIE_NAME = 'lpc_device_trust';
 
-module.exports = {
+export {
   generateOTP,
   createOTPToken,
   verifyOTPToken,

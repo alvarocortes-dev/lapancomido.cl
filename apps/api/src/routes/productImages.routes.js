@@ -39,11 +39,11 @@
  *         description: Datos inválidos.
  */
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { prisma } = require('@lapancomido/database');
-const { validateToken } = require('../middlewares/validateToken');
-const isAdmin = require('../middlewares/isAdmin');
+import { prisma } from '@lapancomido/database';
+import { validateToken } from '../middlewares/validateToken.js';
+import isAdmin from '../middlewares/isAdmin.js';
 
 router.post('/save-images', validateToken, isAdmin, async (req, res, next) => {
     try {
@@ -81,4 +81,4 @@ router.post('/save-images', validateToken, isAdmin, async (req, res, next) => {
     }
 });
 
-module.exports = router;
+export default router;

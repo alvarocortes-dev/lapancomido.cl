@@ -1,5 +1,5 @@
 // src/controllers/contact.controller.js
-const { Resend } = require('resend');
+import { Resend } from 'resend';
 
 // Lazy initialization - only create Resend instance when needed
 let resendInstance = null;
@@ -120,6 +120,6 @@ const sendContactMessage = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   sendContactMessage,
 };

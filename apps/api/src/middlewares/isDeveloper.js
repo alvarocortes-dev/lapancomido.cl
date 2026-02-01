@@ -19,4 +19,4 @@ const isDeveloper = (req, res, next) => {
   next();
 };
 
-module.exports = isDeveloper;
+export default isDeveloper;

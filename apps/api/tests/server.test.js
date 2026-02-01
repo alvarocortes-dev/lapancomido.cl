@@ -1,6 +1,6 @@
-// tests/auth.test.js
-const request = require('supertest');
-const app = require('../src/server');
+// tests/server.test.js
+import request from 'supertest';
+import app from '../src/server.js';
 
 describe('POST /api/auth/register', () => {
     it('debería registrar un usuario nuevo', async () => {

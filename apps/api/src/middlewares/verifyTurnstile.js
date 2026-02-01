@@ -48,4 +48,4 @@ async function verifyTurnstile(req, res, next) {
   }
 }
 
-module.exports = verifyTurnstile;
+export default verifyTurnstile;

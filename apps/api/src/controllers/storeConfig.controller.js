@@ -1,5 +1,5 @@
 // src/controllers/storeConfig.controller.js
-const { prisma } = require('@lapancomido/database');
+import { prisma } from '@lapancomido/database';
 
 // Default config values
 const DEFAULT_CONFIG = {
@@ -86,7 +86,7 @@ const updateStoreConfig = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   getStoreConfig,
   updateStoreConfig,
 };

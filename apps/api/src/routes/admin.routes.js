@@ -171,13 +171,13 @@
  *         description: Availability toggled.
  */
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const { requireAuth, requireAdmin } = require('../middlewares/requireAuth');
-const adminProductsController = require('../controllers/adminProducts.controller');
-const categoriesController = require('../controllers/categories.controller');
-const storeConfigController = require('../controllers/storeConfig.controller');
+import { requireAuth, requireAdmin } from '../middlewares/requireAuth.js';
+import * as adminProductsController from '../controllers/adminProducts.controller.js';
+import * as categoriesController from '../controllers/categories.controller.js';
+import * as storeConfigController from '../controllers/storeConfig.controller.js';
 
 // Apply auth middleware to all admin routes
 router.use(requireAuth, requireAdmin);
@@ -200,4 +200,4 @@ router.delete('/categories/:id', categoriesController.deleteCategory);
 router.get('/config', storeConfigController.getStoreConfig);
 router.put('/config', storeConfigController.updateStoreConfig);
 
-module.exports = router;
+export default router;

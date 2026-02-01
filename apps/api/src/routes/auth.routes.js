@@ -1,10 +1,10 @@
 // src/routes/auth.routes.js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const rateLimit = require('express-rate-limit');
-const authController = require('../controllers/auth.controller');
-const { validateToken } = require('../middlewares/validateToken');
-const verifyTurnstile = require('../middlewares/verifyTurnstile');
+import rateLimit from 'express-rate-limit';
+import * as authController from '../controllers/auth.controller.js';
+import { validateToken } from '../middlewares/validateToken.js';
+import verifyTurnstile from '../middlewares/verifyTurnstile.js';
 
 // Rate limiting for auth endpoints (generous limit, actual OTP attempts tracked in DB)
 const authLimiter = rateLimit({
@@ -30,4 +30,4 @@ router.post('/resend-otp', authLimiter, authController.resendOTP);
 // Session management (requires auth)
 router.post('/logout-all', validateToken, authController.logoutAll);
 
-module.exports = router;
+export default router;

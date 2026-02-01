@@ -1,6 +1,6 @@
 // src/controllers/product.controller.js
 
-const { prisma } = require('@lapancomido/database');
+import { prisma } from '@lapancomido/database';
 
 // Endpoint para listar productos públicos con filtros
 const getProducts = async (req, res, next) => {
@@ -235,7 +235,7 @@ const deleteProduct = async (req, res, next) => {
     }
 };
 
-module.exports = {
+export {
     getProducts,
     getProductDetail,
     createProduct,

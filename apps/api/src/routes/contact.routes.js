@@ -1,9 +1,9 @@
 // src/routes/contact.routes.js
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { sendContactMessage } = require('../controllers/contact.controller');
+import { sendContactMessage } from '../controllers/contact.controller.js';
 
 // POST /api/contact - Send contact form message
 router.post('/', sendContactMessage);
 
-module.exports = router;
+export default router;

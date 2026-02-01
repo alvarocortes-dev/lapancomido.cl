@@ -1,4 +1,6 @@
 // src/docs/routes/swaggerSchemas.js
+// This file contains Swagger schema definitions that are parsed by swagger-jsdoc
+// It doesn't export anything - the JSDoc comments are used for documentation
 
 /**
  * @swagger

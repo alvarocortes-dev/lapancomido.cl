@@ -1,16 +1,16 @@
 // src/routes/routes.js
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
-const productRoutes = require('./product.routes');
-const adminRoutes = require('./admin.routes');
-const productImagesRoutes = require('./productImages.routes');
-const uploadRoute = require('./uploadRoute');
-const categoriesRoutes = require('./categories.routes');
-const storeRoutes = require('./store.routes');
-const contactRoutes = require('./contact.routes');
-const authRoutes = require('./auth.routes');
+import productRoutes from './product.routes.js';
+import adminRoutes from './admin.routes.js';
+import productImagesRoutes from './productImages.routes.js';
+import uploadRoute from './uploadRoute.js';
+import categoriesRoutes from './categories.routes.js';
+import storeRoutes from './store.routes.js';
+import contactRoutes from './contact.routes.js';
+import authRoutes from './auth.routes.js';
 
 router.use('/auth', authRoutes);
 router.use('/products', productRoutes);
@@ -23,4 +23,4 @@ router.use('/contact', contactRoutes);
 
 router.get('/test', (req, res) => res.json({ message: 'API funcionando' }));
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
 // backend/src/helpers/cloudinaryHelper.js
-const cloudinary = require('../../cloudinaryConfig'); // Ajusta la ruta si es necesario
+import cloudinary from '../../cloudinaryConfig.js'; // Ajusta la ruta si es necesario
 
 /**
  * Sube un archivo a Cloudinary.
@@ -38,4 +38,4 @@ const deleteImage = async (publicId) => {
     }
 };
 
-module.exports = { uploadImage, deleteImage };
+export { uploadImage, deleteImage };

@@ -35,11 +35,11 @@
  */
 
 // src/routes/uploadRoute.js
-const express = require('express');
-const multer = require('multer');
-const { uploadImage, deleteImage } = require('../helpers/cloudinaryHelper');
-const { validateToken } = require('../middlewares/validateToken');
-const isAdmin = require('../middlewares/isAdmin');
+import express from 'express';
+import multer from 'multer';
+import { uploadImage, deleteImage } from '../helpers/cloudinaryHelper.js';
+import { validateToken } from '../middlewares/validateToken.js';
+import isAdmin from '../middlewares/isAdmin.js';
 
 const router = express.Router();
 
@@ -80,5 +80,4 @@ router.delete('/', validateToken, isAdmin, async (req, res) => {
     }
 });
 
-module.exports = router;
-
+export default router;

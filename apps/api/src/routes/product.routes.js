@@ -43,12 +43,12 @@
  *         description: Producto no encontrado.
  */
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const productController = require('../controllers/product.controller'); // Funciones públicas
+import * as productController from '../controllers/product.controller.js'; // Funciones públicas
 
 // Rutas públicas
 router.get('/', productController.getProducts);
 router.get('/:id', productController.getProductDetail);
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
 // src/controllers/categories.controller.js
-const { prisma } = require('@lapancomido/database');
+import { prisma } from '@lapancomido/database';
 
 /**
  * Get all categories (public endpoint)
@@ -181,7 +181,7 @@ const deleteCategory = async (req, res, next) => {
     }
 };
 
-module.exports = { 
+export { 
     getCategories,
     getAdminCategories,
     createCategory,

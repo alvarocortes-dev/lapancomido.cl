@@ -18,10 +18,14 @@
  *   - CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET in .env
  */
 
-require('dotenv').config();
-const cloudinary = require('../cloudinaryConfig');
-const fs = require('fs');
-const path = require('path');
+import 'dotenv/config';
+import cloudinary from '../cloudinaryConfig.js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const IMAGES_DIR = path.join(__dirname, '../../web/src/assets/images');
 const OUTPUT_FILE = path.join(__dirname, 'cloudinary-urls.json');

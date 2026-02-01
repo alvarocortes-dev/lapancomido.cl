@@ -1,5 +1,5 @@
 // backend/src/controllers/store.controller.js
-const { prisma } = require('@lapancomido/database');
+import { prisma } from '@lapancomido/database';
 
 /**
  * Get public store configuration
@@ -57,4 +57,4 @@ const saveQuotationLead = async (req, res, next) => {
   }
 };
 
-module.exports = { getStoreConfig, saveQuotationLead };
+export { getStoreConfig, saveQuotationLead };
