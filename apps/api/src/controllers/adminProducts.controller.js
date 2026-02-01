@@ -27,11 +27,8 @@ const getAdminProducts = async (req, res, next) => {
     const result = products.map((p) => ({
       id: p.id,
       product: p.product,
-      ingredients: p.ingredients,
       price: p.price,
-      weight: p.weight,
       description: p.description,
-      nutrition: p.nutrition,
       available: p.available,
       unit_type: p.unit_type,
       pack_size: p.pack_size,
@@ -55,7 +52,7 @@ const getAdminProducts = async (req, res, next) => {
 
 /**
  * Crear un nuevo producto.
- * Body: { product, price, ingredients, weight, description, nutrition, available, stock, categories, images }
+ * Body: { product, price, description, available, stock, categories, images, pack_size, unit_type }
  */
 const createProduct = async (req, res, next) => {
   try {
@@ -65,11 +62,8 @@ const createProduct = async (req, res, next) => {
     const newProduct = await prisma.products.create({
       data: {
         product: productData.product,
-        ingredients: productData.ingredients,
         price: productData.price,
-        weight: productData.weight,
         description: productData.description,
-        nutrition: productData.nutrition,
         available: productData.available ?? false,
         unit_type: productData.unit_type ?? 'unit',
         pack_size: productData.pack_size,
@@ -158,13 +152,12 @@ const updateProductDetails = async (req, res, next) => {
     const {
       product,
       price,
-      ingredients,
-      weight,
       description,
-      nutrition,
       available,
       categories,
       images,
+      pack_size,
+      unit_type,
     } = req.body;
 
     // Update basic product data
@@ -173,11 +166,10 @@ const updateProductDetails = async (req, res, next) => {
       data: {
         product,
         price,
-        ingredients,
-        weight,
         description,
-        nutrition,
         available,
+        pack_size,
+        unit_type,
       },
     });
 

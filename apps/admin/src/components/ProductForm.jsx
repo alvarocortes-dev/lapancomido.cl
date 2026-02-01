@@ -14,10 +14,9 @@ export default function ProductForm({
   const [formData, setFormData] = useState({
     product: '',
     price: '',
-    ingredients: '',
-    weight: '',
+    pack_size: '',
+    unit_type: 'unit',
     description: '',
-    nutrition: '',
     available: false,
     stock: 0,
     categories: [],
@@ -32,10 +31,9 @@ export default function ProductForm({
       setFormData({
         product: product.product || '',
         price: product.price || '',
-        ingredients: product.ingredients || '',
-        weight: product.weight || '',
+        pack_size: product.pack_size || '',
+        unit_type: product.unit_type || 'unit',
         description: product.description || '',
-        nutrition: product.nutrition || '',
         available: product.available || false,
         stock: product.stock || 0,
         categories: product.categories || [],
@@ -148,6 +146,7 @@ export default function ProductForm({
       onSave({
         ...formData,
         price: Number(formData.price),
+        pack_size: formData.pack_size ? Number(formData.pack_size) : null,
         stock: Number(formData.stock) || 0,
       });
     }
@@ -202,15 +201,26 @@ export default function ProductForm({
 
           <div>
             <label className="block text-sm font-medium text-[#262011]/80 mb-1">
-              Peso / Cantidad
+              Cantidad
             </label>
-            <input
-              type="text"
-              value={formData.weight}
-              onChange={e => handleChange('weight', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded text-base"
-              placeholder="500g o 6 unidades"
-            />
+            <div className="flex gap-2">
+              <input
+                type="number"
+                value={formData.pack_size}
+                onChange={e => handleChange('pack_size', e.target.value)}
+                className="flex-1 px-4 py-3 border border-gray-200 rounded text-base"
+                placeholder="6"
+                min="1"
+              />
+              <select
+                value={formData.unit_type}
+                onChange={e => handleChange('unit_type', e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded text-base bg-white min-w-[100px]"
+              >
+                <option value="unit">cant</option>
+                <option value="pack">pack</option>
+              </select>
+            </div>
           </div>
 
           <div className="md:col-span-2">
@@ -223,32 +233,6 @@ export default function ProductForm({
               className="w-full px-4 py-3 border border-gray-200 rounded text-base"
               rows={3}
               placeholder="Descripción del producto..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#262011]/80 mb-1">
-              Ingredientes
-            </label>
-            <textarea
-              value={formData.ingredients}
-              onChange={e => handleChange('ingredients', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded text-base"
-              rows={2}
-              placeholder="Harina, agua, sal, masa madre..."
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[#262011]/80 mb-1">
-              Info Nutricional
-            </label>
-            <textarea
-              value={formData.nutrition}
-              onChange={e => handleChange('nutrition', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-200 rounded text-base"
-              rows={2}
-              placeholder="Información nutricional..."
             />
           </div>
 
