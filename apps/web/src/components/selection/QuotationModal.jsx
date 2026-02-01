@@ -95,6 +95,19 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
     }
   };
 
+  const saveConsultation = async (data) => {
+    try {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/store/consultation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+    } catch (error) {
+      // Don't block WhatsApp flow if save fails - silent failure
+      console.error("Failed to save consultation:", error);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!validate()) return;
     if (selection.length === 0) {
@@ -110,6 +123,21 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
 
       // Build full phone number with country code
       const fullPhone = `${form.countryCode} ${form.phone}`;
+
+      // Build consultation data for history
+      const consultationData = {
+        customerName: form.name.trim(),
+        customerPhone: fullPhone,
+        products: selection.map(item => ({
+          productId: item.id,
+          productName: item.product,
+          unitPrice: Number(item.price),
+          quantity: item.quantity
+        }))
+      };
+
+      // Fire and forget - save consultation for history (don't await)
+      saveConsultation(consultationData);
 
       // Generate WhatsApp link
       const link = generateWhatsAppLink(storeConfig.whatsapp_number, {
