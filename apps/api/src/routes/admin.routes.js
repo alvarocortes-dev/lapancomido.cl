@@ -153,22 +153,39 @@
  *     responses:
  *       200:
  *         description: Stock actualizado.
+ *
+ * /admin/products/{id}/toggle:
+ *   patch:
+ *     summary: Toggle product availability
+ *     tags: [Admin]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Availability toggled.
  */
 
 const express = require('express');
 const router = express.Router();
 
-// Note: Auth middleware will be implemented in Phase 5
-// For now, product management is available without auth
-// TODO: Phase 5 - Add validateToken and isAdmin middlewares
-
+const { requireAuth, requireAdmin } = require('../middlewares/requireAuth');
 const adminProductsController = require('../controllers/adminProducts.controller');
 
-// Product management routes (used for catalog administration)
+// Apply auth middleware to all admin routes
+router.use(requireAuth, requireAdmin);
+
+// Product management routes
+router.get('/products', adminProductsController.getAdminProducts);
 router.post('/products', adminProductsController.createProduct);
 router.put('/products/:id', adminProductsController.updateProductDetails);
 router.put('/products/:id/stock', adminProductsController.updateStock);
+router.patch('/products/:id/toggle', adminProductsController.toggleAvailability);
 router.delete('/products', adminProductsController.deleteMultipleProducts);
-router.get('/products', adminProductsController.getAdminProducts);
 
 module.exports = router;

@@ -4,11 +4,15 @@ import { useState } from "react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";
+import ProductsPage from "./pages/ProductsPage";
+import ProductCreatePage from "./pages/ProductCreatePage";
+import ProductEditPage from "./pages/ProductEditPage";
 import "./index.css";
 
 function AdminContent() {
   const { isAuthenticated, loading, user, logout, isDeveloper } = useAuth();
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState('products');
+  const [editingProduct, setEditingProduct] = useState(null);
 
   if (loading) {
     return (
@@ -21,6 +25,28 @@ function AdminContent() {
   if (!isAuthenticated) {
     return <LoginPage />;
   }
+
+  function handleEditProduct(product) {
+    setEditingProduct(product);
+    setCurrentPage('product-edit');
+  }
+
+  function handleCreateProduct() {
+    setCurrentPage('product-create');
+  }
+
+  function handleProductSaved() {
+    setEditingProduct(null);
+    setCurrentPage('products');
+  }
+
+  function handleBack() {
+    setEditingProduct(null);
+    setCurrentPage('products');
+  }
+
+  // Determine which pages are "active" for nav styling
+  const isProductsActive = ['products', 'product-create', 'product-edit'].includes(currentPage);
 
   return (
     <div className="min-h-screen bg-[#FDF8E8]">
@@ -46,20 +72,20 @@ function AdminContent() {
       
       {/* Navigation */}
       <nav className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 flex gap-4">
+        <div className="max-w-7xl mx-auto px-4 flex gap-4 overflow-x-auto">
           <button
-            onClick={() => setCurrentPage('dashboard')}
-            className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px ${
-              currentPage === 'dashboard' 
+            onClick={() => setCurrentPage('products')}
+            className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
+              isProductsActive 
                 ? 'border-[#262011] text-[#262011]' 
                 : 'border-transparent text-[#262011]/60 hover:text-[#262011]'
             }`}
           >
-            Dashboard
+            Productos
           </button>
           <button
             onClick={() => setCurrentPage('settings')}
-            className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px ${
+            className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
               currentPage === 'settings' 
                 ? 'border-[#262011] text-[#262011]' 
                 : 'border-transparent text-[#262011]/60 hover:text-[#262011]'
@@ -71,24 +97,37 @@ function AdminContent() {
       </nav>
       
       <main className="max-w-7xl mx-auto p-4 sm:p-6">
-        {currentPage === 'dashboard' && (
-          <div className="bg-white rounded-xl shadow-sm p-6 sm:p-8 text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#262011] mb-2">
-              ¡Bienvenido, {user?.username}!
-            </h2>
-            <p className="text-[#262011]/60 text-sm sm:text-base">
-              El panel de administración estará disponible en la siguiente fase.
-            </p>
-            {isDeveloper && (
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg text-blue-700 text-sm">
-                Tienes acceso de desarrollador.
-              </div>
-            )}
-          </div>
+        {currentPage === 'products' && (
+          <ProductsPage 
+            onEdit={handleEditProduct}
+            onCreate={handleCreateProduct}
+          />
+        )}
+        
+        {currentPage === 'product-create' && (
+          <ProductCreatePage 
+            onBack={handleBack}
+            onSuccess={handleProductSaved}
+          />
+        )}
+        
+        {currentPage === 'product-edit' && editingProduct && (
+          <ProductEditPage 
+            product={editingProduct}
+            onBack={handleBack}
+            onSuccess={handleProductSaved}
+          />
         )}
         
         {currentPage === 'settings' && <SettingsPage />}
       </main>
+
+      {/* Developer badge */}
+      {isDeveloper && (
+        <div className="fixed bottom-4 right-4 px-3 py-1 bg-blue-500 text-white text-xs rounded-full">
+          DEV
+        </div>
+      )}
     </div>
   );
 }

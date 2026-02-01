@@ -5,15 +5,15 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Los clientes pueden seleccionar productos del catálogo y enviar una consulta estructurada por WhatsApp al dueño en menos de 30 segundos.
-**Current focus:** Phase 4 - Arquitectura Split (COMPLETE - pending Vercel deploy)
+**Current focus:** Phase 6 - Panel Admin (IN PROGRESS)
 
 ## Current Position
 
-Phase: 4 of 9 (Arquitectura Split + Limpieza) - COMPLETE ✓
-Next: Phase 5 - Admin Auth (OTP)
-Status: Phase 4 code complete, pending manual Vercel subdomain configuration
+Phase: 6 of 9 (Panel Admin) - IN PROGRESS
+Next: Plan 06-01 - CRUD Productos con Upload Cloudinary
+Status: Phase 6 plans created, beginning execution
 
-Progress: [███████████░░░░░░░░░] 55%
+Progress: [████████████████░░░░] 64%
 
 ## Performance Metrics
 

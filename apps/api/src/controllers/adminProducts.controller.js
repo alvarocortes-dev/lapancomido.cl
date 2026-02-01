@@ -1,47 +1,53 @@
-// backend/src/controllers/adminProducts.controller.js
-const db = require('../config/db');
-const Product = require('../models/Product');
-const schema = process.env.DB_SCHEMA;
+// src/controllers/adminProducts.controller.js
+const { prisma } = require('@lapancomido/database');
 const cloudinary = require('../../cloudinaryConfig');
 
 /**
  * Listar productos para admin.
- * Retorna cada producto con la imagen principal, stock, categorías y un arreglo "images"
- * con objetos { secure_url, public_id }.
+ * Retorna cada producto con imagen principal, stock, categorías y todas las imágenes.
  */
 const getAdminProducts = async (req, res, next) => {
   try {
-    const query = `
-        SELECT 
-          p.*,
-          pi_main.url_img,
-          (SELECT stock FROM ${schema}.stock WHERE id_product = p.id) AS stock,
-          cat.categories,
-          (
-            SELECT array_agg(json_build_object('secure_url', url_img, 'public_id', cloudinary_public_id) ORDER BY id)
-            FROM ${schema}.product_img
-            WHERE id_product = p.id
-          ) AS images
-        FROM ${schema}.products p
-        LEFT JOIN (
-          SELECT DISTINCT ON (id_product) 
-            id_product, 
-            url_img
-          FROM ${schema}.product_img
-          ORDER BY id_product, id
-        ) pi_main ON p.id = pi_main.id_product
-        LEFT JOIN (
-          SELECT 
-            cp.id_product, 
-            array_agg(c.category) AS categories
-          FROM ${schema}.categories_products cp
-          INNER JOIN ${schema}.categories c ON cp.id_category = c.id
-          GROUP BY cp.id_product
-        ) cat ON p.id = cat.id_product
-        ORDER BY p.id;
-      `;
-    const { rows } = await db.query(query);
-    res.json(rows);
+    const products = await prisma.products.findMany({
+      include: {
+        stock: true,
+        images: {
+          orderBy: { id: 'asc' },
+        },
+        categories_products: {
+          include: {
+            category: true,
+          },
+        },
+      },
+      orderBy: { id: 'asc' },
+    });
+
+    // Transform to expected format
+    const result = products.map((p) => ({
+      id: p.id,
+      product: p.product,
+      ingredients: p.ingredients,
+      price: p.price,
+      weight: p.weight,
+      description: p.description,
+      nutrition: p.nutrition,
+      available: p.available,
+      unit_type: p.unit_type,
+      pack_size: p.pack_size,
+      created_at: p.created_at,
+      updated_at: p.updated_at,
+      url_img: p.images[0]?.url_img || null,
+      stock: p.stock[0]?.stock || 0,
+      categories: p.categories_products.map((cp) => cp.category.category),
+      images: p.images.map((img) => ({
+        id: img.id,
+        secure_url: img.url_img,
+        public_id: img.cloudinary_public_id,
+      })),
+    }));
+
+    res.json(result);
   } catch (err) {
     next(err);
   }
@@ -49,67 +55,106 @@ const getAdminProducts = async (req, res, next) => {
 
 /**
  * Crear un nuevo producto.
- * Se espera un body con:
- * {
- *   "product": "Pan Artesanal",
- *   "price": 250,
- *   "ingredients": "Harina, agua, levadura",
- *   "weight": 0.5,
- *   "description": "Descripción del producto",
- *   "nutrition": "Alto en fibra",
- *   "available": false,  // por defecto false
- *   "stock": 100,
- *   "categories": ["Categoría1", "Categoría2"],
- *   "images": [ ... ] // Opcional (para reenvío en edición)
- * }
+ * Body: { product, price, ingredients, weight, description, nutrition, available, stock, categories, images }
  */
 const createProduct = async (req, res, next) => {
   try {
-    const { stock, categories, ...productData } = req.body;
-    const newProduct = await Product.createProduct(productData);
+    const { stock, categories, images, ...productData } = req.body;
 
-    // Insertar stock inicial
-    const initialStock = stock !== undefined ? stock : 0;
-    const stockRecord = await Product.createStock(newProduct.id, initialStock);
-    newProduct.stock = stockRecord.stock;
+    // Create product with nested relations
+    const newProduct = await prisma.products.create({
+      data: {
+        product: productData.product,
+        ingredients: productData.ingredients,
+        price: productData.price,
+        weight: productData.weight,
+        description: productData.description,
+        nutrition: productData.nutrition,
+        available: productData.available ?? false,
+        unit_type: productData.unit_type ?? 'unit',
+        pack_size: productData.pack_size,
+        // Create initial stock
+        stock: {
+          create: {
+            stock: stock ?? 0,
+          },
+        },
+      },
+    });
 
-    // Insertar categorías (si se proporcionan)
-    if (Array.isArray(categories)) {
+    // Handle categories
+    if (Array.isArray(categories) && categories.length > 0) {
       for (const catName of categories) {
-        const catSelectQuery = `SELECT id FROM ${schema}.categories WHERE category = $1`;
-        const catSelectResult = await db.query(catSelectQuery, [catName]);
-        let catId;
-        if (catSelectResult.rows.length > 0) {
-          catId = catSelectResult.rows[0].id;
-        } else {
-          const catInsertQuery = `
-            INSERT INTO ${schema}.categories (category)
-            VALUES ($1) RETURNING id
-          `;
-          const catInsertResult = await db.query(catInsertQuery, [catName]);
-          catId = catInsertResult.rows[0].id;
+        // Find or create category
+        let category = await prisma.categories.findUnique({
+          where: { category: catName },
+        });
+        
+        if (!category) {
+          category = await prisma.categories.create({
+            data: { category: catName },
+          });
         }
-        const cpInsertQuery = `
-          INSERT INTO ${schema}.categories_products (id_product, id_category)
-          VALUES ($1, $2)
-        `;
-        await db.query(cpInsertQuery, [newProduct.id, catId]);
+
+        // Create junction
+        await prisma.categories_products.create({
+          data: {
+            id_product: newProduct.id,
+            id_category: category.id,
+          },
+        });
       }
     }
 
-    res.status(201).json(newProduct);
+    // Handle images
+    if (Array.isArray(images) && images.length > 0) {
+      for (const img of images) {
+        if (img.secure_url) {
+          await prisma.product_img.create({
+            data: {
+              id_product: newProduct.id,
+              url_img: img.secure_url,
+              cloudinary_public_id: img.public_id || null,
+            },
+          });
+        }
+      }
+    }
+
+    // Fetch complete product
+    const result = await prisma.products.findUnique({
+      where: { id: newProduct.id },
+      include: {
+        stock: true,
+        images: true,
+        categories_products: {
+          include: { category: true },
+        },
+      },
+    });
+
+    res.status(201).json({
+      ...result,
+      stock: result.stock[0]?.stock || 0,
+      categories: result.categories_products.map((cp) => cp.category.category),
+    });
   } catch (err) {
     next(err);
   }
 };
 
 /**
- * Actualizar datos del producto, incluyendo categorías y las imágenes.
- * Se espera en el body: product, price, ingredients, weight, description, nutrition, available, categories, images.
+ * Actualizar datos del producto, incluyendo categorías e imágenes.
  */
 const updateProductDetails = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const productId = parseInt(id, 10);
+
+    if (isNaN(productId)) {
+      return res.status(400).json({ error: 'ID de producto inválido.' });
+    }
+
     const {
       product,
       price,
@@ -119,204 +164,260 @@ const updateProductDetails = async (req, res, next) => {
       nutrition,
       available,
       categories,
-      images // Se espera que, en el caso de edición, este arreglo sea enviado únicamente si hubo cambios
+      images,
     } = req.body;
 
-    // Actualizar datos básicos del producto
-    const updateQuery = `
-        UPDATE ${schema}.products
-        SET product = $1,
-            price = $2,
-            ingredients = $3,
-            weight = $4,
-            description = $5,
-            nutrition = $6,
-            available = $7,
-            updated_at = NOW()
-        WHERE id = $8
-        RETURNING *
-      `;
-    const updateValues = [product, price, ingredients, weight, description, nutrition, available, id];
-    const { rows } = await db.query(updateQuery, updateValues);
-    const updatedProduct = rows[0];
+    // Update basic product data
+    const updatedProduct = await prisma.products.update({
+      where: { id: productId },
+      data: {
+        product,
+        price,
+        ingredients,
+        weight,
+        description,
+        nutrition,
+        available,
+      },
+    });
 
-    // Actualizar categorías
-    // Primero eliminamos las relaciones antiguas
-    await db.query(`DELETE FROM ${schema}.categories_products WHERE id_product = $1`, [id]);
+    // Update categories
+    // First delete all existing
+    await prisma.categories_products.deleteMany({
+      where: { id_product: productId },
+    });
 
+    // Then add new ones
     if (Array.isArray(categories)) {
       for (const catName of categories) {
-        const catSelectResult = await db.query(
-          `SELECT id FROM ${schema}.categories WHERE category = $1`,
-          [catName]
-        );
-        let catId;
-        if (catSelectResult.rows.length > 0) {
-          catId = catSelectResult.rows[0].id;
-        } else {
-          const catInsertResult = await db.query(
-            `INSERT INTO ${schema}.categories (category) VALUES ($1) RETURNING id`,
-            [catName]
-          );
-          catId = catInsertResult.rows[0].id;
+        let category = await prisma.categories.findUnique({
+          where: { category: catName },
+        });
+
+        if (!category) {
+          category = await prisma.categories.create({
+            data: { category: catName },
+          });
         }
-        await db.query(
-          `INSERT INTO ${schema}.categories_products (id_product, id_category) VALUES ($1, $2)`,
-          [id, catId]
-        );
+
+        await prisma.categories_products.create({
+          data: {
+            id_product: productId,
+            id_category: category.id,
+          },
+        });
       }
     }
 
-    // Eliminar categorías huérfanas: aquellas que no están asociadas a ningún producto
-    await db.query(`
-      DELETE FROM ${schema}.categories
+    // Clean up orphan categories
+    await prisma.$executeRaw`
+      DELETE FROM pancomido.categories
       WHERE id NOT IN (
-        SELECT DISTINCT id_category FROM ${schema}.categories_products
+        SELECT DISTINCT id_category FROM pancomido.categories_products
       )
-    `);
+    `;
 
-    // Actualizar imágenes solo si el payload incluye la propiedad "images"
+    // Handle images if provided
     if (req.body.hasOwnProperty('images')) {
-      // 1. Obtener las imágenes actuales de la BD para este producto
-      const currentImagesResult = await db.query(
-        `SELECT * FROM ${schema}.product_img WHERE id_product = $1`,
-        [id]
-      );
-      const currentImages = currentImagesResult.rows;
-      const currentPublicIds = currentImages.map(img => img.cloudinary_public_id);
+      // Get current images
+      const currentImages = await prisma.product_img.findMany({
+        where: { id_product: productId },
+      });
+      const currentPublicIds = currentImages
+        .map((img) => img.cloudinary_public_id)
+        .filter(Boolean);
 
-      // 2. Procesar el arreglo enviado en el payload
-      // Se espera que cada objeto en "images" tenga al menos:
-      //   - secure_url (o url)
-      //   - public_id
-      const newImages = images; // Arreglo de imágenes enviado por el frontend
-      const newPublicIds = newImages.map(img => img.public_id).filter(pid => pid);
+      // Get new public IDs
+      const newImages = images || [];
+      const newPublicIds = newImages.map((img) => img.public_id).filter(Boolean);
 
-      // 3. Eliminar las imágenes que ya no estén en el payload
+      // Delete removed images
       const imagesToDelete = currentImages.filter(
-        img => !newPublicIds.includes(img.cloudinary_public_id)
+        (img) => img.cloudinary_public_id && !newPublicIds.includes(img.cloudinary_public_id)
       );
+
       for (const img of imagesToDelete) {
         try {
-          await cloudinary.uploader.destroy(img.cloudinary_public_id);
+          if (img.cloudinary_public_id) {
+            await cloudinary.uploader.destroy(img.cloudinary_public_id);
+          }
         } catch (error) {
           console.error(`Error deleting image ${img.cloudinary_public_id}:`, error);
-          // Se puede decidir reintentar o continuar según la política de errores
         }
-        await db.query(`DELETE FROM ${schema}.product_img WHERE id = $1`, [img.id]);
+        await prisma.product_img.delete({
+          where: { id: img.id },
+        });
       }
 
-      // 4. Insertar las nuevas imágenes (aquellas que estén en el payload pero no en la BD)
+      // Insert new images
       const imagesToInsert = newImages.filter(
-        img => !currentPublicIds.includes(img.public_id)
+        (img) => img.public_id && !currentPublicIds.includes(img.public_id)
       );
+
       for (const img of imagesToInsert) {
-        // Solo insertar si se tiene tanto la URL como el public_id
         if (img.secure_url && img.public_id) {
-          const insertImgQuery = `
-              INSERT INTO ${schema}.product_img (id_product, url_img, cloudinary_public_id)
-              VALUES ($1, $2, $3)
-            `;
-          await db.query(insertImgQuery, [id, img.secure_url, img.public_id]);
+          await prisma.product_img.create({
+            data: {
+              id_product: productId,
+              url_img: img.secure_url,
+              cloudinary_public_id: img.public_id,
+            },
+          });
         }
       }
     }
 
-    res.json(updatedProduct);
+    // Fetch and return complete product
+    const result = await prisma.products.findUnique({
+      where: { id: productId },
+      include: {
+        stock: true,
+        images: true,
+        categories_products: {
+          include: { category: true },
+        },
+      },
+    });
+
+    res.json({
+      ...result,
+      stock: result.stock[0]?.stock || 0,
+      categories: result.categories_products.map((cp) => cp.category.category),
+    });
   } catch (err) {
+    if (err.code === 'P2025') {
+      return res.status(404).json({ error: 'Producto no encontrado.' });
+    }
     next(err);
   }
 };
-
 
 /**
  * Actualizar stock de un producto.
  */
 const updateStock = async (req, res, next) => {
   try {
-    const { id } = req.params; // id del producto
+    const { id } = req.params;
+    const productId = parseInt(id, 10);
     const { stock } = req.body;
-    const query = `
-      UPDATE ${schema}.stock
-      SET stock = $1,
-          updated_at = NOW()
-      WHERE id_product = $2
-      RETURNING *
-    `;
-    const { rows } = await db.query(query, [stock, id]);
-    if (rows.length === 0) {
+
+    if (isNaN(productId)) {
+      return res.status(400).json({ error: 'ID de producto inválido.' });
+    }
+
+    // Find existing stock record
+    const existingStock = await prisma.stock.findFirst({
+      where: { id_product: productId },
+    });
+
+    if (!existingStock) {
       return res.status(404).json({ error: 'Producto no encontrado en stock' });
     }
-    res.json(rows[0]);
+
+    const updatedStock = await prisma.stock.update({
+      where: { id: existingStock.id },
+      data: { stock },
+    });
+
+    res.json(updatedStock);
   } catch (err) {
     next(err);
   }
 };
 
 /**
- * Eliminar productos múltiples y borrar categorías huérfanas.
- * Además, elimina las imágenes asociadas en Cloudinary usando cloudinary_public_id
- * y su carpeta contenedora con el id de producto.
+ * Eliminar productos múltiples con limpieza de Cloudinary.
  */
 const deleteMultipleProducts = async (req, res, next) => {
   try {
     const { productIds } = req.body;
+
     if (!Array.isArray(productIds) || productIds.length === 0) {
       return res.status(400).json({ error: 'Se requiere un arreglo de productIds' });
     }
 
-    // Para cada producto a eliminar, obtener las imágenes y borrarlas de Cloudinary
+    // For each product, delete Cloudinary images
     for (const productId of productIds) {
-      const imageQuery = `SELECT * FROM ${schema}.product_img WHERE id_product = $1`;
-      const { rows: imageRows } = await db.query(imageQuery, [productId]);
-      for (const img of imageRows) {
-        try {
-          await cloudinary.uploader.destroy(img.cloudinary_public_id);
-        } catch (cloudErr) {
-          console.error(`Error eliminando imagen ${img.cloudinary_public_id} en Cloudinary:`, cloudErr);
-          // Se continúa con la eliminación de las demás imágenes
+      const images = await prisma.product_img.findMany({
+        where: { id_product: productId },
+      });
+
+      for (const img of images) {
+        if (img.cloudinary_public_id) {
+          try {
+            await cloudinary.uploader.destroy(img.cloudinary_public_id);
+          } catch (cloudErr) {
+            console.error(`Error eliminando imagen ${img.cloudinary_public_id}:`, cloudErr);
+          }
         }
       }
-      // Intentar eliminar la carpeta asociada al producto
+
+      // Try to delete folder
       try {
         await cloudinary.api.delete_folder(`productos/${productId}`);
       } catch (folderErr) {
-        console.error(`Error eliminando carpeta products/${productId}:`, folderErr);
-        // Nota: Si la carpeta no está vacía o no existe, se mostrará un error; puedes decidir si abortar o continuar.
+        // Folder might not exist or not be empty
+        console.error(`Error eliminando carpeta productos/${productId}:`, folderErr);
       }
     }
 
-    // Eliminar registros de imágenes en la BD
-    const deleteImagesQuery = `
-      DELETE FROM ${schema}.product_img
-      WHERE id_product = ANY($1::int[])
-    `;
-    await db.query(deleteImagesQuery, [productIds]);
+    // Delete products (cascades to images, stock, categories_products)
+    const deletedProducts = await prisma.products.deleteMany({
+      where: {
+        id: { in: productIds },
+      },
+    });
 
-    // Eliminar los productos
-    const deleteProductsQuery = `
-      DELETE FROM ${schema}.products
-      WHERE id = ANY($1::int[])
-      RETURNING *
-    `;
-    const { rows } = await db.query(deleteProductsQuery, [productIds]);
-
-    // Eliminar categorías huérfanas: aquellas que no están asociadas a ningún producto
-    const orphanQuery = `
-      DELETE FROM ${schema}.categories
+    // Clean up orphan categories
+    await prisma.$executeRaw`
+      DELETE FROM pancomido.categories
       WHERE id NOT IN (
-        SELECT DISTINCT id_category FROM ${schema}.categories_products
+        SELECT DISTINCT id_category FROM pancomido.categories_products
       )
-      RETURNING *
     `;
-    await db.query(orphanQuery);
 
-    res.json({ message: 'Productos eliminados', products: rows });
+    res.json({ 
+      message: 'Productos eliminados', 
+      count: deletedProducts.count,
+    });
   } catch (err) {
     next(err);
   }
 };
 
+/**
+ * Toggle product availability (quick action)
+ */
+const toggleAvailability = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const productId = parseInt(id, 10);
+
+    if (isNaN(productId)) {
+      return res.status(400).json({ error: 'ID de producto inválido.' });
+    }
+
+    // Get current state
+    const product = await prisma.products.findUnique({
+      where: { id: productId },
+      select: { available: true },
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: 'Producto no encontrado.' });
+    }
+
+    // Toggle
+    const updated = await prisma.products.update({
+      where: { id: productId },
+      data: { available: !product.available },
+    });
+
+    res.json({ id: updated.id, available: updated.available });
+  } catch (err) {
+    next(err);
+  }
+};
 
 module.exports = {
   getAdminProducts,
@@ -324,4 +425,5 @@ module.exports = {
   updateProductDetails,
   updateStock,
   deleteMultipleProducts,
+  toggleAvailability,
 };

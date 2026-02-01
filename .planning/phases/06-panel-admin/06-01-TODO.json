@@ -1,0 +1,13 @@
+[
+  {"id": "1", "content": "Add cloudinary_public_id to product_img schema", "status": "pending", "priority": "high"},
+  {"id": "2", "content": "Migrate adminProducts.controller.js to Prisma", "status": "pending", "priority": "high"},
+  {"id": "3", "content": "Create requireAuth middleware for admin routes", "status": "pending", "priority": "high"},
+  {"id": "4", "content": "Apply auth middleware to admin.routes.js", "status": "pending", "priority": "high"},
+  {"id": "5", "content": "Create admin/src/api/products.js API client", "status": "pending", "priority": "high"},
+  {"id": "6", "content": "Create ProductsPage.jsx with product list", "status": "pending", "priority": "high"},
+  {"id": "7", "content": "Create ProductForm.jsx component", "status": "pending", "priority": "high"},
+  {"id": "8", "content": "Create ImageUpload.jsx component", "status": "pending", "priority": "high"},
+  {"id": "9", "content": "Create ProductCreatePage and ProductEditPage", "status": "pending", "priority": "high"},
+  {"id": "10", "content": "Update main.jsx with Products navigation and routing", "status": "pending", "priority": "high"},
+  {"id": "11", "content": "Test and verify all endpoints work", "status": "pending", "priority": "high"}
+]

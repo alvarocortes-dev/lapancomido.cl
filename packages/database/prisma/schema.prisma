@@ -41,10 +41,11 @@ model products {
 }
 
 model product_img {
-  id         Int      @id @default(autoincrement())
-  id_product Int
-  url_img    String
-  created_at DateTime @default(now())
+  id                   Int      @id @default(autoincrement())
+  id_product           Int
+  url_img              String
+  cloudinary_public_id String?  // For Cloudinary deletion
+  created_at           DateTime @default(now())
 
   // Relations
   product products @relation(fields: [id_product], references: [id], onDelete: Cascade)
