@@ -1,8 +1,19 @@
 // src/controllers/contact.controller.js
 const { Resend } = require('resend');
 
-// Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy initialization - only create Resend instance when needed
+let resendInstance = null;
+
+const getResend = () => {
+  if (!resendInstance) {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
+      return null;
+    }
+    resendInstance = new Resend(apiKey);
+  }
+  return resendInstance;
+};
 
 // Default contact email - will be configurable by admin later
 const DEFAULT_CONTACT_EMAIL = 'lapancomido@outlook.com';
@@ -26,6 +37,15 @@ const sendContactMessage = async (req, res) => {
     if (!emailRegex.test(email)) {
       return res.status(400).json({ 
         error: 'Email inválido' 
+      });
+    }
+
+    // Check if Resend is configured
+    const resend = getResend();
+    if (!resend) {
+      console.warn('RESEND_API_KEY not configured - contact form disabled');
+      return res.status(503).json({ 
+        error: 'El servicio de contacto no está disponible temporalmente' 
       });
     }
 
