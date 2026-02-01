@@ -16,7 +16,7 @@ const getResend = () => {
 };
 
 // Default contact email - will be configurable by admin later
-const DEFAULT_CONTACT_EMAIL = 'lapancomido@outlook.com, lapancomido@gmail.com';
+const DEFAULT_CONTACT_EMAIL = 'lapancomido@gmail.com';
 
 /**
  * Send contact form message via Resend

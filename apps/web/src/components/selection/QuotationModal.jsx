@@ -221,12 +221,11 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
           help={errors.phone}
         >
           <PhoneInput
-            international
             defaultCountry="CL"
             labels={es}
             value={form.phone}
             onChange={(phone) => handleChange("phone", phone || "")}
-            placeholder="Ingresa tu celular"
+            placeholder="9 1234 5678"
             className="phone-input-custom"
           />
         </Form.Item>
