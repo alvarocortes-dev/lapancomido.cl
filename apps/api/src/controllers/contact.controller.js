@@ -15,8 +15,9 @@ const getResend = () => {
   return resendInstance;
 };
 
-// Default contact email - will be configurable by admin later
-const DEFAULT_CONTACT_EMAIL = 'lapancomido@gmail.com';
+// Default contact emails - will be configurable by admin later
+// Supports multiple emails separated by comma
+const DEFAULT_CONTACT_EMAILS = 'lapancomido@gmail.com, lapancomido@outlook.com';
 
 /**
  * Send contact form message via Resend
@@ -49,14 +50,16 @@ const sendContactMessage = async (req, res) => {
       });
     }
 
-    // Get contact email from store config or use default
+    // Get contact emails from store config or use default
     // TODO: Fetch from database when admin panel is ready
-    const contactEmail = DEFAULT_CONTACT_EMAIL;
+    const contactEmailsRaw = DEFAULT_CONTACT_EMAILS;
+    // Parse comma-separated emails into array and trim whitespace
+    const contactEmails = contactEmailsRaw.split(',').map(e => e.trim()).filter(Boolean);
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
       from: 'La Pan Comido <onboarding@resend.dev>',
-      to: [contactEmail],
+      to: contactEmails,
       replyTo: email,
       subject: `Nuevo mensaje de contacto de ${fullName}`,
       html: `

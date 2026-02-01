@@ -1,17 +1,19 @@
 // src/components/selection/QuotationModal.jsx
 import { useState } from "react";
-import { Modal, Input, Button, Form } from "antd";
+import { Modal, Input, Button, Form, Select } from "antd";
 import { toast } from "react-toastify";
 import { DeleteOutlined } from "@ant-design/icons";
-import PhoneInput from "react-phone-number-input";
-import { isPossiblePhoneNumber } from "react-phone-number-input";
-import es from "react-phone-number-input/locale/es";
-import "react-phone-number-input/style.css";
 
 import { useSelection } from "../../hooks/useSelection";
 import { formatCLP } from "../../helpers/formatPrice.helper";
 import { generateWhatsAppLink } from "../../helpers/whatsapp.helper";
 import { QuantityControl } from "../catalog/QuantityControl";
+import { 
+  formatChileanPhone, 
+  unformatPhone, 
+  isValidChileanPhone,
+  countryCodes 
+} from "../../helpers/formatPhone.helper";
 
 const { TextArea } = Input;
 
@@ -32,6 +34,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
   
   const [form, setForm] = useState({
     name: "",
+    countryCode: "+56",
     phone: "",
     email: "",
     comment: ""
@@ -47,6 +50,17 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
     }
   };
 
+  const handlePhoneChange = (e) => {
+    const raw = unformatPhone(e.target.value);
+    // Limit to 9 digits for Chilean phones
+    const limited = raw.slice(0, 9);
+    setForm((prev) => ({ ...prev, phone: limited }));
+    // Clear error when user types
+    if (errors.phone) {
+      setErrors((prev) => ({ ...prev, phone: null }));
+    }
+  };
+
   const validate = () => {
     const newErrors = {};
     
@@ -56,8 +70,8 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
     
     if (!form.phone) {
       newErrors.phone = "Celular requerido";
-    } else if (!isPossiblePhoneNumber(form.phone)) {
-      newErrors.phone = "Celular inválido";
+    } else if (!isValidChileanPhone(form.phone)) {
+      newErrors.phone = "Celular inválido (9 dígitos)";
     }
     
     setErrors(newErrors);
@@ -71,7 +85,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name.trim(),
-          phone: form.phone,
+          phone: `${form.countryCode} ${form.phone}`,
           email: form.email.trim() || null
         })
       });
@@ -97,7 +111,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
       // Generate WhatsApp link
       const link = generateWhatsAppLink(storeConfig.whatsapp_number, {
         customerName: form.name.trim(),
-        customerPhone: form.phone,
+        customerPhone: `${form.countryCode} ${form.phone}`,
         products: selection,
         greeting: storeConfig.greeting,
         showPrices: storeConfig.show_prices,
@@ -109,7 +123,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
 
       // Clear selection and close modal
       clearSelection();
-      setForm({ name: "", phone: "", email: "", comment: "" });
+      setForm({ name: "", countryCode: "+56", phone: "", email: "", comment: "" });
       onClose();
       
       toast.success("Redirigiendo a WhatsApp...");
@@ -220,14 +234,24 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
           validateStatus={errors.phone ? "error" : ""}
           help={errors.phone}
         >
-          <PhoneInput
-            defaultCountry="CL"
-            labels={es}
-            value={form.phone}
-            onChange={(phone) => handleChange("phone", phone || "")}
-            placeholder="9 1234 5678"
-            className="phone-input-custom"
-          />
+          <div className="flex gap-2">
+            <Select
+              value={form.countryCode}
+              onChange={(value) => handleChange("countryCode", value)}
+              className="w-28"
+              options={countryCodes.map((c) => ({
+                value: c.code,
+                label: `${c.flag} ${c.code}`,
+              }))}
+            />
+            <Input
+              placeholder="9 1234 5678"
+              value={formatChileanPhone(form.phone)}
+              onChange={handlePhoneChange}
+              className="flex-1"
+              maxLength={11}
+            />
+          </div>
         </Form.Item>
 
         <Form.Item label="Email (opcional)">

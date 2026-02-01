@@ -2,19 +2,13 @@
 import { useState } from "react";
 import { Modal, Input, Select, Button } from "antd";
 import { toast } from "react-toastify";
+import { 
+  formatChileanPhone, 
+  unformatPhone, 
+  countryCodes 
+} from "../helpers/formatPhone.helper";
 
 const { TextArea } = Input;
-
-// Common country codes for Chile and surrounding countries
-const countryCodes = [
-  { code: "+56", country: "Chile", flag: "🇨🇱" },
-  { code: "+54", country: "Argentina", flag: "🇦🇷" },
-  { code: "+51", country: "Perú", flag: "🇵🇪" },
-  { code: "+591", country: "Bolivia", flag: "🇧🇴" },
-  { code: "+57", country: "Colombia", flag: "🇨🇴" },
-  { code: "+1", country: "USA/Canadá", flag: "🇺🇸" },
-  { code: "+34", country: "España", flag: "🇪🇸" },
-];
 
 /**
  * Contact modal with form to send message via email (Resend)
@@ -33,6 +27,14 @@ export const ContactModal = ({ open, onClose }) => {
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handlePhoneChange = (e) => {
+    const raw = unformatPhone(e.target.value);
+    // Limit to 9 digits for Chilean phones
+    const limited = raw.slice(0, 9);
+    // Store formatted for display, raw digits internally
+    setForm((prev) => ({ ...prev, phone: limited }));
   };
 
   const handleSubmit = async () => {
@@ -152,11 +154,11 @@ export const ContactModal = ({ open, onClose }) => {
             />
             <Input
               placeholder="9 1234 5678"
-              value={form.phone}
-              onChange={(e) => handleChange("phone", e.target.value.replace(/\D/g, ""))}
+              value={formatChileanPhone(form.phone)}
+              onChange={handlePhoneChange}
               size="large"
               className="flex-1 !text-base"
-              maxLength={12}
+              maxLength={11}
             />
           </div>
         </div>
