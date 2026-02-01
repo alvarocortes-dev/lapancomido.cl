@@ -1,6 +1,6 @@
 // src/components/Footer.jsx
 
-import logo from "../assets/images/logoRedondo_cortado.png";
+import { BRAND } from "../config/cloudinary";
 import { FaInstagram } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { LuPhone } from "react-icons/lu";
@@ -15,7 +15,7 @@ export const Footer = () => {
           {/* Logo + Título en una fila */}
           <div className="flex items-center gap-4 mb-4">
             <img
-              src={logo}
+              src={BRAND.logoFooter}
               alt="Pan Comido Logo"
               className="h-16 flex-shrink-0"
             />
@@ -73,7 +73,7 @@ export const Footer = () => {
           <div className="flex items-start gap-6">
             {/* Logo */}
             <img
-              src={logo}
+              src={BRAND.logoFooter}
               alt="Pan Comido Logo"
               className="h-24 flex-shrink-0"
             />

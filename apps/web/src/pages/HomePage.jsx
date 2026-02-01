@@ -9,9 +9,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-/* Importar JSON Data */
-import slidesData from "../data/slides.json";
-import imagesData from "../data/images.json";
+/* Importar Cloudinary config */
+import { SLIDES, GALLERY_IMAGES, getGalleryImageUrl } from "../config/cloudinary";
 import promoData from "../data/promo.json";
 
 /* Importar Categorías FakeAPI */
@@ -23,7 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const HomePage = () => {
   /* Lógica BentoGrid dinámico con transiciones */
-  const allImages = imagesData.images;
+  const allImages = GALLERY_IMAGES;
   const [displayedImages, setDisplayedImages] = useState([]);
   const [previousSwapPositions, setPreviousSwapPositions] = useState([]);
   const [imageKeys, setImageKeys] = useState([]); // Para forzar re-render con animación
@@ -127,13 +126,10 @@ export const HomePage = () => {
             className="w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[21/9] lg:aspect-[21/9] sm:rounded-lg overflow-hidden"
             style={{ "--swiper-theme-color": "#262011" }}
           >
-            {slidesData.slides.map((slide, index) => (
+            {SLIDES.map((slide, index) => (
               <SwiperSlide key={index}>
                 <img
-                  src={
-                    new URL(`../assets/images/${slide.image}`, import.meta.url)
-                      .href
-                  }
+                  src={slide.url}
                   alt={slide.alt}
                   className="w-full h-full object-cover sm:object-contain"
                 />
@@ -159,7 +155,7 @@ export const HomePage = () => {
                 <AnimatePresence mode="sync">
                   <motion.img
                     key={imageKeys[index] || index}
-                    src={new URL(`../assets/images/${img}`, import.meta.url).href}
+                    src={getGalleryImageUrl(img)}
                     alt={`Producto ${index + 1}`}
                     className="w-full h-full object-cover absolute inset-0"
                     initial={{ opacity: 0 }}

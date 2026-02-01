@@ -1,0 +1,394 @@
+{
+  "babka_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975655/lapancomido/gallery/babka_000.jpg",
+    "publicId": "lapancomido/gallery/babka_000"
+  },
+  "babka_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975657/lapancomido/gallery/babka_001.jpg",
+    "publicId": "lapancomido/gallery/babka_001"
+  },
+  "babka_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975658/lapancomido/gallery/babka_002.jpg",
+    "publicId": "lapancomido/gallery/babka_002"
+  },
+  "babka_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975659/lapancomido/gallery/babka_003.jpg",
+    "publicId": "lapancomido/gallery/babka_003"
+  },
+  "batido_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975660/lapancomido/gallery/batido_000.jpg",
+    "publicId": "lapancomido/gallery/batido_000"
+  },
+  "batido_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975661/lapancomido/gallery/batido_001.jpg",
+    "publicId": "lapancomido/gallery/batido_001"
+  },
+  "batido_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975662/lapancomido/gallery/batido_002.jpg",
+    "publicId": "lapancomido/gallery/batido_002"
+  },
+  "brioche_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975663/lapancomido/gallery/brioche_000.jpg",
+    "publicId": "lapancomido/gallery/brioche_000"
+  },
+  "brioche_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975664/lapancomido/gallery/brioche_001.jpg",
+    "publicId": "lapancomido/gallery/brioche_001"
+  },
+  "brioche_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975665/lapancomido/gallery/brioche_002.jpg",
+    "publicId": "lapancomido/gallery/brioche_002"
+  },
+  "brioche_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975666/lapancomido/gallery/brioche_003.jpg",
+    "publicId": "lapancomido/gallery/brioche_003"
+  },
+  "brioche_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975667/lapancomido/gallery/brioche_004.jpg",
+    "publicId": "lapancomido/gallery/brioche_004"
+  },
+  "brioche_005.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975669/lapancomido/gallery/brioche_005.jpg",
+    "publicId": "lapancomido/gallery/brioche_005"
+  },
+  "brioche_006.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975669/lapancomido/gallery/brioche_006.jpg",
+    "publicId": "lapancomido/gallery/brioche_006"
+  },
+  "ciabatta_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975670/lapancomido/gallery/ciabatta_000.jpg",
+    "publicId": "lapancomido/gallery/ciabatta_000"
+  },
+  "ciabatta_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975671/lapancomido/gallery/ciabatta_001.jpg",
+    "publicId": "lapancomido/gallery/ciabatta_001"
+  },
+  "ciabatta_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975672/lapancomido/gallery/ciabatta_002.jpg",
+    "publicId": "lapancomido/gallery/ciabatta_002"
+  },
+  "ciabatta_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975673/lapancomido/gallery/ciabatta_003.jpg",
+    "publicId": "lapancomido/gallery/ciabatta_003"
+  },
+  "ciabatta_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975674/lapancomido/gallery/ciabatta_004.jpg",
+    "publicId": "lapancomido/gallery/ciabatta_004"
+  },
+  "ciabatta_005.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975675/lapancomido/gallery/ciabatta_005.jpg",
+    "publicId": "lapancomido/gallery/ciabatta_005"
+  },
+  "equipo_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975676/lapancomido/gallery/equipo_000.jpg",
+    "publicId": "lapancomido/gallery/equipo_000"
+  },
+  "focaccia_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975677/lapancomido/gallery/focaccia_000.jpg",
+    "publicId": "lapancomido/gallery/focaccia_000"
+  },
+  "galleta_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975678/lapancomido/gallery/galleta_000.jpg",
+    "publicId": "lapancomido/gallery/galleta_000"
+  },
+  "galleta_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975679/lapancomido/gallery/galleta_001.jpg",
+    "publicId": "lapancomido/gallery/galleta_001"
+  },
+  "galleta_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975680/lapancomido/gallery/galleta_002.jpg",
+    "publicId": "lapancomido/gallery/galleta_002"
+  },
+  "galleta_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975681/lapancomido/gallery/galleta_003.jpg",
+    "publicId": "lapancomido/gallery/galleta_003"
+  },
+  "galleta_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975682/lapancomido/gallery/galleta_004.jpg",
+    "publicId": "lapancomido/gallery/galleta_004"
+  },
+  "galleta_005.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975684/lapancomido/gallery/galleta_005.jpg",
+    "publicId": "lapancomido/gallery/galleta_005"
+  },
+  "galleta_006.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975684/lapancomido/gallery/galleta_006.jpg",
+    "publicId": "lapancomido/gallery/galleta_006"
+  },
+  "galleta_007.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975686/lapancomido/gallery/galleta_007.jpg",
+    "publicId": "lapancomido/gallery/galleta_007"
+  },
+  "hogaza_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975687/lapancomido/gallery/hogaza_000.jpg",
+    "publicId": "lapancomido/gallery/hogaza_000"
+  },
+  "hogaza_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975688/lapancomido/gallery/hogaza_001.jpg",
+    "publicId": "lapancomido/gallery/hogaza_001"
+  },
+  "hogaza_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975689/lapancomido/gallery/hogaza_002.jpg",
+    "publicId": "lapancomido/gallery/hogaza_002"
+  },
+  "hogaza_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975690/lapancomido/gallery/hogaza_003.jpg",
+    "publicId": "lapancomido/gallery/hogaza_003"
+  },
+  "hogaza_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975691/lapancomido/gallery/hogaza_004.jpg",
+    "publicId": "lapancomido/gallery/hogaza_004"
+  },
+  "hogaza_005.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975692/lapancomido/gallery/hogaza_005.jpg",
+    "publicId": "lapancomido/gallery/hogaza_005"
+  },
+  "hogaza_006.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975693/lapancomido/gallery/hogaza_006.jpg",
+    "publicId": "lapancomido/gallery/hogaza_006"
+  },
+  "hogaza_007.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975695/lapancomido/gallery/hogaza_007.jpg",
+    "publicId": "lapancomido/gallery/hogaza_007"
+  },
+  "hogaza_008.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975696/lapancomido/gallery/hogaza_008.jpg",
+    "publicId": "lapancomido/gallery/hogaza_008"
+  },
+  "hogaza_009.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975697/lapancomido/gallery/hogaza_009.jpg",
+    "publicId": "lapancomido/gallery/hogaza_009"
+  },
+  "hogaza_010.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975698/lapancomido/gallery/hogaza_010.jpg",
+    "publicId": "lapancomido/gallery/hogaza_010"
+  },
+  "hogaza_011.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975699/lapancomido/gallery/hogaza_011.jpg",
+    "publicId": "lapancomido/gallery/hogaza_011"
+  },
+  "hogaza_012.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975700/lapancomido/gallery/hogaza_012.jpg",
+    "publicId": "lapancomido/gallery/hogaza_012"
+  },
+  "hogaza_013.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975701/lapancomido/gallery/hogaza_013.jpg",
+    "publicId": "lapancomido/gallery/hogaza_013"
+  },
+  "hogaza_014.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975702/lapancomido/gallery/hogaza_014.jpg",
+    "publicId": "lapancomido/gallery/hogaza_014"
+  },
+  "hogaza_nuez_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975704/lapancomido/gallery/hogaza_nuez_000.jpg",
+    "publicId": "lapancomido/gallery/hogaza_nuez_000"
+  },
+  "hogaza_nuez_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975704/lapancomido/gallery/hogaza_nuez_001.jpg",
+    "publicId": "lapancomido/gallery/hogaza_nuez_001"
+  },
+  "hogaza_nuez_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975705/lapancomido/gallery/hogaza_nuez_002.jpg",
+    "publicId": "lapancomido/gallery/hogaza_nuez_002"
+  },
+  "horno_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975707/lapancomido/gallery/horno_000.jpg",
+    "publicId": "lapancomido/gallery/horno_000"
+  },
+  "horno_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975707/lapancomido/gallery/horno_001.jpg",
+    "publicId": "lapancomido/gallery/horno_001"
+  },
+  "insumos_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975708/lapancomido/gallery/insumos_000.jpg",
+    "publicId": "lapancomido/gallery/insumos_000"
+  },
+  "insumos_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975709/lapancomido/gallery/insumos_001.jpg",
+    "publicId": "lapancomido/gallery/insumos_001"
+  },
+  "kuchen_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975710/lapancomido/gallery/kuchen_000.jpg",
+    "publicId": "lapancomido/gallery/kuchen_000"
+  },
+  "lemon_pie_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975711/lapancomido/gallery/lemon_pie_000.jpg",
+    "publicId": "lapancomido/gallery/lemon_pie_000"
+  },
+  "lemon_pie_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975712/lapancomido/gallery/lemon_pie_001.jpg",
+    "publicId": "lapancomido/gallery/lemon_pie_001"
+  },
+  "lemon_pie_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975713/lapancomido/gallery/lemon_pie_002.jpg",
+    "publicId": "lapancomido/gallery/lemon_pie_002"
+  },
+  "logoRedondo_cortado.png": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975715/lapancomido/brand/logoRedondo_cortado.png",
+    "publicId": "lapancomido/brand/logoRedondo_cortado"
+  },
+  "logoWeb.png": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975717/lapancomido/brand/logoWeb.png",
+    "publicId": "lapancomido/brand/logoWeb"
+  },
+  "logoWeb_cortado.png": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975719/lapancomido/brand/logoWeb_cortado.png",
+    "publicId": "lapancomido/brand/logoWeb_cortado"
+  },
+  "logoWeb_cortado_collapse.png": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975720/lapancomido/brand/logoWeb_cortado_collapse.png",
+    "publicId": "lapancomido/brand/logoWeb_cortado_collapse"
+  },
+  "marca_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975721/lapancomido/gallery/marca_000.jpg",
+    "publicId": "lapancomido/gallery/marca_000"
+  },
+  "marca_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975722/lapancomido/gallery/marca_001.jpg",
+    "publicId": "lapancomido/gallery/marca_001"
+  },
+  "marca_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975723/lapancomido/gallery/marca_002.jpg",
+    "publicId": "lapancomido/gallery/marca_002"
+  },
+  "marca_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975724/lapancomido/gallery/marca_003.jpg",
+    "publicId": "lapancomido/gallery/marca_003"
+  },
+  "marca_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975725/lapancomido/gallery/marca_004.jpg",
+    "publicId": "lapancomido/gallery/marca_004"
+  },
+  "marca_005.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975727/lapancomido/gallery/marca_005.jpg",
+    "publicId": "lapancomido/gallery/marca_005"
+  },
+  "marca_006.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975728/lapancomido/gallery/marca_006.jpg",
+    "publicId": "lapancomido/gallery/marca_006"
+  },
+  "marca_007.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975728/lapancomido/gallery/marca_007.jpg",
+    "publicId": "lapancomido/gallery/marca_007"
+  },
+  "marca_008.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975730/lapancomido/gallery/marca_008.jpg",
+    "publicId": "lapancomido/gallery/marca_008"
+  },
+  "masa_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975731/lapancomido/gallery/masa_000.jpg",
+    "publicId": "lapancomido/gallery/masa_000"
+  },
+  "masa_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975733/lapancomido/gallery/masa_001.jpg",
+    "publicId": "lapancomido/gallery/masa_001"
+  },
+  "masa_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975734/lapancomido/gallery/masa_002.jpg",
+    "publicId": "lapancomido/gallery/masa_002"
+  },
+  "masa_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975735/lapancomido/gallery/masa_003.jpg",
+    "publicId": "lapancomido/gallery/masa_003"
+  },
+  "masa_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975736/lapancomido/gallery/masa_004.jpg",
+    "publicId": "lapancomido/gallery/masa_004"
+  },
+  "masa_madre_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975737/lapancomido/gallery/masa_madre_000.jpg",
+    "publicId": "lapancomido/gallery/masa_madre_000"
+  },
+  "masa_madre_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975738/lapancomido/gallery/masa_madre_001.jpg",
+    "publicId": "lapancomido/gallery/masa_madre_001"
+  },
+  "miti_mota_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975740/lapancomido/gallery/miti_mota_000.jpg",
+    "publicId": "lapancomido/gallery/miti_mota_000"
+  },
+  "miti_mota_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975741/lapancomido/gallery/miti_mota_001.jpg",
+    "publicId": "lapancomido/gallery/miti_mota_001"
+  },
+  "molde_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975742/lapancomido/gallery/molde_000.jpg",
+    "publicId": "lapancomido/gallery/molde_000"
+  },
+  "molde_centeno_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975743/lapancomido/gallery/molde_centeno_000.jpg",
+    "publicId": "lapancomido/gallery/molde_centeno_000"
+  },
+  "molde_integral_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975744/lapancomido/gallery/molde_integral_000.jpg",
+    "publicId": "lapancomido/gallery/molde_integral_000"
+  },
+  "molde_integral_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975745/lapancomido/gallery/molde_integral_001.jpg",
+    "publicId": "lapancomido/gallery/molde_integral_001"
+  },
+  "molde_integral_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975746/lapancomido/gallery/molde_integral_002.jpg",
+    "publicId": "lapancomido/gallery/molde_integral_002"
+  },
+  "molde_integral_003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975747/lapancomido/gallery/molde_integral_003.jpg",
+    "publicId": "lapancomido/gallery/molde_integral_003"
+  },
+  "molde_integral_004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975748/lapancomido/gallery/molde_integral_004.jpg",
+    "publicId": "lapancomido/gallery/molde_integral_004"
+  },
+  "molde_multisemilla_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975750/lapancomido/gallery/molde_multisemilla_000.jpg",
+    "publicId": "lapancomido/gallery/molde_multisemilla_000"
+  },
+  "molde_multisemilla_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975752/lapancomido/gallery/molde_multisemilla_001.jpg",
+    "publicId": "lapancomido/gallery/molde_multisemilla_001"
+  },
+  "pancito_404.png": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975753/lapancomido/brand/pancito_404.png",
+    "publicId": "lapancomido/brand/pancito_404"
+  },
+  "prepizza_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975754/lapancomido/gallery/prepizza_000.jpg",
+    "publicId": "lapancomido/gallery/prepizza_000"
+  },
+  "prepizza_001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975756/lapancomido/gallery/prepizza_001.jpg",
+    "publicId": "lapancomido/gallery/prepizza_001"
+  },
+  "prepizza_002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975757/lapancomido/gallery/prepizza_002.jpg",
+    "publicId": "lapancomido/gallery/prepizza_002"
+  },
+  "slide-001.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975758/lapancomido/slides/slide-001.jpg",
+    "publicId": "lapancomido/slides/slide-001"
+  },
+  "slide-002.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975760/lapancomido/slides/slide-002.jpg",
+    "publicId": "lapancomido/slides/slide-002"
+  },
+  "slide-003.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975761/lapancomido/slides/slide-003.jpg",
+    "publicId": "lapancomido/slides/slide-003"
+  },
+  "slide-004.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975762/lapancomido/slides/slide-004.jpg",
+    "publicId": "lapancomido/slides/slide-004"
+  },
+  "slide-005.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975763/lapancomido/slides/slide-005.jpg",
+    "publicId": "lapancomido/slides/slide-005"
+  },
+  "snicker_pie_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975764/lapancomido/gallery/snicker_pie_000.jpg",
+    "publicId": "lapancomido/gallery/snicker_pie_000"
+  },
+  "tienda_000.jpg": {
+    "url": "https://res.cloudinary.com/lapancomido/image/upload/v1769975765/lapancomido/gallery/tienda_000.jpg",
+    "publicId": "lapancomido/gallery/tienda_000"
+  }
+}

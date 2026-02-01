@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/images/logoWeb_cortado.png";
+import { BRAND } from "../config/cloudinary";
 import { HeaderSearch } from "../components/SearchBar";
 import { ContactModal } from "../components/ContactModal";
 
@@ -27,7 +27,7 @@ export const Header = () => {
           <div className="flex-shrink-0">
             <Link to="/">
               <img
-                src={logo}
+                src={BRAND.logoHeader}
                 alt="Pan Comido"
                 className="h-14 sm:h-16 md:h-24"
               />

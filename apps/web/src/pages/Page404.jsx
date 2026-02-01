@@ -2,13 +2,13 @@
 
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import pancito404 from "../assets/images/pancito_404.png";
+import { BRAND } from "../config/cloudinary";
 
 export const Page404 = () => {
   return (
     <Fragment>
       <section className="h-screen w-full flex flex-col justify-center items-center bg-[#F5E1A4]">
-        <img src={pancito404} alt="Pancito perdido" className="w-36" />
+        <img src={BRAND.pancito404} alt="Pancito perdido" className="w-36" />
         <h1 className="text-9xl font-extrabold text-white tracking-widest">
           404
         </h1>
