@@ -17,6 +17,9 @@ import {
 
 const { TextArea } = Input;
 
+// Fixed width for country code selector (covers longest code +591 with flag)
+const COUNTRY_CODE_WIDTH = 110;
+
 /**
  * Quotation modal with customer form and WhatsApp submission
  * @param {boolean} open - Modal visibility
@@ -50,17 +53,6 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
     }
   };
 
-  const handlePhoneChange = (e) => {
-    const raw = unformatPhone(e.target.value);
-    // Limit to 9 digits for Chilean phones
-    const limited = raw.slice(0, 9);
-    setForm((prev) => ({ ...prev, phone: limited }));
-    // Clear error when user types
-    if (errors.phone) {
-      setErrors((prev) => ({ ...prev, phone: null }));
-    }
-  };
-
   const validate = () => {
     const newErrors = {};
     
@@ -70,22 +62,30 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
     
     if (!form.phone) {
       newErrors.phone = "Celular requerido";
-    } else if (!isValidChileanPhone(form.phone)) {
-      newErrors.phone = "Celular inválido (9 dígitos)";
+    } else if (form.phone.length < 8) {
+      newErrors.phone = "Celular inválido";
     }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const handlePhoneChange = (e) => {
+    const raw = unformatPhone(e.target.value);
+    // Limit to 9 digits for Chilean phones
+    const limited = raw.slice(0, 9);
+    handleChange("phone", limited);
+  };
+
   const saveCustomerLead = async () => {
     try {
+      const fullPhone = `${form.countryCode} ${form.phone}`;
       await fetch(`${import.meta.env.VITE_API_URL}/api/store/lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name.trim(),
-          phone: `${form.countryCode} ${form.phone}`,
+          phone: fullPhone,
           email: form.email.trim() || null
         })
       });
@@ -108,10 +108,13 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
       // Save customer email for future promotions (async, don't block)
       saveCustomerLead();
 
+      // Build full phone number with country code
+      const fullPhone = `${form.countryCode} ${form.phone}`;
+
       // Generate WhatsApp link
       const link = generateWhatsAppLink(storeConfig.whatsapp_number, {
         customerName: form.name.trim(),
-        customerPhone: `${form.countryCode} ${form.phone}`,
+        customerPhone: fullPhone,
         products: selection,
         greeting: storeConfig.greeting,
         showPrices: storeConfig.show_prices,
@@ -238,7 +241,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
             <Select
               value={form.countryCode}
               onChange={(value) => handleChange("countryCode", value)}
-              className="w-28"
+              style={{ width: COUNTRY_CODE_WIDTH, flexShrink: 0 }}
               options={countryCodes.map((c) => ({
                 value: c.code,
                 label: `${c.flag} ${c.code}`,
@@ -248,7 +251,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
               placeholder="9 1234 5678"
               value={formatChileanPhone(form.phone)}
               onChange={handlePhoneChange}
-              className="flex-1"
+              className="flex-1 !text-base"
               maxLength={11}
             />
           </div>

@@ -15,9 +15,11 @@ const getResend = () => {
   return resendInstance;
 };
 
-// Default contact emails - will be configurable by admin later
-// Supports multiple emails separated by comma
-const DEFAULT_CONTACT_EMAILS = 'lapancomido@gmail.com, lapancomido@outlook.com';
+// Contact email - configurable via env var, default to lapancomido@gmail.com
+const getContactEmail = () => process.env.CONTACT_EMAIL || 'lapancomido@gmail.com';
+
+// From email - use verified domain if available, otherwise test domain
+const getFromEmail = () => process.env.RESEND_FROM_EMAIL || 'La Pan Comido <contacto@lapancomido.cl>';
 
 /**
  * Send contact form message via Resend
@@ -50,18 +52,16 @@ const sendContactMessage = async (req, res) => {
       });
     }
 
-    // Get contact emails from store config or use default
-    // TODO: Fetch from database when admin panel is ready
-    const contactEmailsRaw = DEFAULT_CONTACT_EMAILS;
-    // Parse comma-separated emails into array and trim whitespace
-    const contactEmails = contactEmailsRaw.split(',').map(e => e.trim()).filter(Boolean);
+    // Get contact email from env var or use default
+    const contactEmail = getContactEmail();
+    const fromEmail = getFromEmail();
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: 'La Pan Comido <onboarding@resend.dev>',
-      to: contactEmails,
+      from: fromEmail,
+      to: [contactEmail],
       replyTo: email,
-      subject: `Nuevo mensaje de contacto de ${fullName}`,
+      subject: `Contacto Web: Nuevo mensaje de ${fullName}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #262011; border-bottom: 2px solid #F5E1A4; padding-bottom: 10px;">
@@ -88,9 +88,20 @@ const sendContactMessage = async (req, res) => {
     });
 
     if (error) {
-      console.error('Resend error:', error);
+      console.error('Resend error:', JSON.stringify(error, null, 2));
+      console.error('Config - from:', fromEmail, 'to:', contactEmail);
+      
+      // Check for common Resend errors
+      let userMessage = 'Error al enviar el mensaje. Por favor intenta más tarde.';
+      
+      if (error.message?.includes('domain') || error.message?.includes('verify')) {
+        console.error('Domain not verified in Resend. Set RESEND_FROM_EMAIL to a verified domain.');
+        userMessage = 'El servicio de correo no está configurado correctamente.';
+      }
+      
       return res.status(500).json({
-        error: 'Error al enviar el mensaje'
+        error: userMessage,
+        details: process.env.NODE_ENV !== 'production' ? error : undefined
       });
     }
 

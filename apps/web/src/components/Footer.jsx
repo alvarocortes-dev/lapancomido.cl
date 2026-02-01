@@ -47,13 +47,13 @@ export const Footer = () => {
                 <span>+56 9 9280 0156</span>
               </a>
               <a
-                href="mailto:lapancomido@gmail.com"
+                href="mailto:contacto@lapancomido.cl"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 py-1 hover:underline"
               >
                 <MdOutlineMailOutline className="flex-shrink-0" />
-                <span>lapancomido@gmail.com</span>
+                <span>contacto@lapancomido.cl</span>
               </a>
               <a
                 href="https://www.instagram.com/lapancomido/"
@@ -109,13 +109,13 @@ export const Footer = () => {
                   <span>+56 9 9280 0156</span>
                 </a>
                 <a
-                  href="mailto:lapancomido@gmail.com"
+                  href="mailto:contacto@lapancomido.cl"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 hover:underline"
                 >
                   <MdOutlineMailOutline className="flex-shrink-0" />
-                  <span>lapancomido@gmail.com</span>
+                  <span>contacto@lapancomido.cl</span>
                 </a>
                 <a
                   href="https://www.instagram.com/lapancomido/"

@@ -10,6 +10,9 @@ import {
 
 const { TextArea } = Input;
 
+// Fixed width for country code selector (covers longest code +591 with flag)
+const COUNTRY_CODE_WIDTH = 110;
+
 /**
  * Contact modal with form to send message via email (Resend)
  * @param {boolean} open - Modal visibility
@@ -146,7 +149,7 @@ export const ContactModal = ({ open, onClose }) => {
               value={form.countryCode}
               onChange={(value) => handleChange("countryCode", value)}
               size="large"
-              className="w-32"
+              style={{ width: COUNTRY_CODE_WIDTH, flexShrink: 0 }}
               options={countryCodes.map((c) => ({
                 value: c.code,
                 label: `${c.flag} ${c.code}`,
