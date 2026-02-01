@@ -149,7 +149,7 @@ export const ContactModal = ({ open, onClose }) => {
               value={form.countryCode}
               onChange={(value) => handleChange("countryCode", value)}
               size="large"
-              style={{ width: COUNTRY_CODE_WIDTH, flexShrink: 0 }}
+              style={{ width: COUNTRY_CODE_WIDTH, flexShrink: 0, height: 40 }}
               options={countryCodes.map((c) => ({
                 value: c.code,
                 label: `${c.flag} ${c.code}`,
@@ -161,6 +161,7 @@ export const ContactModal = ({ open, onClose }) => {
               onChange={handlePhoneChange}
               size="large"
               className="flex-1 !text-base"
+              style={{ height: 40 }}
               maxLength={11}
             />
           </div>

@@ -241,7 +241,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
             <Select
               value={form.countryCode}
               onChange={(value) => handleChange("countryCode", value)}
-              style={{ width: COUNTRY_CODE_WIDTH, flexShrink: 0 }}
+              style={{ width: COUNTRY_CODE_WIDTH, flexShrink: 0, height: 40 }}
               options={countryCodes.map((c) => ({
                 value: c.code,
                 label: `${c.flag} ${c.code}`,
@@ -252,6 +252,7 @@ export const QuotationModal = ({ open, onClose, storeConfig }) => {
               value={formatChileanPhone(form.phone)}
               onChange={handlePhoneChange}
               className="flex-1 !text-base"
+              style={{ height: 40 }}
               maxLength={11}
             />
           </div>
