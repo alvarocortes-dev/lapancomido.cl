@@ -8,6 +8,7 @@ import ProductsPage from "./pages/ProductsPage";
 import ProductCreatePage from "./pages/ProductCreatePage";
 import ProductEditPage from "./pages/ProductEditPage";
 import CategoriesPage from "./pages/CategoriesPage";
+import ConsultationsPage from "./pages/ConsultationsPage";
 import "./index.css";
 
 function AdminContent() {
@@ -95,6 +96,16 @@ function AdminContent() {
             Categorías
           </button>
           <button
+            onClick={() => setCurrentPage('consultations')}
+            className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
+              currentPage === 'consultations' 
+                ? 'border-[#262011] text-[#262011]' 
+                : 'border-transparent text-[#262011]/60 hover:text-[#262011]'
+            }`}
+          >
+            Historial
+          </button>
+          <button
             onClick={() => setCurrentPage('settings')}
             className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
               currentPage === 'settings' 
@@ -131,6 +142,8 @@ function AdminContent() {
         )}
 
         {currentPage === 'categories' && <CategoriesPage />}
+
+        {currentPage === 'consultations' && <ConsultationsPage />}
         
         {currentPage === 'settings' && <SettingsPage />}
       </main>
