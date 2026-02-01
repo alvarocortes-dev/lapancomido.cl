@@ -57,4 +57,4 @@ const saveQuotationLead = async (req, res, next) => {
   }
 };
 
-module.exports = { getStoreSummary, getStoreConfig, saveQuotationLead };
+module.exports = { getStoreConfig, saveQuotationLead };
