@@ -178,6 +178,7 @@ import { requireAuth, requireAdmin } from '../middlewares/requireAuth.js';
 import * as adminProductsController from '../controllers/adminProducts.controller.js';
 import * as categoriesController from '../controllers/categories.controller.js';
 import * as storeConfigController from '../controllers/storeConfig.controller.js';
+import * as consultationsController from '../controllers/consultations.controller.js';
 
 // Apply auth middleware to all admin routes
 router.use(requireAuth, requireAdmin);
@@ -199,5 +200,8 @@ router.delete('/categories/:id', categoriesController.deleteCategory);
 // Store config routes
 router.get('/config', storeConfigController.getStoreConfig);
 router.put('/config', storeConfigController.updateStoreConfig);
+
+// Consultations history routes
+router.get('/consultations', consultationsController.getConsultations);
 
 export default router;
