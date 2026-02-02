@@ -382,6 +382,8 @@ function GalleryEditor({ images, onSave, saving }) {
   const [localImages, setLocalImages] = useState(images);
   const [uploading, setUploading] = useState(null);
 
+  const MIN_IMAGES = 11;
+
   useEffect(() => {
     setLocalImages(images);
   }, [images]);
@@ -429,31 +431,71 @@ function GalleryEditor({ images, onSave, saving }) {
     }
   }
 
-  function removeImage(index) {
-    setLocalImages(prev => {
-      const updated = [...prev];
-      updated[index] = '';
-      return updated;
-    });
+  async function handleAddImage(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading('new');
+      const result = await uploadImage(file);
+      setLocalImages(prev => [...prev, result.secure_url]);
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setUploading(null);
+    }
   }
 
-  // Ensure we always have 8 slots
+  function removeImage(index) {
+    // Don't allow removing if we're at minimum
+    const filledImages = localImages.filter(Boolean).length;
+    if (filledImages <= MIN_IMAGES) {
+      alert(`Debes mantener al menos ${MIN_IMAGES} imágenes en la galería`);
+      return;
+    }
+    setLocalImages(prev => prev.filter((_, i) => i !== index));
+  }
+
+  function handleSave() {
+    const filledImages = localImages.filter(Boolean);
+    if (filledImages.length < MIN_IMAGES) {
+      alert(`Debes tener al menos ${MIN_IMAGES} imágenes en la galería`);
+      return;
+    }
+    onSave(filledImages);
+  }
+
+  // Ensure we always have at least MIN_IMAGES slots
   const displayImages = [...localImages];
-  while (displayImages.length < 8) {
+  while (displayImages.length < MIN_IMAGES) {
     displayImages.push('');
   }
 
+  const filledCount = localImages.filter(Boolean).length;
+
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold text-[#262011]">Galería de Fotos</h3>
-        <p className="text-sm text-[#262011]/60">
-          8 imágenes cuadradas (1:1, 800x800) para la sección de galería
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-[#262011]">Galería de Fotos</h3>
+          <p className="text-sm text-[#262011]/60">
+            Mínimo {MIN_IMAGES} imágenes cuadradas (1:1, 800x800). Actualmente: {filledCount}
+          </p>
+        </div>
+        <label className="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm cursor-pointer">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleAddImage}
+            className="hidden"
+            disabled={uploading === 'new'}
+          />
+          {uploading === 'new' ? 'Subiendo...' : '+ Agregar Imagen'}
+        </label>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {displayImages.slice(0, 8).map((img, index) => (
+        {displayImages.map((img, index) => (
           <div key={index} className="relative aspect-square bg-gray-100 rounded overflow-hidden group">
             {img ? (
               <>
@@ -465,6 +507,7 @@ function GalleryEditor({ images, onSave, saving }) {
                 <button
                   onClick={() => removeImage(index)}
                   className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity text-sm"
+                  title={filledCount <= MIN_IMAGES ? `Mínimo ${MIN_IMAGES} imágenes` : 'Eliminar'}
                 >
                   ×
                 </button>
@@ -509,8 +552,8 @@ function GalleryEditor({ images, onSave, saving }) {
 
       <div className="flex justify-end pt-4 border-t">
         <button
-          onClick={() => onSave(localImages.filter(Boolean))}
-          disabled={saving}
+          onClick={handleSave}
+          disabled={saving || filledCount < MIN_IMAGES}
           className="px-6 py-3 bg-[#262011] text-[#F5E1A4] rounded font-medium hover:bg-[#262011]/90 disabled:opacity-50 min-h-[48px]"
         >
           {saving ? 'Guardando...' : 'Guardar Galería'}
