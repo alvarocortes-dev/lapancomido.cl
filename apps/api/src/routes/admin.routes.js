@@ -179,6 +179,7 @@ import * as adminProductsController from '../controllers/adminProducts.controlle
 import * as categoriesController from '../controllers/categories.controller.js';
 import * as storeConfigController from '../controllers/storeConfig.controller.js';
 import * as consultationsController from '../controllers/consultations.controller.js';
+import * as siteContentController from '../controllers/siteContent.controller.js';
 
 // Apply auth middleware to all admin routes
 router.use(requireAuth, requireAdmin);
@@ -203,5 +204,8 @@ router.put('/config', storeConfigController.updateStoreConfig);
 
 // Consultations history routes
 router.get('/consultations', consultationsController.getConsultations);
+
+// Site content routes
+router.put('/site-content/:key', siteContentController.updateContent);
 
 export default router;

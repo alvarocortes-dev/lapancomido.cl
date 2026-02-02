@@ -28,3 +28,39 @@ export const getCategories = async () => {
     return [];
   }
 };
+
+export const getSiteContent = async (key) => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/site-content/${key}`
+    );
+    if (!response.ok) {
+      throw new Error("Error al obtener contenido del sitio");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error al obtener contenido del sitio:", error);
+    return null;
+  }
+};
+
+export const getAllSiteContent = async () => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/site-content`
+    );
+    if (!response.ok) {
+      throw new Error("Error al obtener contenido del sitio");
+    }
+    // API returns array of {key, value} - convert to object
+    const data = await response.json();
+    const result = {};
+    for (const item of data) {
+      result[item.key] = item.value;
+    }
+    return result;
+  } catch (error) {
+    console.error("Error al obtener contenido del sitio:", error);
+    return {};
+  }
+};

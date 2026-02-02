@@ -10,6 +10,7 @@ const getProducts = async (req, res, next) => {
         // Build where clause
         const where = {
             available: true,
+            hidden: false,  // Exclude hidden products from public catalog
         };
         
         // Add search filter

@@ -172,58 +172,63 @@ export default function CategoriesPage() {
             No hay categorías. Crea la primera arriba.
           </div>
         ) : (
-          <div className="divide-y">
-            {categories.map(category => (
-              <div 
-                key={category.id}
-                className="flex items-center justify-between p-4 hover:bg-gray-50"
-              >
-                <div className="flex-1 flex items-center gap-4">
-                  {editingId === category.id ? (
-                    <input
-                      ref={editInputRef}
-                      type="text"
-                      value={editingName}
-                      onChange={e => setEditingName(e.target.value)}
-                      onBlur={saveEditing}
-                      onKeyDown={handleEditKeyDown}
-                      className="flex-1 px-3 py-2 border border-[#262011] rounded text-base max-w-xs"
-                    />
-                  ) : (
-                    <button
-                      onClick={() => startEditing(category)}
-                      className="text-left font-medium text-[#262011] hover:text-[#262011]/70"
-                      title="Click para editar"
-                    >
-                      {category.category}
-                    </button>
-                  )}
-                  <span className="text-sm text-[#262011]/60">
-                    {category.productCount} {category.productCount === 1 ? 'producto' : 'productos'}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {editingId !== category.id && (
-                    <>
+          <table className="w-full">
+            <thead className="bg-gray-50 border-b">
+              <tr>
+                <th className="text-left px-4 py-3 text-sm font-medium text-[#262011]/60">Nombre</th>
+                <th className="text-left px-4 py-3 text-sm font-medium text-[#262011]/60 w-24">Productos</th>
+                <th className="text-right px-4 py-3 text-sm font-medium text-[#262011]/60 w-32">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {categories.map(category => (
+                <tr key={category.id} className="hover:bg-gray-50">
+                  <td className="px-4 py-3">
+                    {editingId === category.id ? (
+                      <input
+                        ref={editInputRef}
+                        type="text"
+                        value={editingName}
+                        onChange={e => setEditingName(e.target.value)}
+                        onBlur={saveEditing}
+                        onKeyDown={handleEditKeyDown}
+                        className="px-3 py-2 border border-[#262011] rounded text-base w-full max-w-xs"
+                      />
+                    ) : (
                       <button
                         onClick={() => startEditing(category)}
-                        className="px-3 py-1 text-sm text-[#262011]/60 hover:text-[#262011] min-h-[36px]"
+                        className="text-left font-medium text-[#262011] hover:text-[#262011]/70"
+                        title="Click para editar"
                       >
-                        Editar
+                        {category.category}
                       </button>
-                      <button
-                        onClick={() => handleDelete(category)}
-                        className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded min-h-[36px]"
-                      >
-                        Eliminar
-                      </button>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-[#262011]/60">
+                    {category.productCount} prod.
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    {editingId !== category.id && (
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => startEditing(category)}
+                          className="px-3 py-1 text-sm text-[#262011]/60 hover:text-[#262011] min-h-[36px]"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          onClick={() => handleDelete(category)}
+                          className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded min-h-[36px]"
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
 

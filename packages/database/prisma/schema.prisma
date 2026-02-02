@@ -24,6 +24,7 @@ model products {
   description String?
   nutrition   String?
   available   Boolean   @default(false)
+  hidden      Boolean   @default(false)  // Hide from public catalog
   unit_type   String    @default("unit")  // "unit" or "pack"
   pack_size   Int?                          // Only for packs, e.g., 6 means "6 un c/p"
   created_at  DateTime  @default(now())
@@ -199,6 +200,19 @@ model consultation_items {
 
   // Relations
   consultation consultations @relation(fields: [consultation_id], references: [id], onDelete: Cascade)
+
+  @@schema("pancomido")
+}
+
+// ============================================
+// Site Content Models (CMS)
+// ============================================
+
+model site_content {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique  // e.g., "home_slider", "home_gallery", "about_section", "footer"
+  value      Json     // Flexible JSON storage for any content type
+  updated_at DateTime @default(now()) @updatedAt
 
   @@schema("pancomido")
 }

@@ -30,6 +30,7 @@ const getAdminProducts = async (req, res, next) => {
       price: p.price,
       description: p.description,
       available: p.available,
+      hidden: p.hidden,
       unit_type: p.unit_type,
       pack_size: p.pack_size,
       created_at: p.created_at,
@@ -52,7 +53,7 @@ const getAdminProducts = async (req, res, next) => {
 
 /**
  * Crear un nuevo producto.
- * Body: { product, price, description, available, stock, categories, images, pack_size, unit_type }
+ * Body: { product, price, description, available, hidden, stock, categories, images, pack_size, unit_type }
  */
 const createProduct = async (req, res, next) => {
   try {
@@ -65,6 +66,7 @@ const createProduct = async (req, res, next) => {
         price: productData.price,
         description: productData.description,
         available: productData.available ?? false,
+        hidden: productData.hidden ?? false,
         unit_type: productData.unit_type ?? 'unit',
         pack_size: productData.pack_size,
         // Create initial stock
@@ -154,6 +156,7 @@ const updateProductDetails = async (req, res, next) => {
       price,
       description,
       available,
+      hidden,
       categories,
       images,
       pack_size,
@@ -168,6 +171,7 @@ const updateProductDetails = async (req, res, next) => {
         price,
         description,
         available,
+        hidden,
         pack_size,
         unit_type,
       },

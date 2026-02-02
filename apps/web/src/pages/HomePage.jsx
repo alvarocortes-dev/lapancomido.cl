@@ -10,7 +10,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 /* Importar Cloudinary config */
-import { SLIDES, GALLERY_IMAGES, VIDEOS, getGalleryImageUrl } from "../config/cloudinary";
+import { getGalleryImageUrl } from "../config/cloudinary";
+
+/* Importar Site Content Context */
+import { useSiteContent } from "../context/SiteContentContext";
 
 /* Importar Categorías FakeAPI */
 import { getCategories } from "../helpers/getProductData.helper"; // Simulación de datos
@@ -20,19 +23,25 @@ import { Categories } from "../components/Categories";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const HomePage = () => {
+  /* Get site content from context */
+  const { content } = useSiteContent();
+  const slides = content.home_slider || [];
+  const allImages = content.home_gallery || [];
+  const aboutSection = content.about_section || {};
+
   /* Lógica BentoGrid dinámico con transiciones */
-  const allImages = GALLERY_IMAGES;
   const [displayedImages, setDisplayedImages] = useState([]);
   const [previousSwapPositions, setPreviousSwapPositions] = useState([]);
   const [imageKeys, setImageKeys] = useState([]); // Para forzar re-render con animación
 
   // Inicializar con 8 imágenes aleatorias
   useEffect(() => {
+    if (allImages.length === 0) return;
     const shuffled = [...allImages].sort(() => 0.5 - Math.random());
     const initial = shuffled.slice(0, 8);
     setDisplayedImages(initial);
     setImageKeys(initial.map((_, i) => i)); // Keys iniciales
-  }, []);
+  }, [allImages]);
 
   // Ciclo de intercambio cada 3 segundos
   useEffect(() => {
@@ -100,7 +109,14 @@ export const HomePage = () => {
     getCategories().then(setCategories);
   }, []);
 
-  const promoVideo = VIDEOS.promo;
+  // Helper to get image URL - handles both full URLs and image names
+  const getImageUrl = (img) => {
+    if (!img) return '';
+    // If it's a full URL, use it directly
+    if (img.startsWith('http')) return img;
+    // Otherwise, treat as gallery image name
+    return getGalleryImageUrl(img);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -122,12 +138,19 @@ export const HomePage = () => {
             className="w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[21/9] lg:aspect-[21/9] sm:rounded-lg overflow-hidden"
             style={{ "--swiper-theme-color": "#262011" }}
           >
-            {SLIDES.map((slide, index) => (
+            {slides.map((slide, index) => (
               <SwiperSlide key={index}>
+                {/* Mobile image */}
                 <img
-                  src={slide.url}
-                  alt={slide.alt}
-                  className="w-full h-full object-cover sm:object-contain"
+                  src={slide.mobile || slide.desktop || slide.url}
+                  alt={slide.alt || `Slide ${index + 1}`}
+                  className="w-full h-full object-cover sm:hidden"
+                />
+                {/* Desktop image */}
+                <img
+                  src={slide.desktop || slide.url}
+                  alt={slide.alt || `Slide ${index + 1}`}
+                  className="w-full h-full object-contain hidden sm:block"
                 />
               </SwiperSlide>
             ))}
@@ -151,7 +174,7 @@ export const HomePage = () => {
                 <AnimatePresence mode="sync">
                   <motion.img
                     key={imageKeys[index] || index}
-                    src={getGalleryImageUrl(img)}
+                    src={getImageUrl(img)}
                     alt={`Producto ${index + 1}`}
                     className="w-full h-full object-cover absolute inset-0"
                     initial={{ opacity: 0 }}
@@ -170,47 +193,58 @@ export const HomePage = () => {
           <div className="flex flex-col gap-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:items-center">
             {/* Texto - primero en móvil, primero en desktop */}
             <div className="lg:col-span-2">
-              <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Elígenos</h2>
-              <div className="text-sm sm:text-base text-gray-700 space-y-4">
-                <p>
-                  En el corazón del puerto de Caldera, nace &quot;La Pan
-                  Comido&quot;, una micro-panadería online que revoluciona la forma
-                  en que se disfruta del pan. Nuestro objetivo es ofrecer un pan
-                  sano y beneficioso para la salud, elaborado con masa madre y un
-                  proceso de fermentación que dura 17 horas, lo que le da un sabor y
-                  una textura únicos.
-                </p>
-                <p>
-                  Respetamos las recetas más tradicionales de pan, utilizando
-                  técnicas y ingredientes que han sido perfeccionados a lo largo de
-                  los años. Nuestros panes son el resultado de un proceso de
-                  elaboración que dura 2 días, desde el amasado hasta la salida del
-                  horno, lo que nos permite ofrecer un producto de alta calidad y
-                  sabor auténtico.
-                </p>
-                <p>
-                  Fundada en el año 2020, &quot;La Pan Comido&quot; se ha convertido
-                  en una referencia para aquellos que buscan un pan auténtico y
-                  delicioso. Nos enfocamos en ofrecer un producto que se asemeja a
-                  la tradición de las panaderías italianas, donde el pan es un arte
-                  y una pasión.
-                </p>
-              </div>
+              <h2 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">
+                {aboutSection.title || 'Elígenos'}
+              </h2>
+              {aboutSection.content ? (
+                <div 
+                  className="text-sm sm:text-base text-gray-700 space-y-4 [&>p]:mb-4"
+                  dangerouslySetInnerHTML={{ __html: aboutSection.content }}
+                />
+              ) : (
+                <div className="text-sm sm:text-base text-gray-700 space-y-4">
+                  <p>
+                    En el corazón del puerto de Caldera, nace &quot;La Pan
+                    Comido&quot;, una micro-panadería online que revoluciona la forma
+                    en que se disfruta del pan. Nuestro objetivo es ofrecer un pan
+                    sano y beneficioso para la salud, elaborado con masa madre y un
+                    proceso de fermentación que dura 17 horas, lo que le da un sabor y
+                    una textura únicos.
+                  </p>
+                  <p>
+                    Respetamos las recetas más tradicionales de pan, utilizando
+                    técnicas y ingredientes que han sido perfeccionados a lo largo de
+                    los años. Nuestros panes son el resultado de un proceso de
+                    elaboración que dura 2 días, desde el amasado hasta la salida del
+                    horno, lo que nos permite ofrecer un producto de alta calidad y
+                    sabor auténtico.
+                  </p>
+                  <p>
+                    Fundada en el año 2020, &quot;La Pan Comido&quot; se ha convertido
+                    en una referencia para aquellos que buscan un pan auténtico y
+                    delicioso. Nos enfocamos en ofrecer un producto que se asemeja a
+                    la tradición de las panaderías italianas, donde el pan es un arte
+                    y una pasión.
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Video - segundo en móvil, segundo en desktop */}
-            <div className="w-full">
-              <div className="aspect-video lg:aspect-square rounded-lg overflow-hidden">
-                <video
-                  src={promoVideo}
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                />
+            {aboutSection.video && (
+              <div className="w-full">
+                <div className="aspect-video lg:aspect-square rounded-lg overflow-hidden">
+                  <video
+                    src={aboutSection.video}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
       </main>

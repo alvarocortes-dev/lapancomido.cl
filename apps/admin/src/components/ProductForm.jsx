@@ -18,6 +18,7 @@ export default function ProductForm({
     unit_type: 'unit',
     description: '',
     available: false,
+    hidden: false,
     stock: 0,
     categories: [],
     images: [],
@@ -35,6 +36,7 @@ export default function ProductForm({
         unit_type: product.unit_type || 'unit',
         description: product.description || '',
         available: product.available || false,
+        hidden: product.hidden || false,
         stock: product.stock || 0,
         categories: product.categories || [],
         images: product.images || [],
@@ -236,7 +238,7 @@ export default function ProductForm({
             />
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-6">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
@@ -245,6 +247,16 @@ export default function ProductForm({
                 className="w-5 h-5"
               />
               <span className="text-sm font-medium text-[#262011]">Disponible</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.hidden}
+                onChange={e => handleChange('hidden', e.target.checked)}
+                className="w-5 h-5"
+              />
+              <span className="text-sm font-medium text-[#262011]">Ocultar</span>
+              <span className="text-xs text-[#262011]/50">(no visible en web)</span>
             </label>
           </div>
         </div>

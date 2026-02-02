@@ -9,6 +9,7 @@ import ProductCreatePage from "./pages/ProductCreatePage";
 import ProductEditPage from "./pages/ProductEditPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import ConsultationsPage from "./pages/ConsultationsPage";
+import SiteContentPage from "./pages/SiteContentPage";
 import "./index.css";
 
 function AdminContent() {
@@ -106,6 +107,16 @@ function AdminContent() {
             Historial
           </button>
           <button
+            onClick={() => setCurrentPage('site-content')}
+            className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
+              currentPage === 'site-content' 
+                ? 'border-[#262011] text-[#262011]' 
+                : 'border-transparent text-[#262011]/60 hover:text-[#262011]'
+            }`}
+          >
+            Contenido
+          </button>
+          <button
             onClick={() => setCurrentPage('settings')}
             className={`py-3 px-2 text-sm font-medium border-b-2 -mb-px whitespace-nowrap ${
               currentPage === 'settings' 
@@ -144,6 +155,8 @@ function AdminContent() {
         {currentPage === 'categories' && <CategoriesPage />}
 
         {currentPage === 'consultations' && <ConsultationsPage />}
+
+        {currentPage === 'site-content' && <SiteContentPage />}
         
         {currentPage === 'settings' && <SettingsPage />}
       </main>

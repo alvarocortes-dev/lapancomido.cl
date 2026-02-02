@@ -11,6 +11,7 @@ import categoriesRoutes from './categories.routes.js';
 import storeRoutes from './store.routes.js';
 import contactRoutes from './contact.routes.js';
 import authRoutes from './auth.routes.js';
+import siteContentRoutes from './siteContent.routes.js';
 
 router.use('/auth', authRoutes);
 router.use('/products', productRoutes);
@@ -20,6 +21,7 @@ router.use('/upload', uploadRoute);
 router.use('/categories', categoriesRoutes);
 router.use('/store', storeRoutes);
 router.use('/contact', contactRoutes);
+router.use('/site-content', siteContentRoutes);
 
 router.get('/test', (req, res) => res.json({ message: 'API funcionando' }));
 

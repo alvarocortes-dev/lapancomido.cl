@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ConfigProvider } from "antd";
 import { RouterManager } from "./router/RouterManager";
 import { SelectionProvider } from "./context/SelectionProvider";
+import { SiteContentProvider } from "./context/SiteContentContext";
 
 function App() {
   return (
@@ -23,9 +24,11 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      <SelectionProvider>
-        <RouterManager />
-      </SelectionProvider>
+      <SiteContentProvider>
+        <SelectionProvider>
+          <RouterManager />
+        </SelectionProvider>
+      </SiteContentProvider>
     </ConfigProvider>
   );
 }
