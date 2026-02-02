@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { formatCLP } from "../../helpers/formatPrice.helper";
 
 /**
- * Modal to display product details with auto-sliding images
+ * Modal to display product details with auto-fading images
  * @param {Object} product - Product data
  * @param {boolean} open - Modal visibility
  * @param {Function} onClose - Close handler
@@ -12,7 +12,6 @@ import { formatCLP } from "../../helpers/formatPrice.helper";
  */
 export const ProductModal = ({ product, open, onClose, showPrices = true }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const intervalRef = useRef(null);
 
   // Get all images or fallback to url_img
@@ -24,11 +23,10 @@ export const ProductModal = ({ product, open, onClose, showPrices = true }) => {
   useEffect(() => {
     if (open) {
       setCurrentImageIndex(0);
-      setIsTransitioning(false);
     }
   }, [open, product?.id]);
 
-  // Auto-slide every 3 seconds when modal is open and has multiple images
+  // Auto-fade every 10 seconds when modal is open and has multiple images
   useEffect(() => {
     if (!open || images.length <= 1) {
       if (intervalRef.current) {
@@ -39,14 +37,8 @@ export const ProductModal = ({ product, open, onClose, showPrices = true }) => {
     }
 
     intervalRef.current = setInterval(() => {
-      setIsTransitioning(true);
-      
-      // After transition starts, update the index
-      setTimeout(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
-        setIsTransitioning(false);
-      }, 500); // Half of transition duration
-    }, 3000);
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 10000);
 
     return () => {
       if (intervalRef.current) {
@@ -71,22 +63,22 @@ export const ProductModal = ({ product, open, onClose, showPrices = true }) => {
       className="product-modal"
     >
       <div className="flex flex-col">
-        {/* Product Image Slider */}
+        {/* Product Image with Crossfade */}
         <div className="w-full aspect-square rounded-[30px] overflow-hidden mb-4 relative">
           {images.length > 0 ? (
             <>
-              <div 
-                className="w-full h-full transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: isTransitioning ? 'translateX(-100%)' : 'translateX(0)',
-                }}
-              >
+              {/* Stack all images and fade between them */}
+              {images.map((img, idx) => (
                 <img
-                  src={images[currentImageIndex]}
-                  alt={product.product}
-                  className="w-full h-full object-cover"
+                  key={idx}
+                  src={img}
+                  alt={`${product.product} ${idx + 1}`}
+                  className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
+                  style={{
+                    opacity: idx === currentImageIndex ? 1 : 0,
+                  }}
                 />
-              </div>
+              ))}
               
               {/* Image indicators */}
               {images.length > 1 && (
