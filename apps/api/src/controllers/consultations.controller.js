@@ -37,7 +37,7 @@ export const getConsultations = async (req, res, next) => {
     }
 
     // Execute queries in parallel
-    const [items, total] = await Promise.all([
+    const [consultations, total] = await Promise.all([
       prisma.consultations.findMany({
         where,
         include: { items: true },
@@ -49,7 +49,7 @@ export const getConsultations = async (req, res, next) => {
     ]);
 
     res.json({ 
-      items, 
+      items: consultations, 
       total, 
       page: parseInt(page), 
       limit: take 
