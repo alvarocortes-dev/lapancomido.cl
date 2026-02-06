@@ -61,9 +61,9 @@ export const HeaderSearch = () => {
     };
   }, [searchValue, fetchSuggestions]);
 
-  // Navega a la página de detalle del producto
-  const handleSuggestionClick = (productId) => {
-    navigate(`/product/${productId}`);
+  // Navega al catálogo filtrado por el nombre del producto seleccionado
+  const handleSuggestionClick = (productName) => {
+    navigate(`/catalog?search=${encodeURIComponent(productName)}`);
     setSearchValue("");
     setShowSuggestions(false);
     setSearchPlaceholder("🔎 Buscar productos...");
@@ -134,7 +134,7 @@ export const HeaderSearch = () => {
               suggestions.slice(0, 4).map((product) => (
                 <li
                   key={product.id}
-                  onMouseDown={() => handleSuggestionClick(product.id)}
+                  onMouseDown={() => handleSuggestionClick(product.product)}
                   className="cursor-pointer px-3 py-3 min-h-[44px] flex items-center hover:bg-[#F5E1A4] border-b border-gray-300 last:border-0 truncate whitespace-nowrap overflow-hidden text-base"
                 >
                   {product.product}
