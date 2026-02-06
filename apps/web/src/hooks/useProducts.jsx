@@ -2,23 +2,25 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "../helpers/getProductData.helper";
 
-export const useProducts = (query = "") => {
+export const useProducts = (query = "", paginationOptions = {}) => {
   const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Se vuelve a hacer fetch cada vez que cambie la query (por ejemplo, ?category=...)
     setLoading(true);
-    getProducts(query)
+    getProducts(query, paginationOptions)
       .then((data) => {
-        setProducts(data);
+        setProducts(data.products);
+        setPagination(data.pagination);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching products:", err);
         setLoading(false);
       });
-  }, [query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, paginationOptions.page, paginationOptions.limit]);
 
-  return { products, loading };
+  return { products, pagination, loading };
 };

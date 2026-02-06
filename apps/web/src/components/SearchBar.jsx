@@ -1,10 +1,8 @@
 // src/components/SearchBar.jsx
-import { useState, useEffect, useRef } from "react";
-import { useProducts } from "../hooks/useProducts"; // Obtiene productos desde la API del sitio
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const HeaderSearch = () => {
-  const { products } = useProducts(); // Los productos vienen desde el backend
   const navigate = useNavigate();
   const location = useLocation();
   const [searchValue, setSearchValue] = useState("");
@@ -13,8 +11,10 @@ export const HeaderSearch = () => {
   );
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+  const debounceRef = useRef(null);
 
   // Resetea la barra de búsqueda cada vez que cambie la ubicación
   useEffect(() => {
@@ -23,19 +23,43 @@ export const HeaderSearch = () => {
     setSearchPlaceholder("🔎 Buscar productos...");
   }, [location]);
 
-  // Actualiza las sugerencias en base al valor de búsqueda
+  // Debounced server search for suggestions
+  const fetchSuggestions = useCallback(async (query) => {
+    if (!query.trim()) {
+      setSuggestions([]);
+      setLoadingSuggestions(false);
+      return;
+    }
+    try {
+      setLoadingSuggestions(true);
+      const url = `${import.meta.env.VITE_API_URL}/api/products?search=${encodeURIComponent(query)}&limit=5`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Search failed");
+      const data = await response.json();
+      // Support both paginated and array response
+      const products = Array.isArray(data) ? data : (data.products || []);
+      setSuggestions(products);
+    } catch {
+      setSuggestions([]);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  }, []);
+
+  // Debounce input changes
   useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
     if (searchValue.trim() === "") {
       setSuggestions([]);
-    } else {
-      const lowerQuery = searchValue.toLowerCase();
-      // Filtra usando la propiedad 'product' ya que es el nombre del producto en la BD
-      const filtered = products.filter((product) =>
-        product.product.toLowerCase().includes(lowerQuery)
-      );
-      setSuggestions(filtered);
+      return;
     }
-  }, [searchValue, products]);
+    debounceRef.current = setTimeout(() => {
+      fetchSuggestions(searchValue);
+    }, 300);
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [searchValue, fetchSuggestions]);
 
   // Navega a la página de detalle del producto
   const handleSuggestionClick = (productId) => {
@@ -100,17 +124,23 @@ export const HeaderSearch = () => {
 
       {showSuggestions &&
         searchValue.trim() !== "" &&
-        suggestions.length > 0 && (
+        (suggestions.length > 0 || loadingSuggestions) && (
           <ul className="absolute z-10 left-0 right-0 top-full bg-white rounded-b-md max-h-60 overflow-y-auto">
-            {suggestions.slice(0, 4).map((product) => (
-              <li
-                key={product.id}
-                onMouseDown={() => handleSuggestionClick(product.id)}
-                className="cursor-pointer px-3 py-3 min-h-[44px] flex items-center hover:bg-[#F5E1A4] border-b border-gray-300 last:border-0 truncate whitespace-nowrap overflow-hidden text-base"
-              >
-                {product.product}
+            {loadingSuggestions && suggestions.length === 0 ? (
+              <li className="px-3 py-3 text-center text-gray-400 text-base">
+                Buscando...
               </li>
-            ))}
+            ) : (
+              suggestions.slice(0, 4).map((product) => (
+                <li
+                  key={product.id}
+                  onMouseDown={() => handleSuggestionClick(product.id)}
+                  className="cursor-pointer px-3 py-3 min-h-[44px] flex items-center hover:bg-[#F5E1A4] border-b border-gray-300 last:border-0 truncate whitespace-nowrap overflow-hidden text-base"
+                >
+                  {product.product}
+                </li>
+              ))
+            )}
             <li
               onMouseDown={handleViewCatalog}
               className="cursor-pointer px-3 py-3 min-h-[44px] flex items-center justify-center text-center font-semibold text-[#262011] bg-gray-200 hover:bg-[#F5E1A4] truncate whitespace-nowrap overflow-hidden text-base"

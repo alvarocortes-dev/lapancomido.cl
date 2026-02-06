@@ -1,16 +1,27 @@
 // src/helpers/getProductData.helper.js
-export const getProducts = async (query = "") => {
+export const getProducts = async (query = "", paginationOptions = {}) => {
   try {
-    // Asegurarse de que si hay query, incluya el símbolo de interrogación (la URL ya lo incluye en location.search)
-    const url = `${import.meta.env.VITE_API_URL}/api/products${query}`;
+    const params = new URLSearchParams(query.replace(/^\?/, ''));
+
+    // Add pagination params if provided
+    if (paginationOptions.page) params.set('page', paginationOptions.page);
+    if (paginationOptions.limit) params.set('limit', paginationOptions.limit);
+
+    const qs = params.toString();
+    const url = `${import.meta.env.VITE_API_URL}/api/products${qs ? `?${qs}` : ''}`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Error al obtener productos");
     }
-    return await response.json();
+    const data = await response.json();
+    // Support both new paginated format and legacy array format
+    if (Array.isArray(data)) {
+      return { products: data, pagination: null };
+    }
+    return data;
   } catch (error) {
     console.error("Error al obtener productos:", error);
-    return [];
+    return { products: [], pagination: null };
   }
 };
 

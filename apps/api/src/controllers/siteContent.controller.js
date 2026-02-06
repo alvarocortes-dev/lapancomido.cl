@@ -10,6 +10,7 @@ const getAllContent = async (req, res, next) => {
     const content = await prisma.site_content.findMany();
     
     // Return array with key and value for admin consumption
+    res.set('Cache-Control', 'public, max-age=1800');
     res.json(content);
   } catch (err) {
     next(err);
@@ -32,6 +33,7 @@ const getContent = async (req, res, next) => {
       return res.status(404).json({ error: 'Content not found' });
     }
     
+    res.set('Cache-Control', 'public, max-age=1800');
     res.json(content.value);
   } catch (err) {
     next(err);

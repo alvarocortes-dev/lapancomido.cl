@@ -5,14 +5,19 @@ import { prisma } from '@lapancomido/database';
 // Endpoint para listar productos públicos con filtros
 const getProducts = async (req, res, next) => {
     try {
-        const { category, search } = req.query;
-        
+        const { category, search, page, limit: limitParam } = req.query;
+
+        // Pagination params with defaults
+        const pageNum = Math.max(1, parseInt(page, 10) || 1);
+        const limit = Math.min(100, Math.max(1, parseInt(limitParam, 10) || 100));
+        const skip = (pageNum - 1) * limit;
+
         // Build where clause
         const where = {
             available: true,
             hidden: false,  // Exclude hidden products from public catalog
         };
-        
+
         // Add search filter
         if (search) {
             where.OR = [
@@ -20,7 +25,7 @@ const getProducts = async (req, res, next) => {
                 { description: { contains: search, mode: 'insensitive' } },
             ];
         }
-        
+
         // Add category filter
         if (category) {
             where.categories_products = {
@@ -31,22 +36,29 @@ const getProducts = async (req, res, next) => {
                 },
             };
         }
-        
-        const products = await prisma.products.findMany({
-            where,
-            include: {
-                images: {
-                    orderBy: { id: 'asc' },
-                },
-                categories_products: {
-                    include: {
-                        category: true,
+
+        // Get total count and products in parallel
+        const [total, products] = await Promise.all([
+            prisma.products.count({ where }),
+            prisma.products.findMany({
+                where,
+                include: {
+                    images: {
+                        take: 1,
+                        orderBy: { id: 'asc' },
+                    },
+                    categories_products: {
+                        include: {
+                            category: true,
+                        },
                     },
                 },
-            },
-            orderBy: { id: 'asc' },
-        });
-        
+                orderBy: { id: 'asc' },
+                skip,
+                take: limit,
+            }),
+        ]);
+
         // Transform to match expected format
         const result = products.map((p) => ({
             id: p.id,
@@ -65,8 +77,17 @@ const getProducts = async (req, res, next) => {
             images: p.images.map((img) => img.url_img),
             categories: p.categories_products.map((cp) => cp.category.category),
         }));
-        
-        res.json(result);
+
+        res.set('Cache-Control', 'public, max-age=300');
+        res.json({
+            products: result,
+            pagination: {
+                page: pageNum,
+                limit,
+                total,
+                pages: Math.ceil(total / limit),
+            },
+        });
     } catch (err) {
         next(err);
     }
@@ -155,6 +176,7 @@ const getProductDetail = async (req, res, next) => {
             related,
         };
         
+        res.set('Cache-Control', 'public, max-age=600');
         res.json(result);
     } catch (err) {
         next(err);
