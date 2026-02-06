@@ -1,5 +1,5 @@
 // src/pages/CatalogPage.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Categories } from "../components/Categories";
 import { useProducts } from "../hooks/useProducts";
@@ -10,17 +10,24 @@ import { ProductModal } from "../components/catalog/ProductModal";
 import { SelectionBar } from "../components/selection/SelectionBar";
 import { QuotationModal } from "../components/selection/QuotationModal";
 
-export const CatalogPage = () => {
+const ITEMS_PER_PAGE = 12;
+
+const CatalogPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Se le pasa location.search directamente para que el hook haga el fetch con esos parámetros
-  const { products, loading } = useProducts(location.search);
-  const [orderedProducts, setOrderedProducts] = useState([]);
-
-  // Para la paginación
+  // Server-side pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const paginationOptions = useMemo(
+    () => ({ page: currentPage, limit: ITEMS_PER_PAGE }),
+    [currentPage],
+  );
+
+  const { products, pagination, loading } = useProducts(
+    location.search,
+    paginationOptions,
+  );
+  const [orderedProducts, setOrderedProducts] = useState([]);
 
   // Store config and modal states
   const [storeConfig, setStoreConfig] = useState({ show_prices: true });
@@ -46,11 +53,14 @@ export const CatalogPage = () => {
     fetchConfig();
   }, []);
 
-  // Lógica de ordenamiento (se realiza en el frontend sobre los datos ya filtrados)
+  // Reset page when filters change
   useEffect(() => {
-    // Al recibir productos del backend ya filtrados, se guardan en orderedProducts
-    setOrderedProducts(products);
     setCurrentPage(1);
+  }, [location.search]);
+
+  // Sync products from hook
+  useEffect(() => {
+    setOrderedProducts(products);
   }, [products]);
 
   const handleMenuClick = ({ key }) => {
@@ -72,7 +82,6 @@ export const CatalogPage = () => {
         break;
     }
     setOrderedProducts(sorted);
-    setCurrentPage(1);
   };
 
   // Handle product click to open modal
@@ -97,11 +106,8 @@ export const CatalogPage = () => {
     onClick: handleMenuClick,
   };
 
-  const totalPages = Math.ceil(orderedProducts.length / itemsPerPage);
-  const displayedProducts = orderedProducts.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+  const totalPages = pagination ? pagination.pages : 1;
+  const totalProducts = pagination ? pagination.total : orderedProducts.length;
 
   // Para mostrar el filtro activo: se extrae la query (category o search)
   const params = new URLSearchParams(location.search);
@@ -115,7 +121,7 @@ export const CatalogPage = () => {
         className="flex items-center bg-[#262011] text-[#f5e1a4] px-3 py-1 rounded-full cursor-pointer"
         onClick={() => navigate("/catalog")}
       >
-        Filtrando por: "{categoryQuery}" <FaTimes className="ml-1" />
+        Filtrando por: &quot;{categoryQuery}&quot; <FaTimes className="ml-1" />
       </div>
     );
   } else if (searchQuery) {
@@ -124,7 +130,7 @@ export const CatalogPage = () => {
         className="flex items-center bg-[#262011] text-[#f5e1a4] px-3 py-1 rounded-full cursor-pointer"
         onClick={() => navigate("/catalog")}
       >
-        Filtrando por: "{searchQuery}" <FaTimes className="ml-1" />
+        Filtrando por: &quot;{searchQuery}&quot; <FaTimes className="ml-1" />
       </div>
     );
   }
@@ -144,7 +150,7 @@ export const CatalogPage = () => {
             }}
             className="text-sm sm:text-base px-3 py-2 rounded-full flex items-center h-10 sm:h-12"
           >
-            {orderedProducts.length} productos
+            {totalProducts} productos
           </div>
           {activeFilterTag}
         </div>
@@ -175,7 +181,7 @@ export const CatalogPage = () => {
             </Spin>
           </div>
         ) : (
-          displayedProducts.map((product) => (
+          orderedProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
@@ -226,3 +232,5 @@ export const CatalogPage = () => {
     </div>
   );
 };
+
+export default CatalogPage;

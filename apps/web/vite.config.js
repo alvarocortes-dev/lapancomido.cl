@@ -11,4 +11,16 @@ export default defineConfig({
   server: {
     port: 3001,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-antd': ['antd'],
+          'vendor-animations': ['framer-motion', 'swiper'],
+          'vendor-icons': ['react-icons'],
+        },
+      },
+    },
+  },
 })

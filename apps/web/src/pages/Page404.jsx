@@ -4,11 +4,11 @@ import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { BRAND } from "../config/cloudinary";
 
-export const Page404 = () => {
+const Page404 = () => {
   return (
     <Fragment>
       <section className="h-screen w-full flex flex-col justify-center items-center bg-[#F5E1A4]">
-        <img src={BRAND.pancito404} alt="Pancito perdido" className="w-36" />
+        <img src={BRAND.pancito404} alt="Pancito perdido" width="144" height="144" className="w-36" />
         <h1 className="text-9xl font-extrabold text-white tracking-widest">
           404
         </h1>
@@ -28,3 +28,5 @@ export const Page404 = () => {
     </Fragment>
   );
 };
+
+export default Page404;

@@ -21,12 +21,20 @@ import { Categories } from "../components/Categories";
 /* Importar Framer Motion */
 import { motion, AnimatePresence } from "framer-motion";
 
-export const HomePage = () => {
+const HomePage = () => {
   /* Get site content from context */
   const { content } = useSiteContent();
   const slides = content.home_slider || [];
   const allImages = useMemo(() => content.home_gallery || [], [content.home_gallery]);
   const aboutSection = content.about_section || {};
+
+  /* Responsive: render only mobile or desktop image */
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   /* Lógica BentoGrid dinámico con transiciones */
   const [displayedImages, setDisplayedImages] = useState([]);
@@ -134,18 +142,25 @@ export const HomePage = () => {
           >
             {slides.map((slide, index) => (
               <SwiperSlide key={index}>
-                {/* Mobile image */}
-                <img
-                  src={slide.mobile || slide.desktop || slide.url}
-                  alt={slide.alt || `Slide ${index + 1}`}
-                  className="w-full h-full object-cover sm:hidden"
-                />
-                {/* Desktop image */}
-                <img
-                  src={slide.desktop || slide.url}
-                  alt={slide.alt || `Slide ${index + 1}`}
-                  className="w-full h-full object-contain hidden sm:block"
-                />
+                {isMobile ? (
+                  <img
+                    src={slide.mobile || slide.desktop || slide.url}
+                    alt={slide.alt || `Slide ${index + 1}`}
+                    width="640"
+                    height="360"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={slide.desktop || slide.url}
+                    alt={slide.alt || `Slide ${index + 1}`}
+                    width="1200"
+                    height="514"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    className="w-full h-full object-contain"
+                  />
+                )}
               </SwiperSlide>
             ))}
           </Swiper>
@@ -170,6 +185,9 @@ export const HomePage = () => {
                     key={imageKeys[index] || index}
                     src={getImageUrl(img)}
                     alt={`Producto ${index + 1}`}
+                    width="400"
+                    height="400"
+                    loading={index < 4 ? "eager" : "lazy"}
                     className="w-full h-full object-cover absolute inset-0"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -245,3 +263,5 @@ export const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;
