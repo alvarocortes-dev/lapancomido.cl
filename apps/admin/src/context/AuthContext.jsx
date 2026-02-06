@@ -1,49 +1,46 @@
 // src/context/AuthContext.jsx
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 const TOKEN_KEY = 'admin_token';
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem(TOKEN_KEY);
-    if (storedToken) {
-      try {
-        const payload = JSON.parse(atob(storedToken.split('.')[1]));
-        
-        if (payload.exp * 1000 > Date.now()) {
-          setToken(storedToken);
-          setUser({
+function getStoredAuth() {
+  const storedToken = localStorage.getItem(TOKEN_KEY);
+  if (storedToken) {
+    try {
+      const payload = JSON.parse(atob(storedToken.split('.')[1]));
+      if (payload.exp * 1000 > Date.now()) {
+        return {
+          token: storedToken,
+          user: {
             id: payload.userId,
             username: payload.username,
             email: payload.email,
-            role: payload.role
-          });
-        } else {
-          localStorage.removeItem(TOKEN_KEY);
-        }
-      } catch (e) {
-        console.error('Invalid token:', e);
-        localStorage.removeItem(TOKEN_KEY);
+            role: payload.role,
+          },
+        };
       }
+      localStorage.removeItem(TOKEN_KEY);
+    } catch (e) {
+      console.error('Invalid token:', e);
+      localStorage.removeItem(TOKEN_KEY);
     }
-    setLoading(false);
-  }, []);
+  }
+  return { token: null, user: null };
+}
+
+export function AuthProvider({ children }) {
+  const [{ token, user }, setAuth] = useState(getStoredAuth);
+  const loading = false;
 
   const saveAuth = (authToken, userData) => {
     localStorage.setItem(TOKEN_KEY, authToken);
-    setToken(authToken);
-    setUser(userData);
+    setAuth({ token: authToken, user: userData });
   };
 
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
-    setToken(null);
-    setUser(null);
+    setAuth({ token: null, user: null });
   };
 
   const value = {

@@ -141,6 +141,7 @@ export default function SiteContentPage() {
         )}
         {activeTab === "footer" && (
           <FooterEditor
+            key={JSON.stringify(content.footer || {})}
             data={content.footer || {}}
             onSave={(data) => saveContent("footer", data)}
             saving={saving}
@@ -897,18 +898,6 @@ function FooterEditor({ data, onSave, saving }) {
     instagram: data.instagram || "",
     instagramUrl: data.instagramUrl || "",
   });
-
-  useEffect(() => {
-    setLocalData({
-      address: data.address || "",
-      addressUrl: data.addressUrl || "",
-      phone: data.phone || "",
-      phoneUrl: data.phoneUrl || "",
-      email: data.email || "",
-      instagram: data.instagram || "",
-      instagramUrl: data.instagramUrl || "",
-    });
-  }, [data]);
 
   function handleChange(field, value) {
     setLocalData((prev) => ({ ...prev, [field]: value }));
