@@ -61,7 +61,7 @@ export const ProductCard = ({ product, showPrices = true, onProductClick }) => {
           />
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-start mt-2 px-1 sm:px-2 gap-1">
-          <p className="font-semibold text-sm sm:text-lg line-clamp-3 h-[3.75em] sm:h-[4.125em] leading-tight">
+          <p className="font-semibold text-sm sm:text-lg line-clamp-3 h-[3.75em] sm:h-[2.75em] leading-tight">
             {product.product}
           </p>
           <span className="text-gray-500 text-xs sm:text-sm font-medium flex-shrink-0 sm:leading-tight">
@@ -86,7 +86,7 @@ export const ProductCard = ({ product, showPrices = true, onProductClick }) => {
           />
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-start mt-2 px-1 sm:px-2 gap-1">
-          <p className="font-semibold text-sm sm:text-lg line-clamp-3 h-[3.75em] sm:h-[4.125em] leading-tight">
+          <p className="font-semibold text-sm sm:text-lg line-clamp-3 h-[3.75em] sm:h-[2.75em] leading-tight">
             {product.product}
           </p>
           {showPrices && (
