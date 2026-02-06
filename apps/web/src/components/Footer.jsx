@@ -31,10 +31,8 @@ export const Footer = () => {
             <img
               src={BRAND.logoFooter}
               alt="Pan Comido Logo"
-              width="200"
-              height="200"
               loading="lazy"
-              className="h-16 flex-shrink-0"
+              className="h-16 w-auto flex-shrink-0"
             />
             <div>
               <p className="font-bold text-lg">Pan Comido</p>
@@ -93,10 +91,8 @@ export const Footer = () => {
             <img
               src={BRAND.logoFooter}
               alt="Pan Comido Logo"
-              width="200"
-              height="200"
               loading="lazy"
-              className="h-24 flex-shrink-0"
+              className="h-24 w-auto flex-shrink-0"
             />
 
             {/* Divisor vertical */}
