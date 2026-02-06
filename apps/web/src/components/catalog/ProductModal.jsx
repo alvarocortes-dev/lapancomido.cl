@@ -73,6 +73,9 @@ export const ProductModal = ({ product, open, onClose, showPrices = true }) => {
                   key={idx}
                   src={img}
                   alt={`${product.product} ${idx + 1}`}
+                  width="500"
+                  height="500"
+                  loading={idx === 0 ? "eager" : "lazy"}
                   className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out"
                   style={{
                     opacity: idx === currentImageIndex ? 1 : 0,

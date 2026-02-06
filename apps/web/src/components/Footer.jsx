@@ -31,6 +31,9 @@ export const Footer = () => {
             <img
               src={BRAND.logoFooter}
               alt="Pan Comido Logo"
+              width="200"
+              height="200"
+              loading="lazy"
               className="h-16 flex-shrink-0"
             />
             <div>
@@ -90,6 +93,9 @@ export const Footer = () => {
             <img
               src={BRAND.logoFooter}
               alt="Pan Comido Logo"
+              width="200"
+              height="200"
+              loading="lazy"
               className="h-24 flex-shrink-0"
             />
 

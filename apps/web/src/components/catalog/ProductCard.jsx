@@ -51,9 +51,13 @@ export const ProductCard = ({ product, showPrices = true, onProductClick }) => {
     return (
       <div className="p-2 sm:p-4 opacity-50 grayscale cursor-not-allowed">
         <div className="relative bg-white w-full aspect-square flex items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden">
-          <div
-            className="w-full h-full bg-center bg-no-repeat bg-cover"
-            style={{ backgroundImage: `url(${product.url_img})` }}
+          <img
+            src={product.url_img}
+            alt={product.product}
+            width="400"
+            height="400"
+            loading="lazy"
+            className="w-full h-full object-cover grayscale"
           />
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-start mt-2 px-1 sm:px-2 gap-1">
@@ -72,9 +76,13 @@ export const ProductCard = ({ product, showPrices = true, onProductClick }) => {
     <div className="p-2 sm:p-4 hover:bg-gray-100 transition duration-200 rounded-2xl sm:rounded-[28px]">
       <div onClick={handleCardClick} className="cursor-pointer">
         <div className="relative bg-white w-full aspect-square flex items-center justify-center rounded-xl sm:rounded-2xl overflow-hidden">
-          <div
-            className="w-full h-full bg-center bg-no-repeat bg-cover"
-            style={{ backgroundImage: `url(${product.url_img})` }}
+          <img
+            src={product.url_img}
+            alt={product.product}
+            width="400"
+            height="400"
+            loading="lazy"
+            className="w-full h-full object-cover"
           />
         </div>
         <div className="flex flex-col sm:flex-row justify-between items-start mt-2 px-1 sm:px-2 gap-1">

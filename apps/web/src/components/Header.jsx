@@ -29,6 +29,8 @@ export const Header = () => {
               <img
                 src={BRAND.logoHeader}
                 alt="Pan Comido"
+                width="200"
+                height="200"
                 className="h-14 sm:h-16 md:h-24"
               />
             </Link>
